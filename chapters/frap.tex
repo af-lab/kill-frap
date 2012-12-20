@@ -1,11 +1,106 @@
 \chapter{FRAP with histones}
 \label{ch:frap}
 
+%% chapter concept: in this chapter goes the whole kill FRAP project. I started
+%% positive that this should work and so should the text. We start by studying
+%% the technique and list the assumptions it requires. We do one experiment and
+%% face some problems. Each problem has its own section that ends in a solution.
+%% When the solution was not done, we could offer one. The last one is the cause
+%% that this is not possible and has no solution. Conclusion lists all problems
+%% and their solutions again.
+
+The objective is to study the structure of the histone proteins in their dynamics
+in live cells. Many studies have been done but they are all in vitro. FRAP was reported
+to work for histones and shown differences between H2B and H3. FRAP is a well established
+technique, used a lot in many labs.
+
 \section{The FRAP model}
+
+  %% short overview of FRAP
+  Idea behind FRAP is bleach a region and see how unbleached molecules move to that region.
+  Speed on ow that happens shows dynamics of proteins.\todo{get some text from GRC reviews and 4th year project}
+  %% picture of simple example on how reading FRAP data
+
+  %%examples of when FRAP has been used
+  FRAP has been established in 197? to study things moving in lipid membranes. It has been
+  used to measure proteins together with GFP since late 90s. It's well established and a
+  respectful technique.
+
+  %% mention development of more sophisticated models
+  
+
+  %% important assumptions of FRAP model that will fail for long times
+    %% system is in equilibrium
+    %% binding sites are immobile
+    %% distribution of tagged molecule mimics endogenous
+    
+    %% plot function for long recovery times to see minimum analysis time to see the difference
+    %%it's usually necessary to see the whole recovery but for these that's just not possible
+
 \section{Cell movement}
+  %% That's the first problem, the cell is moving around. It's not a show killer, just more difficult.
+  %% Fixes for these include simple scripts, ImageJ plugins. Some microscope already have software built
+  %% in to track cells and keep them on focus. It didn't work for us because if a cell on the field view
+  %% was in mitosis, it would mess up the algorithm. However, when the cell moves, the nucleus reshapes
+  %% itself, it's not just dragged which makes
+
+    %% \missingfigure{cell moving an reshaping the nucleus as it moves}
+
+  %% A fix for this could have been use of primary cell lines that have contact inhibition (but they are
+  %% a pain to transfect). Must try transfection by electroporation
+  %% we did use horse cells in the end
+    %% \missingfigure{table with common used cell lines, human and mouse, that still show contact inhibition}
+
 \section{Cell cycle}
+  %% If cell enters S phase, binding sites double but system must stay in equilibrium.
+
+  %% Cell stays on G1 for longer than G2 so it's prefered.
+
+  %% What's the maximum time that a cell stays on G1? I searched for cells in mitosis,
+  %% tracked them for a few hours until they were in G1 and FRAP both of daughter cells.
+  %% However, even on the first hours of G1, Kimura found fancy dynamics for some DNA binding proteins.
+  
+  %% Drugs should be avoided. Different drugs had different effects on Kimura and Cook paper.
+
+  %% contact inhibition could also fix this. But would it still fix the problem of chromatin movement
+
 \section{Expression levels}
+
+     %% on the case of proteins with special control of expression, may make sense to look into it.
+     %% Specially if the proteins will have very slow exchange rates this may affect its distribution.
+
+%%      \missingfigure{qPCR showing expression of tagged and endogenous histones on different cell phases
+%%      \missingfigure{western showing comparison of endogenous vs tagged
+%%      \missingfigure{FRAP recovery, almost 20\% is free pool
+%%      \missingfigure{western of chromatin bound vs unbound fractions. Subcellular fractionation
+
+      %% Solution may be to clone to whole gene. In some cell lines (DT40) it's very easy to knock in
+      %% a gene and tag the endogenous. When zinc-finger techonology becomes more accessible it may
+      %% become possible to use it on more common human models.
+
+    \subsection{protein distribution}
+      %% Kimura and Cook mentioned on their original paper that the distribution of the tagged H3 was
+      %% different from the endogenous and showed it by mixing distribution of DNA with H3--GFP. This
+      %% shuld not be a problem if expression levels are the same.
+      %%\missingfigure{similar image as Kimura and Cook (mix channels) + Plot of relative intensities of each pixel}
+
+
 \section{Chromatin movement}
+
+    %% The chromatin moves. It's not possible to correct for this movement on the model unless it's possible to see
+    %% it. However, histones are usually the ones used to see it. This seems to be the limit.
+
+%    \missingfigure{cells with H3-PA-GFP. Activate a few circles and see distribution 1h later}
+%    \missingfigure{see effect of different drugs on this movement}
+
+    %% not homogeneous. Different parts of the chromatin should have different recoveries.
+
 \section{Discussion: why histone dynamics is not measurable}
+
+    %% FRAP is not goof for very long time frames. Reference papers where it was used incorrectly?
+    %% see Tim's paper
+
 \section{Conclusions}
+
+
 
