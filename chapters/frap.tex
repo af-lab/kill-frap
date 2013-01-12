@@ -1,6 +1,9 @@
 \chapter{FRAP with histones}
 \label{ch:frap}
 
+%% FIXME this epigraph may not be acceptable...
+\epigraph{Agora desenmerda-te.}{Portuguese ``saying''}
+
 %% chapter concept: in this chapter goes the whole kill FRAP project. I started
 %% positive that this should work and so should the text. We start by studying
 %% the technique and list the assumptions it requires. We do one experiment and
@@ -83,7 +86,73 @@ to validate to measure their effects in the context of chromatin by using live c
   %%it's usually necessary to see the whole recovery but for these that's just not possible
   %% XXX nah! This already points for failure so we will place the fig later on
 
+  %% TODO
+  \todo[inline]{shouldn't I have a section where I describe the cloning of all the plasmids
+                I made for this? There's Sin- mutants, histone variants, different colors...
+                
+                Also, how I created the stable cell lines, first by picking colonies and
+                then using FACS to sort them. There's those nice plots from the sorting.
+                
+                And the kill curve for selectio of antbiotc concentration}
+
+
 \section{Cell movement}
+
+  While most FRAP experiments are done on a short time scale where the cell movement
+  is not noticeable, the low recovery rates of histones requires collection of images
+  over several hours. \addref{Kimura and Cook} reported that the recovering was not
+  complete, even after 8h for H2B--EGFP.  On time series experiments with of such long
+  times, cell movement becomes a issue (\fref{fig:cell-movement}) thus requiring tracking
+  of the cell nuclei. This is assuming that we want to automate the analysis of course.
+  Would not be a problem if we had trained monkeys drawing regions by hand.
+
+  \begin{figure}
+    \centering
+    \missingfigure{HeLa cells moving around}
+    \caption[Long time series of HeLa cells expressing H2B--EGFP.]
+            {Long time series of HeLa cells expressing H2B--EGFP. Cells were transfected
+            with pBOS--H2B-EGFP and imaged for 8 hours, with intervals of 20 minutes.}
+    \label{fig:cell-movement}
+  \end{figure}
+  
+  %% FIXME image resgistration vs template matching
+  To solve this problem, we developed a computer program named CropReg\footnote{The name CropReg
+  comes from the program flow, a loop between image cropping and image registration.}. This
+  program implements template matching by finding the maximum in cross-correlation matrix of a
+  box enclosing the nucleus on a specific timeframe and the following frame.
+
+  \begin{figure}
+    \centering
+    \missingfigure{Explaining normalized cross correlation. 3 images. First is $f_n$ with a box
+                   around the cell that will be used as template $t$. Second image is $f_n$ with the
+                   cells moved a bit. Third image is the normalized xcorr2 output as a 3D landscape
+                   with an arrow pointing to the max peak.}
+    \caption[Using normalized cross-correlation for tracking of cell nucleus.]
+            {Using normalized cross-correlation for tracking of cell nucleus. The left image, $f_n$ 
+             The box around the nucleus of interest, $t$, will be the template for the cross-correlation.
+             The center image, $f_{n+1}$, is the image on the time point after $f_n$. The right image is
+             the surface mesh plot of the normalized $(t \star f_{n+1})$.}
+    \label{fig:normxcorr2}
+  \end{figure}
+
+  %% FIXME we could use the listings package which will look nicer and let us have the actual
+  %%      code on a separate file to not break the indentation
+
+  \begin{verbatim}
+## a is the image
+## b is template
+c = conv2 (a, conj (b (rows(b):-1:1, columns(b):-1:1))); 
+a = conv2 (a.^2, ones (size (b)));
+b = sumsq (b(:));
+c(:,:) = c(:,:) ./ sqrt (a(:,:) * b); 
+  \end{verbatim}
+  This is the code for the normalzied cross-correlation which is at the core of CropReg. Rather than having
+  it for ourselves only, it was implemented as a new option for the xcorr2 function and released under GPLv3+ with
+  the Octave Forge signal package version 1.2.0. The function normxcorr2 was released as a wrapper for
+  this option, with the image package version 2.0.0.
+
+  This method is effective and able to track non-overlapping nuclei.
+
 
   The first problem one faces when dealing with long time imaging, is movement of the cells.
   Initial experiments were done with HeLa cells over a time course of 8 hours. We explored
@@ -128,6 +197,18 @@ to validate to measure their effects in the context of chromatin by using live c
 
   %% contact inhibition could also fix this. But would it still fix the problem of chromatin movement
 
+Originally, we attempted to use HeLa cells which have a doubling time of
+approximately 24 hours. This made it very unlikely that the 6–8 h long
+experiments did not cover part of the S–phase. One of the assumptions of
+the FRAP model is that the system remains in equilibrium [7] which is not
+true during this phase of the cell cycle.
+
+To solve this problem, we have used a primary cell line (horse fibroblasts)
+that shows contact inhibition, moving into G0 after reaching maximum con-
+fluence.
+
+
+
 \section{Expression levels}
 
      %% on the case of proteins with special control of expression, may make sense to look into it.
@@ -159,6 +240,13 @@ to validate to measure their effects in the context of chromatin by using live c
 
     %% not homogeneous. Different parts of the chromatin should have different recoveries.
 
+%%During some FRAP experiments, we observed major changes in the shape of
+%%the bleached area due to chromatin movement. We hoped that this problem
+%%would also be solved by using a cell line with contact inhibition (Sec. 3.1.2)
+%%but this did not happen.
+%%This problem, which we found harder to identify on a non-confocal mi-
+%%croscope, is more easily observed using PA-GFP tagged histones (Fig. 2).
+
 \section{Discussion: why histone dynamics is not measurable}
 
     %% FRAP is not goof for very long time frames. Reference papers where it was used incorrectly?
@@ -166,6 +254,15 @@ to validate to measure their effects in the context of chromatin by using live c
 
 \section{Conclusions}
   We have show that this is not possible using FRAP technique.
+
+%%We could not find a way to circumvent the problem imposed by chromatin
+%%movement when doing FRAP over several hours. Our immediate plan is
+%%therefore to submit our findings for publication before determining alterna-
+%%tive projects.
+%%However, single-molecule imaging of histones for short period of times
+%%in live cells has recently been reported [8, 9]. This would allow us to use
+%%single–molecule tracking instead of FRAP, thus removing the need for long
+%%time experiments.
   
   Another group has recently
   published some work where they claim doing single molecule tracking of H4 tagged with PAGFP
