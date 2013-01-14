@@ -86,6 +86,7 @@ to validate to measure their effects in the context of chromatin by using live c
   %%it's usually necessary to see the whole recovery but for these that's just not possible
   %% XXX nah! This already points for failure so we will place the fig later on
 
+\section{Materials preparation}
   %% TODO
   \todo[inline]{shouldn't I have a section where I describe the cloning of all the plasmids
                 I made for this? There's Sin- mutants, histone variants, different colors...
@@ -93,19 +94,22 @@ to validate to measure their effects in the context of chromatin by using live c
                 Also, how I created the stable cell lines, first by picking colonies and
                 then using FACS to sort them. There's those nice plots from the sorting.
                 
-                And the kill curve for selectio of antbiotc concentration}
-
+                Maybe I should split the methods into the methods chapters and materials
+                chapeter.
+                
+                And the kill curve for selection of antbiotc concentration}
 
 \section{Cell movement}
 
   While most FRAP experiments are done on a short time scale where the cell movement
   is not noticeable, the low recovery rates of histones requires collection of images
-  over several hours. \addref{Kimura and Cook} reported that the recovering was not
-  complete, even after 8h for H2B--EGFP.  On time series experiments with of such long
+  over several hours. \addref[Kimura and Cook] reported that the recovering was not
+  complete, even after 8h for H2B--EGFP, the time frame we used for our initial experiments.
+  On time series experiments with of such long
   times, cell movement becomes a issue (\fref{fig:cell-movement}) thus requiring tracking
   of the cell nuclei. This is assuming that we want to automate the analysis of course.
   Would not be a problem if we had trained monkeys drawing regions by hand.
-
+  
   \begin{figure}
     \centering
     \missingfigure{HeLa cells moving around}
@@ -115,74 +119,131 @@ to validate to measure their effects in the context of chromatin by using live c
     \label{fig:cell-movement}
   \end{figure}
   
-  %% FIXME image resgistration vs template matching
-  To solve this problem, we developed a computer program named CropReg\footnote{The name CropReg
-  comes from the program flow, a loop between image cropping and image registration.}. This
-  program implements template matching by finding the maximum in cross-correlation matrix of a
-  box enclosing the nucleus on a specific timeframe and the following frame.
+  We tried a couple of different approaches to solve this issue.
+  
+  \subsection{Higher cell density}
+  
+    Our first attempt to limit the movement of the cells was to perform the experiment with
+    cells at higher cell density.  Contact between cells is a factor that usually inhibits
+    their movement, a characteristics named ``contact inhibition''\addref[Density Dependent Inhibition of Cell Growth in Culture].
+    
+    However, HeLa cells did not seem to respect this, and kept moving around, even crawling
+    over each other in occasions. This probably comes from the fact that HeLa cells are fucked
+    up cancer cells with little respect for anything other than I want to multiply.
+    
+    We did notice a decrease on movement, probably due to the fact that the cells did have less
+    space to mvoe around, the dish was more crowded. Still, this was not enough
 
-  \begin{figure}
-    \centering
-    \missingfigure{Explaining normalized cross correlation. 3 images. First is $f_n$ with a box
-                   around the cell that will be used as template $t$. Second image is $f_n$ with the
-                   cells moved a bit. Third image is the normalized xcorr2 output as a 3D landscape
-                   with an arrow pointing to the max peak.}
-    \caption[Using normalized cross-correlation for tracking of cell nucleus.]
-            {Using normalized cross-correlation for tracking of cell nucleus. The left image, $f_n$ 
-             The box around the nucleus of interest, $t$, will be the template for the cross-correlation.
-             The center image, $f_{n+1}$, is the image on the time point after $f_n$. The right image is
-             the surface mesh plot of the normalized $(t \star f_{n+1})$.}
-    \label{fig:normxcorr2}
-  \end{figure}
+  \subsection{Primary cell lines}
+  
+    The issue with HeLa cells is that they are cancer cell lines where all the checks that typical
+    healthy cells are ignored. As such, we attempted the same approach with a primary cell line.
+    
+    We used a horse fibroblast cell line as these are supposed to stop growth once they have reached
+    confluence. They are supposed to create a tissue layer of healthy cells and not move. Their main
+    disavantage, aside the more difficult handling and limited passage number, is the much greater
+    difficult in transfection, with a much lower transfection efficiency. Also, these cells are not
+    so standard which would make taking comparisons from other studies less conclusive.
+    
+    We made an initial check that the horse cells would indeed stay healthy after reaching confluence.
+    We let them reach confluence on a dish and left them alone for 2 weeks, only changing the growth
+    media every 3 days. After this time the cells had formed a tissue layer and looked healthy (\fref{fig:healthy-horse}).
+    
+    \begin{figure}
+      \centering
+      \missingfigure{Horse nucleus cells looking healthy after 2 weeks}
+      %% TODO we need to redo this experiment, this time with glass bottom for imaging after.
+      %%      Problem may be that when doing the staining, some cells will be washed away and
+      %%      will look fake. We can take an image before the washing to explain that.
+      %%      something better than just DAPI to show that the cells are actually healthy?
+      \captionIntro{Effect of contact inhibition on primary horse cell line.}
+                   {The cells were left on the dish for 2 weeks after reaching confluence. The
+                    image on the left is the bright field image before staining and fixation.
+                    The cells on the right are the DAPI staining for better view. The missing
+                    areas is due to the washing steps involved with the staining.}
+      \label{fig:healthy-horse}
+    \end{figure}
+    
+    Happy with this, I transfected the cells with H2B--EGFP and assess the reduction in movement.
+    The transfection efficiency was much lower than when using HeLa as expected (this was checked 2 days
+    after transfection). We imaged the cells over 8 hours but cells moved anyway (\fref{fig:horse-moving}).
+    
+    \begin{figure}
+      \centering
+      \missingfigure{Time series of horse cells expressing H2B--EGFP moving after 8 hours}
+      \captionIntro{Movement of primary horse fibroblast despite contact inhibition.}
+                   {The cells were transfected with H2B--EGFPat high cell density and
+                   imaged over 6 hours. They still moved, and even spiralled.}
+      \label{fig:horse-moving}
+    \end{figure}
 
-  %% FIXME we could use the listings package which will look nicer and let us have the actual
-  %%      code on a separate file to not break the indentation
-
-  \begin{verbatim}
+  \subsection{CropReg}
+  
+    To solve this problem, we developed a computer program named CropReg\footnote{The name CropReg
+    comes from the program flow, a loop between image cropping and image registration.}. This
+    program implements template matching\todo{image registration vs template matching} by
+    finding the maximum in the normalized cross-correlation matrix of a
+    box enclosing the nucleus of interest (the template) and the following frame (\fref{fig:normxcorr2}). The
+    coordinates of the maximum correspond to the coordinates where the template matches the ``best'' on the
+    image. This new coordinates are then used to create a new template which is used to search for the nucleus
+    on the following time point.
+    
+    For performance reasons, rather than using the whole image of the following time point, the area surrounding
+    the one on the previous time is used.
+    
+    \begin{figure}
+      \centering
+      \missingfigure{Explaining normalized cross correlation. 3 images. First is $f_n$ with a box
+                     around the cell that will be used as template $t$. Second image is $f_n$ with the
+                     cells moved a bit. Third image is the normalized xcorr2 output as a 3D landscape
+                     with an arrow pointing to the max peak.}
+      \caption[Using normalized cross-correlation for tracking of cell nucleus.]
+              {Using normalized cross-correlation for tracking of cell nucleus. The left image, $f_n$ 
+               The box around the nucleus of interest, $t$, will be the template for the cross-correlation.
+               The center image, $f_{n+1}$, is the image on the time point after $f_n$. The right image is
+               the surface mesh plot of the normalized $(t \star f_{n+1})$.}
+      \label{fig:normxcorr2}
+    \end{figure}
+    
+    %% TODO since there's more than one way to actually do the normalization, it might be
+    %% a good idea to writedown the actual math formula
+    
+    %% FIXME we could use the listings package which will look nicer and let us have the actual
+    %%      code on a separate file to not break the indentation
+    
+    \begin{verbatim}
 ## a is the image
 ## b is template
 c = conv2 (a, conj (b (rows(b):-1:1, columns(b):-1:1))); 
 a = conv2 (a.^2, ones (size (b)));
 b = sumsq (b(:));
-c(:,:) = c(:,:) ./ sqrt (a(:,:) * b); 
-  \end{verbatim}
-  This is the code for the normalzied cross-correlation which is at the core of CropReg. Rather than having
-  it for ourselves only, it was implemented as a new option for the xcorr2 function and released under GPLv3+ with
-  the Octave Forge signal package version 1.2.0. The function normxcorr2 was released as a wrapper for
-  this option, with the image package version 2.0.0.
+c(:,:) = c(:,:) ./ sqrt (a(:,:) * b);
+\end{verbatim}
+    
+    This is the code for the normalized cross-correlation which is at the core of CropReg. Rather than having
+    it for ourselves only, it was implemented as a new option for the xcorr2 function and released under GPLv3+ with
+    the Octave Forge signal package version 1.2.0. The function normxcorr2 was released as a wrapper for
+    this option, with the image package version 2.0.0.
+    
+    This algorithm is able to track cell nucleus efficiently, as long as cell nuclei of different cell do not
+    overlap\todo{And when they touch... some morphology to count number of nuclei and if two, check with using the
+    center of the template.}(\fref{fig:cropreg}).
+    
+    \begin{figure}
+      \centering
+      \missingfigure{}
+      \caption[CropReg in action.]
+              {This will actually be 3 subfigures. First is finding the nucleus of intereste by image subtraction.
+               Second is just CropReg. Thirs is accounting for image rotation.}
+      \label{fig:cropreg}
+    \end{figure}
 
-  This method is effective and able to track non-overlapping nuclei.
+    Two problems are left to solve: nucleus rotation (rotational movement of the nucleus on the
+    Z axis) and finding the template for the first image. The first
+    was solved by using the StackReg plugin for ImageJ\todo{we should write it in Octave and add it to cropreg}
+    \addref[we need to reference it if we do use it]. The second was using by subtracting the post bleach to the
+    pre-bleach image, threshold the image, remove noise and use it as marker to select the right nucleus.
 
-
-  The first problem one faces when dealing with long time imaging, is movement of the cells.
-  Initial experiments were done with HeLa cells over a time course of 8 hours. We explored
-  a couple of approaches
-  
-  %% try with higher density cells (lowered but did not solve)
-  %% primary cells with contact inhibition (didn't solve and is very hard to deal with plus cell line is not standard)
-  %% computational approach solved the problem (cropreg + stackreg) together with higher cell density
-
-  Using the program CropReg developed during my second year I managed to
-  track cells moving during the long time experiments. However, this approach
-  did not account for rotational movement of the nucleus on the Z axis which
-  is now solved by using the ImageJ plugin StackReg.
-
-  We expected to solve this problem in a non-computational way when using
-  cells with contact inhibition but this did not happen.
-  \missingfigure{horse cells moving around}
-
-  %% That's the first problem, the cell is moving around. It's not a show killer, just more difficult.
-  %% Fixes for these include simple scripts, ImageJ plugins. Some microscope already have software built
-  %% in to track cells and keep them on focus. It didn't work for us because if a cell on the field view
-  %% was in mitosis, it would mess up the algorithm. However, when the cell moves, the nucleus reshapes
-  %% itself, it's not just dragged which makes
-
-    %% \missingfigure{cell moving an reshaping the nucleus as it moves}
-
-  %% A fix for this could have been use of primary cell lines that have contact inhibition (but they are
-  %% a pain to transfect). Must try transfection by electroporation
-  %% we did use horse cells in the end
-    %% \missingfigure{table with common used cell lines, human and mouse, that still show contact inhibition}
 
 \section{Cell cycle}
   %% If cell enters S phase, binding sites double but system must stay in equilibrium.
@@ -266,7 +327,7 @@ fluence.
   
   Another group has recently
   published some work where they claim doing single molecule tracking of H4 tagged with PAGFP
-  and measure movement over \SI{90}{\ms}\addref{Saera Hihara et al 2012}. They kind of claim
+  and measure movement over \SI{90}{\ms}\addref[Saera Hihara et al 2012]. They kind of claim
   a small difference on movement between interphase chromatin and mitotic chromosomes but
   I'm not convinced. Plus, the difference should be the highest between these two so even if
   the difference they see is real, it's unlikely to be useful in seeing a difference between
