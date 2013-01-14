@@ -113,9 +113,9 @@ to validate to measure their effects in the context of chromatin by using live c
   \begin{figure}
     \centering
     \missingfigure{HeLa cells moving around}
-    \caption[Long time series of HeLa cells expressing H2B--EGFP.]
-            {Long time series of HeLa cells expressing H2B--EGFP. Cells were transfected
-            with pBOS--H2B-EGFP and imaged for 8 hours, with intervals of 20 minutes.}
+    \captionIntro{Long time series of HeLa cells expressing H2B--EGFP.}
+                 {Cells were transfected with pBOS--H2B-EGFP and imaged for 8
+                  hours, with intervals of 20 minutes.}
     \label{fig:cell-movement}
   \end{figure}
   
@@ -173,7 +173,7 @@ to validate to measure their effects in the context of chromatin by using live c
       \missingfigure{Time series of horse cells expressing H2B--EGFP moving after 8 hours}
       \captionIntro{Movement of primary horse fibroblast despite contact inhibition.}
                    {The cells were transfected with H2B--EGFPat high cell density and
-                   imaged over 6 hours. They still moved, and even spiralled.}
+                    imaged over 6 hours. They still moved, and even spiralled.}
       \label{fig:horse-moving}
     \end{figure}
 
@@ -197,11 +197,11 @@ to validate to measure their effects in the context of chromatin by using live c
                      around the cell that will be used as template $t$. Second image is $f_n$ with the
                      cells moved a bit. Third image is the normalized xcorr2 output as a 3D landscape
                      with an arrow pointing to the max peak.}
-      \caption[Using normalized cross-correlation for tracking of cell nucleus.]
-              {Using normalized cross-correlation for tracking of cell nucleus. The left image, $f_n$ 
-               The box around the nucleus of interest, $t$, will be the template for the cross-correlation.
-               The center image, $f_{n+1}$, is the image on the time point after $f_n$. The right image is
-               the surface mesh plot of the normalized $(t \star f_{n+1})$.}
+      \captionIntro{Using normalized cross-correlation for tracking of cell nucleus.}
+                   {The left image, $f_n$
+                    The box around the nucleus of interest, $t$, will be the template for the cross-correlation.
+                    The center image, $f_{n+1}$, is the image on the time point after $f_n$. The right image is
+                    the surface mesh plot of the normalized $(t \star f_{n+1})$.}
       \label{fig:normxcorr2}
     \end{figure}
     
@@ -232,9 +232,9 @@ c(:,:) = c(:,:) ./ sqrt (a(:,:) * b);
     \begin{figure}
       \centering
       \missingfigure{}
-      \caption[CropReg in action.]
-              {This will actually be 3 subfigures. First is finding the nucleus of intereste by image subtraction.
-               Second is just CropReg. Thirs is accounting for image rotation.}
+      \captionIntro{CropReg in action.}
+                   {This will actually be 3 subfigures. First is finding the nucleus of intereste by image subtraction.
+                    Second is just CropReg. Thirs is accounting for image rotation.}
       \label{fig:cropreg}
     \end{figure}
 
