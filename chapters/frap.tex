@@ -156,6 +156,8 @@ to validate to measure their effects in the context of chromatin by using live c
       %%      Problem may be that when doing the staining, some cells will be washed away and
       %%      will look fake. We can take an image before the washing to explain that.
       %%      something better than just DAPI to show that the cells are actually healthy?
+      %%
+      %%      Just some viability test using trypan blue, and compare against the cells kept growing
       \captionIntro{Effect of contact inhibition on primary horse cell line.}
                    {The cells were left on the dish for 2 weeks after reaching confluence. The
                     image on the left is the bright field image before staining and fixation.
@@ -245,28 +247,133 @@ c(:,:) = c(:,:) ./ sqrt (a(:,:) * b);
     pre-bleach image, threshold the image, remove noise and use it as marker to select the right nucleus.
 
 
-\section{Cell cycle}
-  %% If cell enters S phase, binding sites double but system must stay in equilibrium.
+\section{Cell cycle --- System equilibrium}
 
-  %% Cell stays on G1 for longer than G2 so it's prefered.
-
-  %% What's the maximum time that a cell stays on G1? I searched for cells in mitosis,
-  %% tracked them for a few hours until they were in G1 and FRAP both of daughter cells.
-  %% However, even on the first hours of G1, Kimura found fancy dynamics for some DNA binding proteins.
+  Another problem that stems from long time experiments is that the experiment will start to span
+  multiple cell cycle phases. I was using HeLa cells which have an average doubling time of 24h.
+  Since the experiment are at least eight hours long, and the experiment can not cross mitosis,
+  it is problematic to perform it so that it does not cover part of S~phase (\fref{fig:cell-cycle-watch}), the problematic cell
+  cycle phase.
   
-  %% Drugs should be avoided. Different drugs had different effects on Kimura and Cook paper.
+%  \begin{wrapfigure}{o}{0.5\textwidth}
+  \begin{figure}
+    \centering
+    \missingfigure{a small figure, probably should be a float with wrapping}
+    \captionIntro{Cell cycle watch.}
+                 {Too short cell cycle and too long experiment.}
+    \label{fig:cell-cycle-watch}
+  \end{figure}
+%  \end{wrapfigure}
+  
+  The histone expression profile is atypical in that it is mainly expressed during S~phase, suffering
+  a 35-fold increase for this phase. This is a consequence of the requirement for large amounts of
+  canonical histones during S~phase to package the newly duplicated genome\todo{reference section
+  on histone catalogue or introduction where I talk about this}.
+  
+  This breaks the assumptions of the FRAP model that the system remains in equilibrium. If one
+  considers this as a simple chemical reaction, then it boils down to:
+    
+  \begin{displaymath}
+    F + S \overset{K_{on}}{\underset{K_{off}}{\rightleftharpoons}} C
+  \end{displaymath}
+  
+  where $F$ represents the freely diffusing proteins, $S$ represents the vacant binding sites, and
+  $C$ the $FC$ complex when the protein is bound to the binding site while we try to measure the
+  values of $K_{on}$ and $K_{off}$, the association and dissociation constants.
+  
+  The assumption is that this equilibrium has been reached when we start the FRAP experiment and
+  continues so that $K_{on}$ and $K_{off}$ remain constant throughout the experiment. This does
+  not hold for S~phase where there's an increase of $F$ and $S$, the new histones being expressed
+  and the new duplicated genome. Adding more reactants to a system in equilibrium will change the equilibrium
+  constants. This means that the fluoresecence recovery will not be consistent\todo{this is not the right word}.
+  
+  \subsection{Contact inhibition}
+    
+    Another effect of contact inhibition is that cells showing this behaviour should stop cell
+    growth when reaching confluence. Once reaching a certain state, the cells should move from
+    the G$_1$ into the G$_0$ phase where they are arrested until the inhibition stops.
+    
+    Similar to the approach we took for the cell movement, we used a primary horse fibroblast
+    cell line that showed contact inhibition.
+    
+    \begin{figure}
+      \centering
+      \missingfigure{FACS of horse cells after 2 weeks on dish and full}
+      \captionIntro{FACS of primary cells showing contact inhibition.}
+                   {Control is the horses that have been kept growing for the 2 weeks,
+                    being split every 3 days, while horse cells were left on dish for
+                    2 weeks, changing media only every 3 days.}
+      \label{fig:horse-facs}
+    \end{figure}
+    
+    This approach showed success but the cells showed a much lower transfection efficiency. This
+    would have been a good approach if the use of this cells had also solved the problem of cell
+    movement. As it did not, picking cells was better.
 
-  %% contact inhibition could also fix this. But would it still fix the problem of chromatin movement
+  \subsection{Picking cells}
+  
+    If we want to avoid changing cell cycle, and avoid drugs for blocking cell growth, during a
+    continuos time interval of eight hours, the only cell cycle phase that lasts at least that
+    long is the G$_1$ phase (\fref{fig:cell-cycle-watch}). So the ideal cells to perform this
+    experiment are cells that are at the beggining of G$_1$ phase.
+    
+    To be certain of the cell cycle phase at the start of the experiment, we started by looking for
+    cells that were entering mitosis. We imaged these cells for 4 hours and used the daughter cells
+    for the FRAP experiments (\fref{fig:picking-cells}).
+    
+    \begin{figure}
+      \centering
+      \missingfigure{Hela cells splitting}
+      \captionIntro{Picking cells at early G$_1$.}
+                   {We imaged cells that were entering mitosis and picked their
+                    daughter cells for the FRAP experiments. Because HeLa cells lift
+                    away from the dish during mitosis, the trick is in opening the
+                    pinhole and set the Z-center in between the cell dividing plane
+                    and dish bottom. Ends up nothing being properly in focus but we
+                    can track things fine. Of course, some cells still floated away.}
+      \label{fig:picking-cells}
+    \end{figure}
+    
+    There is care to be taken however. Right after mitosis, there's an interval of a couple of
+    hours for chromatin to decondense and reorganize. So we can't pick cells right after mitosis.
+    Kimura has recently found fancy dynamics for DNA binding proteins \addref[some ring like shaped protein
+    from what Tim was working on] on the first 3 hours of G$_1$.
 
-Originally, we attempted to use HeLa cells which have a doubling time of
-approximately 24 hours. This made it very unlikely that the 6–8 h long
-experiments did not cover part of the S–phase. One of the assumptions of
-the FRAP model is that the system remains in equilibrium [7] which is not
-true during this phase of the cell cycle.
+  \subsection{Drugs}
+  
+    Drugs should be avoided. Different drugs had different effects on Kimura and Cook paper.
 
-To solve this problem, we have used a primary cell line (horse fibroblasts)
-that shows contact inhibition, moving into G0 after reaching maximum con-
-fluence.
+    \begin{figure}
+      \centering
+      \missingfigure{tracking stable mRFP--PCNA cell lines for a long time after picking them after mitosis}
+      \captionIntro{Measuring length of G1 phase}
+                   {Control is the horses that have been kept growing for the 2 weeks,
+                    being split every 3 days, while horse cells were left on dish for
+                    2 weeks, changing media only every 3 days.}
+    \end{figure}
+
+
+  \subsection{Alternative cell lines}
+  
+    An alternative would be to pick cell lines with longer cell cycles (\tref{tab:alternative-cells}).
+    
+    \begin{table}
+      \missingfigure{actually a tabular enviornment listing soe alternative cell lines}
+      \caption{Table of cell lines with cell cycles longer than HeLa.}
+      \label{tab:alternative-cells}
+    \end{table}
+
+\section{tagged protein distribution}
+    
+
+%    \item non-linear expression profile causes different distribution of tagged an endogenous protein.
+
+%    
+%  \addref[Kimura and Cook] already pointed out that is FRAP results could be off due to this.
+  
+  
+
+
 
 
 
@@ -292,6 +399,9 @@ fluence.
 
 
 \section{Chromatin movement}
+
+%we presume that the binding sites are immobile relative to the time- and lengthscale of the FRAP experiment.
+
 
     %% The chromatin moves. It's not possible to correct for this movement on the model unless it's possible to see
     %% it. However, histones are usually the ones used to see it. This seems to be the limit.
