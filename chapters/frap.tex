@@ -179,6 +179,9 @@ to validate to measure their effects in the context of chromatin by using live c
       \label{fig:horse-moving}
     \end{figure}
 
+    %% We never tried serum starvation
+
+
   \subsection{CropReg}
   
     To solve this problem, we developed a computer program named CropReg\footnote{The name CropReg
@@ -248,6 +251,9 @@ c(:,:) = c(:,:) ./ sqrt (a(:,:) * b);
 
 
 \section{Cell cycle --- System equilibrium}
+\label{sec:frap-equilibrium}
+
+%% There's no chemical equilibrium in S phase
 
   Another problem that stems from long time experiments is that the experiment will start to span
   multiple cell cycle phases. I was using HeLa cells which have an average doubling time of 24h.
@@ -338,6 +344,8 @@ c(:,:) = c(:,:) ./ sqrt (a(:,:) * b);
     hours for chromatin to decondense and reorganize. So we can't pick cells right after mitosis.
     Kimura has recently found fancy dynamics for DNA binding proteins \addref[some ring like shaped protein
     from what Tim was working on] on the first 3 hours of G$_1$.
+    
+    \todo[inline]{look for papers from Andrew Belmont. Search finite time potential 'spatial desequelibrium'.}
 
   \subsection{Drugs}
   
@@ -352,7 +360,6 @@ c(:,:) = c(:,:) ./ sqrt (a(:,:) * b);
                     2 weeks, changing media only every 3 days.}
     \end{figure}
 
-
   \subsection{Alternative cell lines}
   
     An alternative would be to pick cell lines with longer cell cycles (\tref{tab:alternative-cells}).
@@ -363,39 +370,73 @@ c(:,:) = c(:,:) ./ sqrt (a(:,:) * b);
       \label{tab:alternative-cells}
     \end{table}
 
-\section{tagged protein distribution}
-    
 
-%    \item non-linear expression profile causes different distribution of tagged an endogenous protein.
+\section{Tagged protein distribution}
+  An obvious assumption of the model is that the distribution of the tagged protein mimics
+  the distribution of the endogenous protein. It was proposed by \addref[Kimura and Cook] that
+  this does not hold, which explained the abnormal distribution of H2B--GFP on the cell nuclei.
 
-%    
-%  \addref[Kimura and Cook] already pointed out that is FRAP results could be off due to this.
+  %% we could also write this by first mentioning the two types of regulation and explaining them
+  %% and them showing how the pBOS plasmid fails with both
+  The non-linear expression of the histone proteins previously mentioned (\Sref{sec:frap-equilibrium}),
+  is controlled at two stages. On a first level, there's an increase of transcription during S~phase
+  but this only accounts for part of the the increase. At a second level, the stability of the histone
+  transcripts also increases at S~phase \todo{reference to the introduction where I mention this}.
   
+  Unlike all other eukaryotic genes, histone transcripts lack a poly(A) tail, encoding instead a
+  stem--loop and a purine-rich Histone Downstream Element (HDE) downstream of the stop codon.
+  These two structures, which are not part of the coding sequence, are involved in the
+  mRNA stabilization and further responsible for the expression profile of histones.
   
+  The pBOS--H2B--EGFP plasmid does not respect any of these. The promoter of the EF-1 $\alpha$ gene, used in the
+  pBOS plasmid, is unregulated leading to constitutive expression of the tagged protein. This lead to different
+  distribution of tagged vs endogenous proteins on the free pool over time. Since the duplication
+  of genome is not equal, there's more heterochromatin being duplicated at the start of S~phase, while
+  euchromatin is duplicated at the end, the distribution of the tagged histones is skewed so that there's
+  more of it on the heterochromatin, since it's incorporated when the proportion of taged histones is
+  higher (\ref{fig:mess-histone-expression}).
+  
+  \begin{figure}
+    \centering
+    \missingfigure{a scheme like the one in Himura and Cook paper.}
+    \captionIntro{Distribution of tagged histones on free pool over time}
+                 {Profile of free pool size on typical case vs our experiment. Use
+                  different colors under the curve to show the different proportions.
+                  Separate plot for the actual expression}.
+    \label{fig:mess-histone-expression}
+  \end{figure}
+  
+  Of course, no one actually tested this, can be quite tricky to this with proper controls. And we also
+  don't know that if in the case of the overexpression, the cell would at translation or protein degradation
+  level. There's chaperones specialized in degrading histones. Kevin seems to believe so. This would
+  also explain Kimura and Cook results with the weird distribution if the difference on dynamics
+  between H2B and H3 also holds.
+  
+  I actually tried to perform subcellular fractionation with a protocol from Ronan which is on the wiki.
+  The signal of the tagged histone, in relation to the endogenous, was quite high. But the western
+  looked like crap, many non-specific bands. Couldn't see with the H3 antibody but something went
+  wrong with that lane (it was the one that turned yellow during the boiling of the sample). Now that
+  I have the samples, I could try an H3 antibody for a H3 PTM which didn't work before.
+  
+  While getting the promoter right is a bit tricker, cloning the stem loop and removing the poly-A tail
+  is much more straightforward, and is a care that should be taken when doing this. It has been reported
+  that the donswtream elements have a bigger impact on the expression than the promoter. Luckily, this
+  is also the part that should be easier to fix with cloning.
+  
+  We used a plasmids that Kevin used a long time ago, where he cloned an H3 gene from mouse on its
+  entirety and only added a tag to the H3 gene, keeping the rest intact\addref{Kevin's paper
+  with the plasmid used in mouse}. We started to work on it but did not had any plasmid map,
+  or sequence, other than a very small picture from the paper where he published whith very
+  bad quality. We couldn't even use any standard sequencing primer. We ended up not doing
+  any work on it since by the time we got it, we were already noticing all
+  the other issues with the project.
 
-
-
-
-
-\section{Expression levels}
-
-     %% on the case of proteins with special control of expression, may make sense to look into it.
-     %% Specially if the proteins will have very slow exchange rates this may affect its distribution.
-
-%%      \missingfigure{qPCR showing expression of tagged and endogenous histones on different cell phases
-%%      \missingfigure{western showing comparison of endogenous vs tagged
-%%      \missingfigure{FRAP recovery, almost 20\% is free pool
-%%      \missingfigure{western of chromatin bound vs unbound fractions. Subcellular fractionation
-
-      %% Solution may be to clone to whole gene. In some cell lines (DT40) it's very easy to knock in
-      %% a gene and tag the endogenous. When zinc-finger techonology becomes more accessible it may
-      %% become possible to use it on more common human models.
-
-    \subsection{protein distribution}
-      %% Kimura and Cook mentioned on their original paper that the distribution of the tagged H3 was
-      %% different from the endogenous and showed it by mixing distribution of DNA with H3--GFP. This
-      %% shuld not be a problem if expression levels are the same.
-      %%\missingfigure{similar image as Kimura and Cook (mix channels) + Plot of relative intensities of each pixel}
+  %% on the case of proteins with special control of expression, may make sense to look into it.
+  %% Specially if the proteins will have very slow exchange rates this may affect its distribution.
+  
+  %% Solution may be to clone to whole gene. In some cell lines (DT40) it's very easy to knock in
+  %% a gene and tag the endogenous. When zinc-finger techonology becomes more accessible it may
+  %% become possible to use it on more common human models.
 
 
 \section{Chromatin movement}
@@ -444,6 +485,4 @@ c(:,:) = c(:,:) ./ sqrt (a(:,:) * b);
   WT and our mutant histones. To control against the chromatin movement they claim that the
   centroid of the nucleus does not changes but over that time frame it should not. It's the
   insides that count and that wouldn't change it.
-  
-
 
