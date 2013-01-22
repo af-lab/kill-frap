@@ -82,9 +82,9 @@ to validate to measure their effects in the context of chromatin by using live c
   for \textit{in vivo} validation of previously identified differences between
   wild type and mutant histones.
 
-  %% plot function for long recovery times to see minimum analysis time to see the difference
-  %%it's usually necessary to see the whole recovery but for these that's just not possible
-  %% XXX nah! This already points for failure so we will place the fig later on
+\todo[inline]{where do we mention FRAPINATOR? That goes in the Octave chapter but we still need to
+              reference it from here somewhere.}
+
 
 \section{Materials preparation}
   %% TODO
@@ -98,6 +98,43 @@ to validate to measure their effects in the context of chromatin by using live c
                 chapeter.
                 
                 And the kill curve for selection of antbiotc concentration}
+
+\section{The required time frame}
+  
+  While the FRAP model we are using works best when complete recovery is observed, it could be
+  possible to observe some change on a fast exchanging population at the start of the recovery.
+  
+  Since the histone mutant which had shown the highest \textit{in vitro} effect on nucleosome
+  was H4 R45H, we used it as starting point for testing this. We performed a 90 seconds FRAP
+  experiment with it, H3 T45A, and H4 WT but at were unable to find a noticeable difference
+  (\fref{fig:90-sec-frap}).
+  
+  \begin{figure}
+    \centering
+    \missingfigure{plots comparing H3 T45A and H4 and H4 R45H \Kon and \Koff}
+    \captionIntro{\Kon and \Koff values estimated from 90 seconds FRAP experiment.}
+                 {}
+    \label{fig:90-sec-frap}
+  \end{figure}
+  
+  We then tried to simulate how a recovery curve for a single population of proteins with
+  residence times of 9 and 7 hours would look like (\fref{fig:simulated-frap}). We assumed
+  that these were reasonable values given Kimura and Cook paper. This had shown us that indeed
+  the initial 90 seconds would not be enough to measure a difference on the microscope.
+  
+  \begin{figure}
+    \centering
+    \missingfigure{comparison of recovery of 2 proteins with residence time of 9 and 7 hours}
+    \captionIntro{Simulated recovery curves of proteins with long residence times.}
+                 {}
+    \label{fig:simulated-frap}
+  \end{figure}
+  
+  Considering the typical fluorescence intensity we observed on our cells (around 40), and the simulated curve,
+  it would require at least 1 hour of recovery until the difference in intensity between the two was of 1, so
+  we could see with our microscope camera. Of course, this is the minimum, and considering the noise, we need
+  much much more. At least 4 hours would be required to obtain data to validate any difference, and even then,
+  more should have been used.
 
 \section{Cell movement}
 
@@ -132,16 +169,17 @@ to validate to measure their effects in the context of chromatin by using live c
     up cancer cells with little respect for anything other than I want to multiply.
     
     We did notice a decrease on movement, probably due to the fact that the cells did have less
-    space to mvoe around, the dish was more crowded. Still, this was not enough
+    space to move around, the dish was more crowded. Still, this was not enough
 
   \subsection{Primary cell lines}
+  \label{sec:frap-movement-horse}
   
     The issue with HeLa cells is that they are cancer cell lines where all the checks that typical
     healthy cells are ignored. As such, we attempted the same approach with a primary cell line.
     
     We used a horse fibroblast cell line as these are supposed to stop growth once they have reached
     confluence. They are supposed to create a tissue layer of healthy cells and not move. Their main
-    disavantage, aside the more difficult handling and limited passage number, is the much greater
+    disadvantage, aside the more difficult handling and limited passage number, is the much greater
     difficult in transfection, with a much lower transfection efficiency. Also, these cells are not
     so standard which would make taking comparisons from other studies less conclusive.
     
@@ -285,15 +323,16 @@ c(:,:) = c(:,:) ./ sqrt (a(:,:) * b);
   
   where $F$ represents the freely diffusing proteins, $S$ represents the vacant binding sites, and
   $C$ the $FC$ complex when the protein is bound to the binding site while we try to measure the
-  values of $K_{on}$ and $K_{off}$, the association and dissociation constants.
+  values of \Kon and \Koff, the association and dissociation constants.
   
   The assumption is that this equilibrium has been reached when we start the FRAP experiment and
-  continues so that $K_{on}$ and $K_{off}$ remain constant throughout the experiment. This does
+  continues so that \Kon and \Koff remain constant throughout the experiment. This does
   not hold for S~phase where there's an increase of $F$ and $S$, the new histones being expressed
   and the new duplicated genome. Adding more reactants to a system in equilibrium will change the equilibrium
-  constants. This means that the fluoresecence recovery will not be consistent\todo{this is not the right word}.
+  constants. This means that the fluorescence recovery will not be consistent\todo{this is not the right word}.
   
   \subsection{Contact inhibition}
+  \label{sec:frap-cell-cycle-horse}
     
     Another effect of contact inhibition is that cells showing this behaviour should stop cell
     growth when reaching confluence. Once reaching a certain state, the cells should move from
@@ -319,9 +358,9 @@ c(:,:) = c(:,:) ./ sqrt (a(:,:) * b);
   \subsection{Picking cells}
   
     If we want to avoid changing cell cycle, and avoid drugs for blocking cell growth, during a
-    continuos time interval of eight hours, the only cell cycle phase that lasts at least that
+    continuous time interval of eight hours, the only cell cycle phase that lasts at least that
     long is the G$_1$ phase (\fref{fig:cell-cycle-watch}). So the ideal cells to perform this
-    experiment are cells that are at the beggining of G$_1$ phase.
+    experiment are cells that are at the beginning of G$_1$ phase.
     
     To be certain of the cell cycle phase at the start of the experiment, we started by looking for
     cells that were entering mitosis. We imaged these cells for 4 hours and used the daughter cells
@@ -345,7 +384,7 @@ c(:,:) = c(:,:) ./ sqrt (a(:,:) * b);
     Kimura has recently found fancy dynamics for DNA binding proteins \addref[some ring like shaped protein
     from what Tim was working on] on the first 3 hours of G$_1$.
     
-    \todo[inline]{look for papers from Andrew Belmont. Search finite time potential 'spatial desequelibrium'.}
+    \todo[inline]{look for papers from Andrew Belmont. Search finite time potential 'spatial disequilibrium'.}
 
   \subsection{Drugs}
   
@@ -365,7 +404,7 @@ c(:,:) = c(:,:) ./ sqrt (a(:,:) * b);
     An alternative would be to pick cell lines with longer cell cycles (\tref{tab:alternative-cells}).
     
     \begin{table}
-      \missingfigure{actually a tabular enviornment listing soe alternative cell lines}
+      \missingfigure{actually a tabular environment listing some alternative cell lines}
       \caption{Table of cell lines with cell cycles longer than HeLa.}
       \label{tab:alternative-cells}
     \end{table}
@@ -388,12 +427,12 @@ c(:,:) = c(:,:) ./ sqrt (a(:,:) * b);
   These two structures, which are not part of the coding sequence, are involved in the
   mRNA stabilization and further responsible for the expression profile of histones.
   
-  The pBOS--H2B--EGFP plasmid does not respect any of these. The promoter of the EF-1 $\alpha$ gene, used in the
+  The pBOS--H2B--EGFP plasmid does not respect any of these. The promoter of the EF-1 \textalpha gene, used in the
   pBOS plasmid, is unregulated leading to constitutive expression of the tagged protein. This lead to different
   distribution of tagged vs endogenous proteins on the free pool over time. Since the duplication
   of genome is not equal, there's more heterochromatin being duplicated at the start of S~phase, while
   euchromatin is duplicated at the end, the distribution of the tagged histones is skewed so that there's
-  more of it on the heterochromatin, since it's incorporated when the proportion of taged histones is
+  more of it on the heterochromatin, since it's incorporated when the proportion of tagged histones is
   higher (\ref{fig:mess-histone-expression}).
   
   \begin{figure}
@@ -420,13 +459,13 @@ c(:,:) = c(:,:) ./ sqrt (a(:,:) * b);
   
   While getting the promoter right is a bit tricker, cloning the stem loop and removing the poly-A tail
   is much more straightforward, and is a care that should be taken when doing this. It has been reported
-  that the donswtream elements have a bigger impact on the expression than the promoter. Luckily, this
+  that the downstream elements have a bigger impact on the expression than the promoter. Luckily, this
   is also the part that should be easier to fix with cloning.
   
   We used a plasmids that Kevin used a long time ago, where he cloned an H3 gene from mouse on its
-  entirety and only added a tag to the H3 gene, keeping the rest intact\addref{Kevin's paper
-  with the plasmid used in mouse}. We started to work on it but did not had any plasmid map,
-  or sequence, other than a very small picture from the paper where he published whith very
+  entirety and only added a tag to the H3 gene, keeping the rest intact\addref[Kevin's paper
+  with the plasmid used in mouse]. We started to work on it but did not had any plasmid map,
+  or sequence, other than a very small picture from the paper where he published with very
   bad quality. We couldn't even use any standard sequencing primer. We ended up not doing
   any work on it since by the time we got it, we were already noticing all
   the other issues with the project.
@@ -435,54 +474,108 @@ c(:,:) = c(:,:) ./ sqrt (a(:,:) * b);
   %% Specially if the proteins will have very slow exchange rates this may affect its distribution.
   
   %% Solution may be to clone to whole gene. In some cell lines (DT40) it's very easy to knock in
-  %% a gene and tag the endogenous. When zinc-finger techonology becomes more accessible it may
+  %% a gene and tag the endogenous. When zinc-finger technology becomes more accessible it may
   %% become possible to use it on more common human models.
 
 
 \section{Chromatin movement}
-
-%we presume that the binding sites are immobile relative to the time- and lengthscale of the FRAP experiment.
-
-
-    %% The chromatin moves. It's not possible to correct for this movement on the model unless it's possible to see
-    %% it. However, histones are usually the ones used to see it. This seems to be the limit.
-
-%    \missingfigure{cells with H3-PA-GFP. Activate a few circles and see distribution 1h later}
-%    \missingfigure{see effect of different drugs on this movement}
-
-    %% not homogeneous. Different parts of the chromatin should have different recoveries.
-
-%%During some FRAP experiments, we observed major changes in the shape of
-%%the bleached area due to chromatin movement. We hoped that this problem
-%%would also be solved by using a cell line with contact inhibition (Sec. 3.1.2)
-%%but this did not happen.
-%%This problem, which we found harder to identify on a non-confocal mi-
-%%croscope, is more easily observed using PA-GFP tagged histones (Fig. 2).
-
-\section{Discussion: why histone dynamics is not measurable}
-
-    %% FRAP is not goof for very long time frames. Reference papers where it was used incorrectly?
-    %% see Tim's paper
-
-\section{Conclusions}
-  We have show that this is not possible using FRAP technique.
-
-%%We could not find a way to circumvent the problem imposed by chromatin
-%%movement when doing FRAP over several hours. Our immediate plan is
-%%therefore to submit our findings for publication before determining alterna-
-%%tive projects.
-%%However, single-molecule imaging of histones for short period of times
-%%in live cells has recently been reported [8, 9]. This would allow us to use
-%%single–molecule tracking instead of FRAP, thus removing the need for long
-%%time experiments.
   
-  Another group has recently
-  published some work where they claim doing single molecule tracking of H4 tagged with PAGFP
-  and measure movement over \SI{90}{\ms}\addref[Saera Hihara et al 2012]. They kind of claim
-  a small difference on movement between interphase chromatin and mitotic chromosomes but
-  I'm not convinced. Plus, the difference should be the highest between these two so even if
-  the difference they see is real, it's unlikely to be useful in seeing a difference between
-  WT and our mutant histones. To control against the chromatin movement they claim that the
-  centroid of the nucleus does not changes but over that time frame it should not. It's the
-  insides that count and that wouldn't change it.
+  During some FRAP experiments, we observed major changes in the shape of the bleached area due to
+  chromatin movement (\fref{fig:frap-chromatin-movement}). This is difficult to assess because of the
+  non homogeneous nature of chromatin and the whole nucleus being stained green.
+  
+  \begin{figure}
+    \centering
+    \missingfigure{original H2B-EGFP FRAP experiment with bleached hole acting like a contortionist}
+    \captionIntro{H2B--EGFP FRAP experiment showing chromatin movement.}
+                 {mention time interval and whatever}
+    \label{fig:frap-chromatin-movement}
+  \end{figure}
+  
+  The assumption that the binding sites, in this case chromatin, remain immobile through the FRAP experiment is
+  required in order to interpret the recovery of fluorescence as free unbleached molecules moving
+  into the bleached area and associating with the binding sites, an effect of the association rates \Kon and
+  \Koff. If chromatin itself reshapes and moves unbleached molecules from outside into the bleached area, then
+  the recovery is also a function of the binding sites movement. Without a model for this movement, it is not
+  possible to separate the two functions, and obtain the association rates.
+  
+  To correct for this movement, it would be necessary to visualize it. The standard method when doing such long
+  FRAP experiments is to use histones for control, where they are usually perceived as being immobile. We are
+  at the limit, on the time scale of the experiments we need to do, nothing in the chromatin can be assumed
+  to be immobile. A possibility would be to stain the actual DNA but the molecules would still exchange faster
+  than the histones.
+  
+  To have a better look at this, we performed inverse FRAP, where instead of bleaching a small region
+  and measure the fluorescence recovery, the protein is tagged with PA--GFP, a small region is
+  activated, and its fluorescence decay is measured. Because PA--GFP is invisible before the photoactivation,
+  we co-transfected cells with mCherry--\textalpha--tubulin. When performing co-transfection, it's more likely
+  that cells have incorporated both plasmids\todo{prove this where?}, so expression of
+  mCherry--\textalpha--tubulin is a good indication that it is also expressing H2B--PA--GFP. The use of
+  \textalpha--tubulin is also a good indicator of the nucleus boundaries which is a visual aid for this
+  experiment (\fref{fig:ifrap-chromatin-movement}).
+  
+  \begin{figure}
+    \centering
+    \missingfigure{inverse FRAP experiment showing chromatin movement}
+    \captionIntro{inverse FRAP experiment showing chromatin movement.}
+                 {mention time interval and whatever. We have co-transfected cells with \textalpha--tubulin
+                  tagged with mCherry to find cells that had been transfected and to visualize the borders
+                  of the nucleus}
+    \label{fig:ifrap-chromatin-movement}
+  \end{figure}
+  
+  With this set up, we were able to notice that the movement of chromatin was indeed more frequent and of
+  bigger impact that what the ``normal'' FRAP experiments originally suggested. We also note that even with
+  iFRAP, it is not possible to be sure whether chromatin movement has occurred. If intensity in the activated
+  region drops by 4 for example, and we can't see those 4 in another location (or locations) of the nucleus,
+  it can still be
+  that the chromatin that holds those 4 are spread over a larger region which is perfectly reasonable if the
+  chromatin is movement and it is likely to be below the sensitivity of the camera.
+  
+  And the low intensity and greater sensitivity to bleaching of PA--GFP when compared to EGFP, just makes this
+  even worse.
+  
+  We though that this problem would be related with cell movement and could be
+  corrected by using a cell line with contact inhibition but this did not happen (see \Sref{sec:frap-cell-cycle-horse} and
+  \Sref{sec:frap-movement-horse}).
 
+  \todo[inline]{chromatin is not homogeneous. Different parts of the chromatin should have
+                different recoveries. Where can I mention this?}
+
+\section{Conclusions: why histone dynamics is not measurable by FRAP}
+  
+  I have attempted to establish FRAP as a method for measurement of histone variants. Such
+  an experiment requires observation over an extremely long time interval, challenging several
+  assumptions of a typical FRAP experiment.
+  
+  Workarounds were found to each of them, without the introduction of more factors or decreasing
+  the fidelity of the FRAP technique. Except for one, movement of chromatin --- the binding sites.
+  This is not easy to observe on a conventional wide-field microscope, and even on a confocal
+  microscope is hard to spot. This makes it very easy to go unnoticed. I have performed an iFRAP
+  experiment which makes it easier to detect.
+  
+  While the chromatin movement will not be a problem when performing FRAP on slow exchanging
+  proteins, the other issues I found might.
+  
+  %% FRAP is not goof for very long time frames. Reference papers where it was used incorrectly?
+  %% see Tim's paper
+  
+  Still, alternative techniques might be used to measure dynamics of histone variants in
+  live cells. Namely, single molecule tracking would be an ideal candidate provided access
+  to the required equipment\addref[has Davide published already about his ``new microscope''
+  to do this?].
+  
+  \todo[inline]{search more for histone and single molecule tracking and imaging}
+  
+  Single-molecule imaging of histones for short period of times in live cells
+  has recently been reported using super-resolution imaging\addref[nature methods 7(9):717-719,
+  2010 and nature methods 8(1):7-9, 2011].
+   
+  Also, use of PA--GFP has been used to measure dynamics of H4 over \SI{90}{\ms} reporting
+  differences between interphase chromatin and mitotic chromosomes\addref[Saera Hihara et al 2012].
+  However, the difference between these two phases is the highest and might not be comparable to
+  the difference between histones variants\todo{study this. Someone must have measured this}.
+  
+  %% did not mention if FRAP could have been used with H2A and H2B since these move faster after
+  %% all. However, the ones really important on the nucleosome structure seem to be H3 and H4, and are
+  %% the ones of more interest for us.
