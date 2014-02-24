@@ -1,0 +1,459 @@
+\section{The required time frame}
+  
+  While the FRAP model we are using works best when complete recovery is observed, it could be
+  possible to observe some change on a fast exchanging population at the start of the recovery.
+  
+  Since the histone mutant which had shown the highest \textit{in vitro} effect on nucleosome
+  was H4 R45H, we used it as starting point for testing this. We performed a 90 seconds FRAP
+  experiment with it, H3 T45A, and H4 WT but at were unable to find a noticeable\todo{be specific}{} difference
+  (\fref{fig:90-sec-frap}).
+  
+  \begin{figure}
+    \centering
+    \missingfigure{plots comparing H3 T45A and H4 and H4 R45H \Kon and \Koff}
+    \captionIntro{\Kon and \Koff values estimated from 90 seconds FRAP experiment.}
+                 {}
+    \label{fig:90-sec-frap}
+  \end{figure}
+  
+  We then tried to simulate how a recovery curve for a single population of proteins with
+  residence times of 9 and 7 hours would look like (\fref{fig:simulated-frap}). We assumed
+  that these were reasonable values given Kimura and Cook paper. This had shown us that indeed
+  the initial 90 seconds would not be enough to measure a difference on the microscope.
+  
+  \begin{figure}
+    \centering
+    \missingfigure{comparison of recovery of 2 proteins with residence time of 9 and 7 hours}
+    \captionIntro{Simulated recovery curves of proteins with long residence times.}
+                 {}
+    \label{fig:simulated-frap}
+  \end{figure}
+  
+  Considering the typical fluorescence intensity we observed on our cells (around\todo{!!be accurate}{} 40\todo{unit?}), and the simulated curve,
+  it would require at least 1 hour of recovery until the difference in intensity between the two was of 1, so
+  we could see with our microscope camera. Of course, this is the minimum, and considering the noise, we need
+  much much more. At least 4 hours would be required to obtain data to validate any difference, and even then,
+  more should have been used.
+
+  \todo[inline]{\textbf{Andrew notes:}
+                
+                Add references. Significant. Explain ref. Exact values. Be accurate}
+
+\section{Cell movement}
+
+  While most FRAP experiments are done on a short time scale where the cell movement
+  is not noticeable, the low recovery rates of histones requires collection of images
+  over several hours. \addref[Kimura and Cook] reported that the recover was not
+  complete, even after 8h for H2B--EGFP, the time frame we used for our initial experiments.
+  On time series experiments with of such long
+  times, cell movement becomes a issue (\fref{fig:cell-movement}) thus requiring tracking
+  of the cell nuclei\todo{expand explanation}. This is assuming that we want to automate the analysis of course.
+  Would not be a problem if we had trained monkeys drawing regions by hand.
+  
+  \begin{figure}
+    \centering
+    \missingfigure{HeLa cells moving around}
+    \captionIntro{Long time series of HeLa cells expressing H2B--EGFP.}
+                 {Cells were transfected with pBOS--H2B-EGFP and imaged for 8
+                  hours, with intervals of 20 minutes.}
+    \label{fig:cell-movement}
+  \end{figure}
+  
+  We tried different approaches to solve this issue.
+  
+  \subsection{Higher cell density}
+  
+    Our first attempt to limit the movement of the cells was to perform the experiment with
+    cells at higher cell density.  Contact between cells is a factor that usually inhibits
+    their movement, a characteristics named ``contact inhibition''\addref[Density Dependent Inhibition of Cell Growth in Culture].
+    
+    However, HeLa cells did not seem to respect this, and kept moving around, even crawling
+    over each other in occasions. This probably comes from the fact that HeLa cells are fucked
+    up cancer cells with little respect for anything other than I want to multiply.
+    
+    We did notice a decrease on movement, probably due to the fact that the cells did have less
+    space to move around, the dish was more crowded. Still, this was not enough\todo{expand}.
+
+  \subsection{Primary cell lines}
+  \label{sec:frap-movement-horse}
+  
+    The issue with HeLa cells is that they are cancer cell lines where all the checks that typical
+    healthy cells are ignored. As such, we attempted the same approach with a primary cell line\todo{explain}.
+    
+    We used a horse fibroblast cell line as these are reported to stop growth once they have reached
+    confluence. They are reported to create a tissue layer of healthy cells and not move. Their main
+    disadvantage, aside from more difficult handling and limited passage number, is the much greater
+    difficulty of transfection, with a much lower \todo{resultag. be specific of typical range)} transfection efficiency. Also, these cells are not
+    so standard which would make taking comparisons from other studies less conclusive.
+    
+    We made an initial check that the horse cells would indeed stay healthy after reaching confluence.
+    We let them reach confluence on a dish and left them alone\todo{alone?} for 2 weeks, only changing the growth
+    media every 3 days. After this time the cells had formed a tissue layer and looked healthy (\fref{fig:healthy-horse}).
+    \todo{healthy? be scientific. Criteria?}
+    
+    \begin{figure}
+      \centering
+      \missingfigure{Horse nucleus cells looking healthy after 2 weeks}
+      %% TODO we need to redo this experiment, this time with glass bottom for imaging after.
+      %%      Problem may be that when doing the staining, some cells will be washed away and
+      %%      will look fake. We can take an image before the washing to explain that.
+      %%      something better than just DAPI to show that the cells are actually healthy?
+      %%
+      %%      Just some viability test using trypan blue, and compare against the cells kept growing
+      \captionIntro{Effect of contact inhibition on primary horse cell line.}
+                   {The cells were left on the dish for 2 weeks after reaching confluence. The
+                    image on the left is the bright field image before staining and fixation.
+                    The cells on the right are the DAPI staining for better view. The missing
+                    areas is due to the washing steps involved with the staining.}
+      \label{fig:healthy-horse}
+    \end{figure}
+    
+    Happy\todo{happy?} with this, we transfected the cells with H2B--EGFP and assess the reduction in movement.
+    The transfection efficiency was much lower than when using HeLa as expected (this was checked 2 days
+    after transfection). We imaged the cells over 8 hours but cells moved anyway (\fref{fig:horse-moving}).
+    \todo{discuss level of movement}
+    
+    \begin{figure}
+      \centering
+      \missingfigure{Time series of horse cells expressing H2B--EGFP moving after 8 hours}
+      \captionIntro{Movement of primary horse fibroblast despite contact inhibition.}
+                   {The cells were transfected with H2B--EGFPat high cell density and
+                    imaged over 6 hours. They still moved, and even spiralled.}
+      \label{fig:horse-moving}
+    \end{figure}
+
+    %% We never tried serum starvation
+
+
+  \subsection{CropReg}
+  
+    To solve this problem, we developed a computer program named CropReg\footnote{The name CropReg
+    comes from the program flow, a loop between image cropping and image registration.}. This
+    program implements template matching \todo{image registration vs template matching} by
+    finding the maximum in the normalized cross-correlation matrix of a
+    box enclosing the nucleus of interest (the template) and the following frame (\fref{fig:normxcorr2}). The
+    coordinates of the maximum correspond to the coordinates where the template matches the ``best''\todo{criteria?}{} on the
+    image. This new coordinates are then used to create a new template which is used to search for the nucleus
+    on the following time point.
+    
+    For performance reasons, rather than using the whole image of the following time point, the area surrounding
+    the one on the previous time is used.
+    
+    \begin{figure}
+      \centering
+      \missingfigure{Explaining normalized cross correlation. 3 images. First is $f_n$ with a box
+                     around the cell that will be used as template $t$. Second image is $f_n$ with the
+                     cells moved a bit. Third image is the normalized xcorr2 output as a 3D landscape
+                     with an arrow pointing to the max peak.}
+      \captionIntro{Using normalized cross-correlation for tracking of cell nucleus.}
+                   {The left image, $f_n$
+                    The box around the nucleus of interest, $t$, will be the template for the cross-correlation.
+                    The center image, $f_{n+1}$, is the image on the time point after $f_n$. The right image is
+                    the surface mesh plot of the normalized $(t \star f_{n+1})$.}
+      \label{fig:normxcorr2}
+    \end{figure}
+    
+    %% TODO since there's more than one way to actually do the normalization, it might be
+    %% a good idea to writedown the actual math formula
+    
+    %% FIXME we could use the listings package which will look nicer and let us have the actual
+    %%      code on a separate file to not break the indentation
+    
+    \begin{verbatim}
+## a is the image
+## b is template
+c = conv2 (a, conj (b (rows(b):-1:1, columns(b):-1:1))); 
+a = conv2 (a.^2, ones (size (b)));
+b = sumsq (b(:));
+c(:,:) = c(:,:) ./ sqrt (a(:,:) * b);
+\end{verbatim}
+    
+    \todo[inline]{ materials and methods? Or appendix? Code in the middle of chapter not typical}
+    
+    This is the code for the normalized cross-correlation which is at the core of CropReg. Rather than having
+    it for ourselves only, it was implemented as a new option for the xcorr2 function and released under GPLv3+ with
+    the Octave Forge signal package version 1.2.0. The function normxcorr2 was released as a wrapper for
+    this option, with the image package version 2.0.0.
+    
+    This algorithm is able to track cell nucleus efficiently\todo{criteria}, as long as cell nuclei of different cell do not
+    overlap\todo{And when they touch... some morphology to count number of nuclei and if two, check with using the
+    center of the template.}(\fref{fig:cropreg}).
+    
+    \begin{figure}
+      \centering
+      \missingfigure{}
+      \captionIntro{CropReg in action.}
+                   {This will actually be 3 subfigures. First is finding the nucleus of intereste by image subtraction.
+                    Second is just CropReg. Thirs is accounting for image rotation.}
+      \label{fig:cropreg}
+    \end{figure}
+
+    Two problems are left to solve: nucleus rotation (rotational movement of the nucleus on the
+    Z axis) and finding the template for the first image. The first
+    was solved by using the StackReg plugin for ImageJ\todo{we should write it in Octave and add it to cropreg}
+    \addref[we need to reference it if we do use it]. The second was using by subtracting the post bleach to the
+    pre-bleach image, threshold the image, remove noise and use it as marker to select the right nucleus\todo{demonstrate}.
+
+\section{Cell cycle --- System equilibrium}
+\label{sec:frap-equilibrium}
+
+%% There's no chemical equilibrium in S phase <-- Kevin sullivan
+
+  Another consequence of long time experiments is that the experiment will start to span
+  multiple cell cycle phases. We were using HeLa cells which have an average doubling time of 24h.
+  Since the experiment are at least eight hours long, and the experiment can not cross mitosis,
+  it is problematic to perform it so that it does not cover part of S~phase (\fref{fig:cell-cycle-watch}),
+  where\todo{there's problems}.
+  
+%  \begin{wrapfigure}{o}{0.5\textwidth}
+  \begin{figure}
+    \centering
+    \missingfigure{a small figure, probably should be a float with wrapping}
+    \captionIntro{Cell cycle watch.}
+                 {Too short cell cycle and too long experiment.}
+    \label{fig:cell-cycle-watch}
+  \end{figure}
+%  \end{wrapfigure}
+  
+  The histone expression profile is atypical in that it is mainly expressed during S~phase, with
+  a 35-fold up-regulation\addref. This is a consequence of the requirement for large amounts of
+  canonical histones during S~phase to package the newly duplicated genome\todo{reference section
+  on histone catalogue or introduction where I talk about this}.
+  
+  This breaks the assumptions of the FRAP model that the system remains in equilibrium. This can be
+  expressed as a simple chemical reaction:
+    
+  \begin{displaymath}
+    F + S \overset{K_{on}}{\underset{K_{off}}{\rightleftharpoons}} C
+  \end{displaymath}
+  
+  where $F$ represents the freely diffusing proteins, $S$ represents the vacant binding sites, and
+  $C$ the $FC$ complex when the protein is bound to the binding site while we try to measure the
+  values of \Kon and \Koff, the association and dissociation constants.
+  
+  The assumption is that this equilibrium has been reached when we start the FRAP experiment and
+  continues so that \Kon and \Koff remain constant throughout the experiment. This does
+  not hold for S~phase where there is an increase of $F$ and $S$ because the new histones being expressed
+  and the new duplicated genome. Adding more reactants to a system in equilibrium will change the equilibrium
+  constants so the fluorescence recovery will not be interpretable.
+  
+  \subsection{Contact inhibition}
+  \label{sec:frap-cell-cycle-horse}
+    
+    As effect of contact inhibition is that cells showing this behaviour should stop cell
+    growth when reaching confluence. Once reaching a certain state, the cells should move from
+    the G$_1$ into the G$_0$ phase where they are arrested until the inhibition stops.
+    
+    Similar to the approach we took for the cell movement, we used a primary horse fibroblast
+    cell line that showed contact inhibition.
+    
+    \begin{figure}
+      \centering
+      \missingfigure{FACS of horse cells after 2 weeks on dish and full}
+      \captionIntro{FACS of primary cells showing contact inhibition.}
+                   {Control is the horses that have been kept growing for the 2 weeks,
+                    being split every 3 days, while horse cells were left on dish for
+                    2 weeks, changing media only every 3 days.}
+      \label{fig:horse-facs}
+    \end{figure}
+    
+    This approach showed success \todo{detail} but the cells showed a much lower transfection efficiency\todo{detail}. This
+    would have been a good approach if the use of this cells had also solved the problem of cell
+    movement. Therefore, picking cells was better.
+
+  \subsection{Selection of G$_1$ cells}
+  
+    To avoid changing cell cycle, and the use of drugs for blocking cell growth, during a
+    continuous time interval of eight hours, the only cell cycle phase that lasts sufficiently
+    long is the G$_1$ phase (\fref{fig:cell-cycle-watch}). So the ideal cells to perform this
+    experiment are cells that are at the beginning of G$_1$ phase.
+    
+    To be certain of the cell cycle phase at the start of the experiment, we began by selecting
+    cells that were entering mitosis. We imaged these cells for 4 hours and used the daughter cells
+    for the FRAP experiments (\fref{fig:picking-cells}).
+    
+    \begin{figure}
+      \centering
+      \missingfigure{Hela cells splitting}
+      \captionIntro{Picking cells at early G$_1$.}
+                   {We imaged cells that were entering mitosis and picked their
+                    daughter cells for the FRAP experiments. Because HeLa cells lift
+                    away from the dish during mitosis, opening the
+                    pinhole and set the Z-center in between the cell dividing plane
+                    and dish bottom was necessary. Ends up nothing being properly in focus but we
+                    can track things fine. Of course, some cells still floated away.}
+      %% TODO explicit parameters
+      \label{fig:picking-cells}
+    \end{figure}
+    
+    Directly after mitosis, there is an interval of a couple of \todo{approximately how many}
+    hours for chromatin to decondense and reorganize\addref. So cells are\todo{??uasmittle?? directly}
+    Kimura has recently found fancy dynamics for DNA binding proteins \addref[some ring like shaped protein
+    from what Tim was working on] on the first 3 hours of G$_1$\addref.
+    
+    \todo[inline]{look for papers from Andrew Belmont. Search finite time potential 'spatial disequilibrium'.}
+
+  \subsection{Drugs}
+  
+    Drugs should be avoided. Different drugs had different effects on Kimura and Cook paper.
+
+    \begin{figure}
+      \centering
+      \missingfigure{tracking stable mRFP--PCNA cell lines for a long time after picking them after mitosis}
+      \captionIntro{Measuring length of G1 phase}
+                   {Control is the horses that have been kept growing for the 2 weeks,
+                    being split every 3 days, while horse cells were left on dish for
+                    2 weeks, changing media only every 3 days.}
+    \end{figure}
+
+  \subsection{Alternative cell lines}
+  
+    An alternative would be to pick cell lines with longer cell cycles (\tref{tab:alternative-cells}).
+    
+    \begin{table}
+      \missingfigure{actually a tabular environment listing some alternative cell lines}
+      \caption{Table of cell lines with cell cycles longer than HeLa.}
+      \label{tab:alternative-cells}
+    \end{table}
+
+
+\section{Tagged protein distribution}
+  \todo[inline]{keep flow of story}
+  An obvious assumption of the model is that the distribution of the tagged protein mimics
+  the distribution of the endogenous protein. It was proposed by \addref[Kimura and Cook] that
+  this does not hold, which explained the abnormal distribution of H2B--GFP on the cell nuclei.
+
+  %% we could also write this by first mentioning the two types of regulation and explaining them
+  %% and them showing how the pBOS plasmid fails with both
+  The non-linear expression of the histone proteins previously mentioned (\Sref{sec:frap-equilibrium}),
+  is controlled at two stages. On a first level, there is an increase of transcription during S~phase
+  but this only accounts for part of the the increase. At a second level, the stability of the histone
+  transcripts also increases at S~phase \todo{reference to the introduction where I mention this}.
+  
+  Unlike all other eukaryotic genes, histone transcripts lack a poly(A) tail, encoding instead a
+  stem--loop and a purine-rich Histone Downstream Element (HDE) downstream of the stop codon.
+  These two structures, which are not part of the coding sequence, are involved in the
+  mRNA stabilization and further responsible for the expression profile of histones.
+  
+  The pBOS--H2B--EGFP plasmid does not respect any of these control elements. The promoter of the EF-1\textalpha{} gene, used in the
+  pBOS plasmid is unregulated leading to constitutive expression of the tagged protein. This will guarantee different
+  distributions of tagged versus endogenous proteins on the free pool over time. Since the duplication
+  of genome is not equal, there is more heterochromatin duplicated at the end of S~phase, while
+  euchromatin is duplicated at the start, so the distribution of the tagged histones will be skewed so that there's
+  more of it on the euchromatin, when the proportion of tagged histones is
+  higher (\ref{fig:mess-histone-expression}).
+  
+  \begin{figure}
+    \centering
+    \missingfigure{a scheme like the one in Himura and Cook paper.}
+    \captionIntro{Distribution of tagged histones on free pool over time}
+                 {Profile of free pool size on typical case vs our experiment. Use
+                  different colors under the curve to show the different proportions.
+                  Separate plot for the actual expression}.
+    \label{fig:mess-histone-expression}
+  \end{figure}
+  
+  Of course, no one actually tested this, can be quite tricky to this with proper controls\todo{scientific writing}. And we also
+  don't know that if in the case of the overexpression, the cell would at translation or protein degradation
+  level. There's chaperones specialized in degrading histones. Kevin seems to believe so. This would
+  also explain Kimura and Cook results with the weird distribution if the difference on dynamics
+  between H2B and H3 also holds\todo{good point. Be more analytical and discuss}.
+  
+  I actually tried to perform subcellular fractionation with a protocol from Ronan which is on the wiki.
+  The signal of the tagged histone, in relation to the endogenous, was quite high. But the western
+  looked like crap, many non-specific bands. Couldn't see with the H3 antibody but something went
+  wrong with that lane (it was the one that turned yellow during the boiling of the sample). Now that
+  I have the samples, I could try an H3 antibody for a H3 PTM which didn't work before.
+  
+  \todo[inline]{need to show data or explain problem or not mention! Jenn could help? "preliminary expt (data not show)"}
+  
+  While getting the promoter right is a bit tricker, cloning the stem loop and removing the poly-A tail
+  is much more straightforward, and is a care that should be taken when doing this. It has been reported
+  that the downstream elements have a bigger impact on the expression than the promoter. Luckily, this
+  is also the part that should be easier to fix with cloning.
+  
+  We used a plasmids that Kevin used a long time ago, where he cloned an H3 gene from mouse on its
+  entirety and only added a tag to the H3 gene, keeping the rest intact\addref[Kevin's paper
+  with the plasmid used in mouse].
+  
+%%  We started to work on it but did not had any plasmid map,
+%%  or sequence, other than a very small picture from the paper where he published with very
+%%  bad quality. We couldn't even use any standard sequencing primer. We ended up not doing
+%%  any work on it since by the time we got it, we were already noticing all
+%%  the other issues with the project.
+
+  %% on the case of proteins with special control of expression, may make sense to look into it.
+  %% Specially if the proteins will have very slow exchange rates this may affect its distribution.
+  
+  %% Solution may be to clone to whole gene. In some cell lines (DT40) it's very easy to knock in
+  %% a gene and tag the endogenous. When zinc-finger technology becomes more accessible it may
+  %% become possible to use it on more common human models.
+
+
+\section{Chromatin movement}
+  
+  During some FRAP experiments, we observed major changes in the shape of the bleached area due to
+  chromatin movement (\fref{fig:frap-chromatin-movement}). This is difficult to assess because of the
+  non homogeneous nature of chromatin and the whole nucleus being stained green.
+  \todo[inline]{give descriptive idea of nature of changes}
+  
+  \begin{figure}
+    \centering
+    \missingfigure{original H2B-EGFP FRAP experiment with bleached hole acting like a contortionist}
+    \captionIntro{H2B--EGFP FRAP experiment showing chromatin movement.}
+                 {mention time interval and whatever}
+    \label{fig:frap-chromatin-movement}
+  \end{figure}
+  
+  The assumption that the binding sites, in this case chromatin, remain immobile through the FRAP experiment is
+  required in order to interpret the recovery of fluorescence as free unbleached molecules moving
+  into the bleached area and associating with the binding sites, an effect of the association rates \Kon and
+  \Koff. If chromatin itself reshapes and moves unbleached molecules from outside into the bleached area, then
+  the recovery is also a function of the binding sites movement. Without a model for this movement, it is not
+  possible to separate the two functions, and obtain the association rates.
+  
+  To correct for this movement, it would be necessary to visualize it independently. The standard method when doing such long
+  FRAP experiments is to use histones for control, where they are usually perceived as being immobile. We are
+  at the limit, on the time scale of the experiments we need to do, nothing in the chromatin can be assumed
+  to be immobile. A possibility would be to stain the actual DNA but the molecules would still exchange faster
+  than the histones.
+  
+  To have a better look\todo{better look?} at this, we performed inverse FRAP (iFRAP), where instead of bleaching a small region
+  and measure the fluorescence recovery, the protein is tagged with PA--GFP, a small region is
+  activated, and its fluorescence decay is measured. Because PA--GFP is invisible before the photoactivation,
+  we co-transfected cells with mCherry--\textalpha--tubulin. When performing co-transfection, it's more likely
+  that cells have incorporated both plasmids\todo{prove this where?}, so expression of
+  mCherry--\textalpha--tubulin is a good indication that it is also expressing H2B--PA--GFP. The use of
+  \textalpha--tubulin is also a good indicator of the nucleus boundaries which is a visual aid for this
+  experiment (\fref{fig:ifrap-chromatin-movement}).
+  
+  \begin{figure}
+    \centering
+    \missingfigure{inverse FRAP experiment showing chromatin movement}
+    \captionIntro{inverse FRAP experiment showing chromatin movement.}
+                 {mention time interval and whatever. We have co-transfected cells with \textalpha--tubulin
+                  tagged with mCherry to find cells that had been transfected and to visualize the borders
+                  of the nucleus}
+    \label{fig:ifrap-chromatin-movement}
+  \end{figure}
+  
+  With this set up, we were able to notice that the movement of chromatin was indeed more frequent and of
+  bigger \todo{more and bigger? quantitative measurement?}
+  impact that what the ``normal'' FRAP experiments originally suggested. We also note that even with
+  iFRAP, it is not possible to be sure whether chromatin movement has occurred. If intensity in the activated
+  region drops by 4 for example, and we can't see those 4 in another location (or locations) of the nucleus,
+  it can still be
+  that the chromatin that holds those 4 are spread over a larger region which is perfectly reasonable if the
+  chromatin is movement and it is likely to be below the sensitivity of the camera.
+  
+  And the low intensity and greater sensitivity to bleaching of PA--GFP when compared to EGFP, just makes this
+  even worse.
+  
+  We though that this problem would be related with cell movement and could be
+  corrected by using a cell line with contact inhibition but this did not happen (see \Sref{sec:frap-cell-cycle-horse} and
+  \Sref{sec:frap-movement-horse}).
+
+  \todo[inline]{chromatin is not homogeneous. Different parts of the chromatin should have
+                different recoveries. Where can I mention this?}
+
+
