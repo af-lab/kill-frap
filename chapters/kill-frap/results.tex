@@ -138,18 +138,32 @@
 %      \label{fig:kill-frap:cell-movement}
 %    \end{figure}
 
-    Due to the extremely slow kinetics of histone proteins, FRAP
-    must be performed over several hours where cell movement is
-    an issue. % \fref{fig:kill-frap:cell-movement}.
-    We tried different approaches to fix this.
+    Histone proteins exhibit extremely slow kinetics of exchange
+	requiring FRAP to be performed over several hours during which cell movement is
+    a particular issue. % \fref{fig:kill-frap:cell-movement}.
 
-    \subsubsection{Higher cell density}
+	%% This needs some sentences describing the nature of effects of the movement, 
+	%% and a semi-emirical statement of the scale of the movement
+	%% since this problem is the nub of the entire chapter.
+	%% Need to justify the need for going to the trouble 
+	%% and define threshold for success (that couldn't be achieved!)
+	
+    The central requirement to accurately identify and quantitate the signal 
+	in the photobleached spot led us to pursue both cell biological approaches to
+	minimise cell movement and and computational approaches to track imaged regions.
 
-      Initial attempt to limit movement of cells during FRAP
-      was to perform the experiment with cells at higher confluence levels.
-      Normal cells display contact inhibition, a cellular growth mechanism
-      by which cells enter senescence and reduce motion, when
-      surrounded by other cells with no free space for movement.
+    \subsubsection{Contact inhibition at high cell density}
+
+      Mammalian cells display contact inhibition, 
+	  a cellular growth mechanism by which cells enter senescence and reduce motion 
+	  when surrounded by other cells with no free space for movement. 
+      Although transformed cell lines lose this property, 
+	  reduced space does place a restriction in the movement.
+	  %% Can you provide a semi-quantitative estimate of the cell density you mean?
+	  We attempted to use this effect to limit movement of cells
+      by performing FRAP measurements with cells at higher confluence levels.
+	  We observed some decrease of movement for HeLa cells but not a complete immobilization.
+	  %% Can you provide a semi-quantitative estimate of the degree of reduction in movement?
 
       \begin{figure}
         %% We are only showing one cell rather than the whole field of
@@ -174,27 +188,32 @@
         \label{fig:kill-frap:confluent-hela}
       \end{figure}
 
-      Cancerous cell lines usually lose this property. However, the reduced
-      space should place some restriction in the movement and indeed, we
-      observed some decrease of movement but not a complete immobilization.
       Tracking of the ROIs over time was still required \fref{fig:kill-frap:confluent-hela}.
+	  %% Isn't this out of order since CropReg section is below.
+	  %% Even if you did it in a different order, why not put the horse cells first.
 
     \subsubsection{Primary cell lines}
 
-      Since HeLa cells, being a cancerous cell line that had lost
-      the mechanism through which contact
-      inhibition is activated, we experimented with a primary horse
-      fibroblast cell line. Using this cell line we were capable to maintain
-      a layer of healthy cells covering a Petri dish for several after
-      reaching confluence.
-      %% cell growth was halted instead of becoming over-confluent
+      Since HeLa cells have lost the ability to activate contact inhibition, 
+	  we obtained an immortalised primary horse fibroblast cell line 
+	  that displayed contact inhibition. Using this cell line we could 
+	  maintain a layer of healthy cells covering a Petri dish for several days??? 
+	  after reaching confluence (data not shown).
+      %% Cell growth was halted instead of becoming over-confluent ???what do you mean???
+	  %% Although obvious, it would be good to have some sort of image to justify the statement?
 
-      Transfection of primary cell lines have typically a much lower
-      efficiency rate. In addition, we need to image cells after they
-      reached confluence, and entered senescence, but transfection
-      methods are more efficient when cells are actively dividing
-      and lower expression with each cell division. As a compromise,
-      we transfected cells \SI{70}{\percent} and imaged after 3 days.
+      However, primary cell line transfections have typically much lower efficiency rate and 
+	  confluent cells have lower expression with each cell division.
+	  To balance transfection efficiency and expression we transfected cells at 
+	  \SI{70}{\percent} confluence and imaged them after 3 days.
+
+      Even after reaching confluence, we observed movement of transfected horse cells \fref{fig:kill-frap:confluent-horse}. 
+	  %% Is there some sort of relative statement about the degree of reduction or residual movement?
+	  In addition, the observed movement was dramatically different in primary horse than in HeLa cells.
+	  Transfected horse cells displayed a helical motion about the vector of their movement 
+	  whereas rotation of HeLa nuclei was mostly restricted to the $z$ axis.
+	  %% You need to define the coordinate system to talk about z axis!
+	  %% Do you mean vertical relative to the cell dish layer?
 
       \begin{figure}
         \centering
@@ -214,40 +233,27 @@
         \label{fig:kill-frap:confluent-horse}
       \end{figure}
 
-      However, even after reaching confluence, we observed movement of
-      transfected cells \fref{fig:kill-frap:confluent-horse}. Actually,
-      the nature of the observed movement was dramatically different from
-      the one observed in HeLa cells. All of the transfected cells displayed
-      a helix-like movement around the vector of their movement.
-      In contrast, rotation of HeLa nuclei was mostly restricted to the
-      $z$ axis.
+    \subsubsection{Tracking of cell movement}
 
-    \subsubsection{CropReg}
+      As an alternative strategy, we implemented cell tracking 
+	  in order to transform images into a common frame using 
+	  consecutive image cropping and image registration. 
+	  This approach was implemented as a program named CropReg.
 
-      As an alternative to modify the cells behaviour, we implemented a program
-      to perform cell tracking. We named this program CropReg
-      after its work flow of consecutive image cropping and image registration.
+      Nuclei of interest were tracked by template-based matching using normalized cross-correlation. 
+	  Briefly, the nucleus to track was identified on the first frame and 
+	  used as template against the image on the subsequent frame.
+	  For increased performance and robustness only the region surrounding the original position is used. 
+	  %% Should you state approximately how large this region was?
+	  Sequentially applying this method created a stack of smaller images centred on the nuclei of interest.
 
-      Firstly, the nuclei of interest is tracked by template-based matching
-      by normalized cross-correlation. The nuclei to track
-      is identified on the first frame and is used as template against the
-      image on the following frame. For increased performance and robustness,
-      instead of performing the operation against the entire next frame, only
-      the region surrounding its original position is used. Sequential
-      usage of this method created a stack of smaller images centred on
-      the nuclei of interest.
-
-      Since this was a missing feature in GNU Octave, it was implemented
-      upstream, as the ``coeff'' option for scaling in the
-      \texttt{xcorr2} function and released as part of the Octave Forge
-      signal package version 1.2.0.
-
+      Achieving this functionality required implementing a ``coeff'' option 
+	  for scaling in the \texttt{xcorr2} function in GNU Octave.
+	  This was contributed and released in version 1.2.0 of the Octave Forge signal package.
       %% TODO since there's more than one way to actually do the normalization,
       %% it might be a good idea to write down the actual math formula
-
-      Secondly, to correct for rotational movement around the $z$ axis, the
-      frames were aligned using rigid body geometric transformation from the
-      previously released ImageJ plugin StackReg \citep{stackreg}.
+      To correct for rotational movement around the $z$ axis, 
+      frames were aligned using rigid body geometric transformation using ImageJ plugin StackReg \citep{stackreg}.
 
       \begin{figure}
         \centering
@@ -266,9 +272,11 @@
         \label{fig:kill-frap:cropreg}
       \end{figure}
 
-      Using this methodology, we were able to track individual cell nuclei
-      throughout the entire FRAP experiments \fref{fig:kill-frap:cropreg} provided
-      that nuclei from different cells did not overlap. This was a rare occurrence.
+      Using this image processing approach we were able to track individual cell nuclei 
+	  throughout an entire sequence of FRAP experiments \fref{fig:kill-frap:cropreg} provided
+      that nuclei did not overlap. 
+	  Although only a small minority of image sequences satisfied this requirement, 
+	  it was possible to collect sufficient observations for FRAP calcultions.
 
   \subsection{Chromatin movement}
 
