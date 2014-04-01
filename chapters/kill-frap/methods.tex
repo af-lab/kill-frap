@@ -1,74 +1,58 @@
 \section{Materials preparation}
 
+%% This would need to be rewritten much more succinctly for a manuscript but is fine for thesis
+
   \subsection{Plasmid construction}
 
     Plasmids for the canonical histones H2B, H3, and H4,
-    respectively pBOS--H2B--GFP, pBOS--H3--EYFP.MC--N1, and pBOS--H4--ECFP.M--N1,
+    respectively pBOS--H2B--GFP \citep{KevinH2BGFP}, pBOS--H3--EYFP.MC--N1, and pBOS--H4--ECFP.M--N1,
     were provided by Prof. Kevin Sullivan from National University of Ireland,
-    Galway. The pBOS--H2B--GFP plasmid has been previously published
-    \citep{KevinH2BGFP}. DNA sequencing identified the H3 plasmid as
-    the HIST1H3B gene, encoding H3.1 from histone cluster 1; the H4 plasmid
-    as either HIST1H4J or HIST1H4K; and the H2B plasmid most similar to the
-    HIST1H2BJ gene but with two missense mutations, D25G and V118I.
-
-    Plasmid pPAGFP--N1 and mCherry--\textalpha--tubulin was provided by
-    Chelly van Vuuren from National University of Ireland, Galway.
-
-    The HeLa cDNA library was a kind gift by Nadine Quinn from National University
-    of Ireland, Galway \citep{NadineThesis}.
-
-    Plasmid pMH3.2--614, which includes a mouse replication dependent histone~H3
-    gene, including its upstream and downstream regulatory elements \citep{pMH3-plasmid},
-    was provided by Prof. Kevin Sullivan from National University of Ireland, Galway.
+    Galway (NUIG). DNA sequencing identified the H3 plasmid as the HIST1H3B gene, 
+	encoding H3.1 from histone cluster 1; the H4 plasmid as either HIST1H4J or HIST1H4K; 
+	and the H2B plasmid similar to HIST1H2BJ but with missense mutations D25G and V118I. 
+	Plasmid pPAGFP--N1 and mCherry--\textalpha--tubulin were provided by Chelly van Vuuren 
+	and the HeLa cDNA library was a kind gift of Nadine Quinn \citep{NadineThesis}. 
+	Plasmid pMH3.2--614 including a mouse replication dependent histone~H3
+    gene with upstream and downstream regulatory elements \citep{pMH3-plasmid},
+    was provided by Prof. Kevin Sullivan.
 
     \paragraph{H2B--EGFP}
-      The two mutations in the original plasmid were corrected by two
-      individual PCR mutagenesis. The first fixed V118I with primers
-      AFG112 and AFG113, the second fixed D25G with primers AFG114 and
-      AFG115.
+      The D25G and V118I mutations in pBOS--H2B--GFP were corrected by PCR mutagenesis 
+	  using primers AFG114 and AFG115, and AFG112 and AFG113 respectively.
+	  The resulting product is H2B--EGFP, equivalent to the HIST1H2BJ gene product fusion.
 
     \paragraph{H4--ECFP R45H}
-      The R45H mutation was inserted into the pBOS--H4--ECFP.M--N1 by
+      The R45H mutation was applied to the pBOS--H4--ECFP.M--N1 by
       PCR mutagenesis using the primers AFG124 and AFG125. The codon
       \texttt{CAC} was selected for the histidine amino acid due to its
       higher codon usage in the human genome\citep{codon_usage}.
 
-    \paragraph{pBOS--GFP}
-      A pBOS--GFP vector was prepared from pBOS--H2B--GFP by digestion
-      with KpnI and BamHI. The band corresponding to the linearised vector
-      without the H2B sequence was purified by gel extraction and used in
-      ligation with the H2A sequence.
-
     \paragraph{H2A--EGFP}
-      The H2A sequence was amplified from HeLa genomic DNA with primers
-      AFG116 and AFG118. This amplified the coding sequence for the
-      HIST1H2AB gene since it has the same sequence used in the previous
-      \textit{in vitro} studies that we aim to validate \citep{flaus2004sin}.
-      The only other sequence encoding the same protein was HIST1H2AE but has
-      a lower codon adaptation index and predicted 5' mRNA secondary
-      structures more complex.
+      Plasmid pBOS--H2B--GFP was digested with KpnI and BamHI 
+	  and the band corresponding to the linearised vector without the H2B sequence 
+	  was purified by gel extraction. The HIST1H2AB sequence was amplified 
+	  from HeLa genomic DNA with primers AFG116 and AFG118 and ligated into the vector. 
+	  This coding sequence is equivalent to the H2A used in the previous
+      \textit{in vitro} studies to be compared \citep{flaus2004sin}.
+      HIST1H2AE has the same gene product but a lower codon adaptation index 
+	  and  more complex predicted 5' mRNA secondary structures.
 
     \paragraph{H2AX--EGFP and S139 mutants}
-      Closing strategy for cloning the H2AX sequence was similar to the
-      strategy for cloning H2A but using the primers AFG130 and AFG131.
+      Cloning of H2AX was similar to HIST1H2AB but used primers AFG130 and AFG131.
       Mutations to H2AX S139, an important site that is phosphorylated during
-      DNA damage response,
-      was performed at the same time of gene amplification since its location
-      is close to the sequence 3' end. The primers AFG132, AFG133, and AFG134,
-      were used instead of AFG131 for mutations S139A, S139D, and S139E
-      respectively. The mutation to alanine blocks, while
-      mutation to aspartic and glutamic acid mimic phosphorylation.
-      This strategy introduced an accidental frameshift mutation near the
-      stop codon which was fixed by PCR mutagenesis using primers AFG400
+      DNA damage response, was performed at the same time of gene amplification 
+	  since its location is close to the sequence 3' end. Primers AFG132, AFG133, and AFG134,
+      were used with AFG130 to introduce mutations S139A, S139D, and S139E respectively.
+	  The mutation to alanine blocks, while mutation to aspartic and glutamic acid 
+	  mimic phosphorylation. This strategy introduced an accidental frameshift mutation 
+	  near the stop codon which was fixed by PCR mutagenesis using primers AFG400
       and AFG401.
 
     \paragraph{H2A.Z--EGFP}
-      Unlike the H2A and H2AX plasmids which were prepared from genomic DNA,
-      the H2A.Z sequence was amplified from an HeLa cDNA library due
-      to the existence of introns in the H2AFZ gene. The amplification PCR
-      was performed with primers AFG121 and AFG122. Purification of the
-      amplicon and ligation to the pBOS vector was identical to the preparation
-      of the H2A--GFP plasmid.
+      The H2A.Z sequence was amplified from an HeLa cDNA library using primers AFG121 and AFG122 
+	  due to the existence of introns in the H2AFZ gene. 
+	  Purification of the amplicon and ligation to the linearised pBOS--EGFP vector
+	  was identical to the preparation of the H2A--GFP plasmid.
 
     \paragraph{H4--EYFP}
       The plasmids pBOS--H3--EYFP.MC--N1 and pBOS--H4--ECFP.M--N1 were
@@ -99,7 +83,7 @@
       %% and it shouldn't be making a difference.
 
     \paragraph{pMH2B--GFP and pMH3--EYFP}
-      %% I'm actually not sure if Keving gave me the pMH3.2--614 or the
+      %% I'm actually not sure if Kevin gave me the pMH3.2--614 or the
       %% pCA-TAG plasmid. I did not have any plasmid map or sequence, only
       %% the very small Figure 5 of his paper PMID:9024683
       %% I couldn't even use any standard sequencing primer and by the time
@@ -119,10 +103,8 @@
   \subsection{Cell lines}
 
     Transfection was always performed by lipofection~(\Sref{methods:lipofection}),
-    both for transient and stable cell lines.
-
-    For creation of stable cell lines, cells were trypsinized and split
-    1:20 on \SI{10}{\cm} dishes 24~hours after transfection.
+    both for transient and stable cell lines. For creation of stable cell lines, 
+	cells were trypsinized and split 1:20 on \SI{10}{\cm} dishes 24~hours after transfection.
     After another 24 hours, Blasticidin-S was added to the medium for
     a final concentration of \SI{3}{\ug\per\ml} as found by performing a
     Blasticidin-S kill-curve (\Sref{sec:methods:kill-curve}).
@@ -165,9 +147,9 @@
 
   \subsection{Microscopy}
 
-    Both stable and transiently cell lines were used in imaging. When
-    transiently transfected cells were being used, transfection was performed
-    approximately 48~hours before imaging.
+    Both stable and transiently cell lines were used in imaging as described. 
+	Transfection was performed approximately 48~hours before imaging for transfected cells.
+	%% Can you be a bit more exact than approximately? Give a time range?
 
     Confocal microscopy was performed with a Zeiss LSM510 Meta microscope
     using glass bottom LabTek II chambers. Wide-field fluorescence microscopy
@@ -182,9 +164,7 @@
   \subsection{Computational analysis}
 
     Software used for image analysis and visualization was described in
-    \Sref{sec:methods:software}
-
-    Original source code written in \textsc{Matlab} for a previously
+    \Sref{sec:methods:software}. Original source code written in \textsc{Matlab} for a previously
     reported circle FRAP model \citep{mueller2008evidence} was kindly offered
     to us under the GNU General Public License (GPL) version~3 by the
     original authors. A port of this code for the GNU Octave language was
