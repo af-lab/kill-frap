@@ -1,18 +1,9 @@
 \section{Results}
 
-  \subsection{Porting of FRAP analysis}
+  \subsection{FRAP analysis in Octave}
 
-    For estimation of binding constants from FRAP data, we used a
-    previously written model for circle FRAP \citep{mueller2008evidence}.
-    The original code was written for the \textsc{Matlab} which we
-    ported to GNU Octave.
-
-    While GNU Octave aims to be fully \textsc{Matlab} compatible, certain
-    less used features were missing at the time the port was done.
-    These could be split into two groups: the functions for nonlinear
-    regression \texttt{nlinfit} and \texttt{nlparci} from the Statistics
-    Toolbox; and functions for graphical user
-    interaction such as \texttt{uigetfile} and \texttt{impoly}.
+    In order to estimate binding constants from FRAP data, we ported 
+	\textsc{Matlab} code for circle FRAP \citep{mueller2008evidence} to GNU Octave.
 
     Functions for nonlinear regression were required for the model
     fitting and were replaced by \texttt{leasqr}
@@ -21,30 +12,25 @@
     same as the documented method for \texttt{nlinfit}.
     Several sample images were analyzed
     by the Octave port and the fitted values were found to be equal to
-    the values reported by the authors using the original code.
-
-    Functions for graphical user interaction were mainly required
-    for manual selection of Regions Of Interest (ROIs) and options.
-    Selection of ROIs was replaced by methods capable of identifying
-    them automatically. For setting of different options, a different
-    approach was taken and a more typical stand-alone program for batch
-    processing, capable of accepting options via command-line was prepared.
+    the values reported by the authors using the original code (data not shown). 
+	Functions for graphical user interaction were mainly required
+    for manual selection of Regions Of Interest (ROIs) and options. 
+    Selection of ROIs was replaced by automatic identifications 
+	and parameter input was made command-line based for batch processing.
 
     \subsubsection{ROI selection}
 
-      Three different ROIs are required for the used circle FRAP model:
-      bleach spot, nucleus region, and background region. The bleach
-      spot is required not only to measure the intensity recovery, but
-      also to model the photobleach profile since it takes into account
-      a non-uniform spatial distribution of the bleach spot. The nucleus
-      region to model a finite sized nucleus and consider the fluorescence
-      ``destroyed'' during the photobleaching. Finally, a small region
-      outside the nucleus is used for background correction.
+      Bleach spot, nucleus region, and background region ROIs are required 
+	  for the circle FRAP model. The bleach spot measures intensity recovery 
+      and also models the photobleach profile since it takes into account
+      a non-uniform spatial distribution of the bleached spot. The nucleus
+      region defines the finite sized nucleus and takes into account 
+	  the fluorescence loss during the photobleaching, 
+	  while a small region outside the nucleus is used for background correction.
 
-      Cells expressing GFP tagged histone proteins display a well defined
-      nuclei. The high amount of histone protein
-      and its specificity for nuclear chromatin, produces a high clear
-      signal for the nuclei which contrasted on a dark background (\fref{fig:kill-frap:roi}).
+      Cells expressing GFP tagged histone proteins have well defined nuclei. 
+	  The large amount of histone protein and specificity for nuclear chromatin 
+	  produces a strong and clear signal for the nuclei contrasted on a dark background (\fref{fig:kill-frap:roi}).
 
       \begin{figure}
         \centering
@@ -91,30 +77,23 @@
         \label{fig:kill-frap:roi}
       \end{figure}
 
-      Subtraction of the post-bleach (\fref{fig:kill-frap:postbleach}) to
+      Subtraction of the post-bleach (\fref{fig:kill-frap:postbleach}) from
       the pre-bleach (\fref{fig:kill-frap:prebleach}) images displays
-      a clear circular shape in a black background corresponding to
-      the location of the bleach spot (\fref{fig:kill-frap:subtracted}).
-      The centre for the bleach spot was
-      identified by finding the maximum of the convolution matrix between
-      the subtracted image and a disk kernel. For a reduced signal to noise
-      ratio, several pre and post-bleach images were averaged before the
-      operations. While the bleach spot is
-      the most visible feature, there is also a faint signal on the nuclear
-      region which is caused by unintentional photobleaching as result of
-      the imaging.
+      a clear circular shape corresponding to the bleach spot (\fref{fig:kill-frap:subtracted}).
+      The centre for this spot was identified by finding the maximum of the convolution matrix 
+	  between the subtracted image and a disk kernel. 
+	  To reduce signal-to-noise ratios, multiple pre and post-bleach images of the cell
+	  were averaged before image operations. 
+	  While the bleach spot is the most visible feature, there is a faint nuclear region signal
+      caused by background photobleaching during image collection.
 
-      A rough border of the cell nuclei could be easily defined by
-      Otsu's method for image threshold. Similar to the method used
-      for identification of the bleach spot, several pre-bleach images
-      were averaged before the threshold for a more refined cell border (\fref{fig:kill-frap:selected}).
-      Since multiple nuclei often appeared in a single image,
-      the coordinates for the bleach spot are used as reference to select
-      the correct nucleus.
-
-      The background region was identified by finding the minimum of
-      the convolution matrix between the averaged pre-bleach images and
-      a small square of black intensity values.
+      An approximate border for cell nuclei could be readily defined using Otsu's method for image threshold. 
+	  As with the identification of bleach spots, multiple pre-bleach images
+      were averaged before threshold definition for a more accurate cell border (\fref{fig:kill-frap:selected}).
+      Since multiple nuclei often appeared in a single image, the coordinates for the bleach spot 
+	  were used as reference to select the correct nucleus. 
+	  The background region was identified by finding the minimum of the convolution matrix 
+	  between the averaged pre-bleach images and a small square of black intensity values.
 
     \subsubsection{Batch processing}
 
@@ -140,25 +119,12 @@
         \label{fig:kill-frap:frapinator}
       \end{sidewaysfigure}
 
-      After we implemented the automatic identification of ROIs, the
-      analysis script was turned into a self-contained % or stand-alone?
-      program. Since interaction with the Octave interpreter is no
-      longer required, a user does not have to ``program'' and can
-      abstract from the language it is written. Options can be set via
-      the command-line in a typical Unix style, and
-      several images are saved with the results and all intermediate analysis
-      in the form of visual logs for post-processing analysis.
-      These visual logs include the automatically identified ROIs,
-      as well multiple plots displaying the measured
-      intensities, profile of the bleach spot, and fitting
-      to different models \fref{fig:kill-frap:frapinator}.
-
-      With this changes, human interaction was no longer required
-      to perform the short time FRAP that the code was originally
-      designed for.
-      We have named this program frapinator, and made it available
-      for public download under the GPL \footnote{\url{https://github.com/af-lab/frapinator}}.
-
+      The automated identification of ROIs was turned into a stand-alone program, frapinator. 
+	  This has the advanatge that the user can set command-line options without scripting. 
+	  Representative images are saved with results and all intermediate analysis is logged for post-processing analysis.
+      These include the automatically identified ROIs and 
+	  plots of measured intensities, bleach spot profile, and fitting to different models \fref{fig:kill-frap:frapinator}.
+      Frapinator is available for public download under the GPL \footnote{\url{https://github.com/af-lab/frapinator}}.
 
   \subsection{Tracking of cell nuclei}
 
