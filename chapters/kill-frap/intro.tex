@@ -43,14 +43,13 @@
 
     Fluorescence Recovery After Photobleaching (FRAP) is an optical technique
     that reveals the dynamics of fluorescently tagged molecules within live cells.
-    The tagged molecules inside a small region are irreversibly photobleached by
+    Tagged molecules inside a small region are irreversibly photobleached by
     action of a high-power focused laser beam and the recovery rate of fluorescence
-    is measured. The recovery rate is interpreted as unbleached molecules,
-    which were outside of the region at the time of photobleaching, dissociating and
-    diffusing into the bleached area, replacing the bleached molecules. It is assumed that the
-    the fluorescence recovery reflects the protein natural movement.
+    is measured. The recovery rate is interpreted as unbleached molecules 
+	from outside of the region at the time of photobleaching diffusing into the bleached area. 
+	It is assumed that this fluorescence recovery reflects natural protein movement.
 
-    Its general idea can be described as chemical equilibrium:
+    FRAP can be described by a simple chemical equilibrium:
 
     \begin{displaymath}
       F + S \overset{K_{on}}{\underset{K_{off}}{\rightleftharpoons}} FS
@@ -59,46 +58,35 @@
     where $F$ represents freely diffusing proteins, $S$ represents immobile vacant
     binding sites, and $FS$ the complex between the two, when the protein is bound
     to the binding site. This technique measures the value of \Kon{} and \Koff{},
-    the association and dissociation constants, by observing how fast a
-    small population of $F$ in the $FS$ complex, the ones that have been
-    photobleached, is replaced.
+    the association and dissociation constants by observing how fast a
+    small population of photobleached $F$ in the $FS$ complex is replaced.
 
     This technique has been extensively used to obtain qualitative and quantitative
-    insight on the kinetic properties of proteins. Among these are also
-    histone proteins, where FRAP was used to compare exchange ratios and
-    soluble pools of different histones types and variants. These results
-    show extremely slow recovery rates, with half-lives longer than 8~hours.
+    insight on the kinetic properties of proteins, including histones  \addref{Kimura and Cook}. 
+	These results show extremely slow recovery rates 
+	with histone residency half-lives longer than 8~hours.
 
-    %% FIXME we should probably be more descriptive of Kimura and Cook results
+    %% FIXME Much more descriptive on Kimura and Cook results
 
     Continuous development of FRAP has led to increasingly complex models
-    that are both more precise and accurate than simple models based on
-    inverse exponential decay.
-    However, despite their sophistication, these models of recovery require
-    certain important assumptions that are difficult to maintain for long
-    experimental observation times:
+    that are both more precise and accurate than simple inverse exponential decay \addref{?}.
+    Despite their sophistication, these models require certain important assumptions 
+	that are difficult to maintain for long experimental observation times:
 
     \begin{itemize}
       \item equilibrium is maintained throughout the entire experiment in
-            order that both \Kon{} and \Koff{} remain constant, which requires
-            that concentrations of both $F$ and $S$ remain constant;
+            order that both \Kon{} and \Koff{} remain constant, 
+			inlcuding that concentrations of both $F$ and $S$ remain constant;
       \item distribution of tagged molecule mimics the endogenous protein;
-      \item the binding sites are part of a large, relatively immobile complex,
-            at least on the time and length scale of the recovery.
+      \item the binding sites are part of a large, relatively immobile complex, 
+	  		on the time and length scale of the recovery.
     \end{itemize}
 
-  \subsection{Objectives}
+  \subsection{Aims}
 
-    We aim to develop a technique capable of measuring subtle kinetic
-    alterations of the nucleosome in live cells which will allow us to study the
-    structure--function relationship of the nucleosome.
-    Since the histone SIN mutant H4~R45H has induced \textit{in vitro} the
-    highest increase in nucleosome mobility, we will use it as positive
-    control for testing FRAP for this purpose while at the same time
-    validate \textit{in vivo} the previous results.
-
-    The \textit{in vivo} results will lead to a more detailed model of the
-    nucleosome, predicting effects of extra mutations that can be feed back
-    to this technique for testing. A continuous cycle of this approach will
-    lead to an increasingly refined model of the nucleosome.
+    We wished to observe the structure--function relationship of the nucleosome
+	using the histone SIN mutant H4~R45H that exhibited the 
+	highest increase in nucleosome mobilityhas \textit{in vitro}.
+	This led us to investigate the technical challenges of measuring subtle kinetic
+    alterations of the nucleosome dynamics over long time periods in live cells.
 
