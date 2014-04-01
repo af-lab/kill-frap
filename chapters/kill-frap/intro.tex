@@ -25,7 +25,7 @@
 
   \subsection{SIN mutants}
 
-    There is a set of mutations able to compensate the loss of the SWI/SNF
+    There is a set of mutations able to compensate for the loss of the SWI/SNF
     complex. This set is collectively known as SIN mutations, so named because
     they provide SWI/SNF INdependence. A subset of these are single
     amino-acid changes in the histones sequence, thus suggesting a very
@@ -33,6 +33,15 @@
     mechanism of SWI/SNF, but are also of major importance in the nucleosome
     structure. Indeed, this hypothesis has been tested \textit{in vitro}
     where SIN mutant nucleosomes display higher thermal mobility.
+
+    \todo[inline]
+      {
+        Should we have some section on all the other mutants we prepared?
+        H3 T45E and the H2AX mutants? We never get to use them, we just
+        prepared them in advance, planning to use them later. We don't
+        have any results for them, and they will seriously disrupt the
+        flow of the story.
+      }
 
   \subsection{FRAP}
 
@@ -45,42 +54,55 @@
     diffusing into the bleached area, replacing the bleached molecules. It is assumed that the
     the fluorescence recovery reflects the protein natural movement.
 
+    Its general idea can be described as chemical equilibrium:
+
+    \begin{displaymath}
+      F + S \overset{K_{on}}{\underset{K_{off}}{\rightleftharpoons}} FS
+    \end{displaymath}
+
+    where $F$ represents freely diffusing proteins, $S$ represents immobile vacant
+    binding sites, and $FS$ the complex between the two, when the protein is bound
+    to the binding site. This technique measures the value of \Kon{} and \Koff{},
+    the association and dissociation constants, by observing how fast a
+    small population of $F$ in the $FS$ complex, the ones that have been
+    photobleached, is replaced.
+
     This technique has been extensively used to obtain qualitative and quantitative
     insight on the kinetic properties of proteins. Among these are also
     histone proteins, where FRAP was used to compare exchange ratios and
     soluble pools of different histones types and variants. These results
     show extremely slow recovery rates, with half-lives longer than 8~hours.
 
-    %%FIXME we should probably be more descriptive of Kimura and Cook results
+    %% FIXME we should probably be more descriptive of Kimura and Cook results
 
-    Continuous development of FRAP has
-    led to increasingly complex models that are both more precise and accurate than simple models
-    based on inverse exponential decay.
-    However, despite their sophistication, these models of recovery require certain important
-    assumptions that are difficult to maintain for long experimental observation times:
+    Continuous development of FRAP has led to increasingly complex models
+    that are both more precise and accurate than simple models based on
+    inverse exponential decay.
+    However, despite their sophistication, these models of recovery require
+    certain important assumptions that are difficult to maintain for long
+    experimental observation times:
 
     \begin{itemize}
-      %% FIXME the first one is not really a problem related to long time FRAP
-      \item the biological system has reached equilibrium before photobleaching;
-      \item total amount of both Fluorescent Protein (FP) fusion protein and its
-            binding sites remain constant over the time course of the recovery;
-      %% FIXME we should probably group the 2 before into one
+      \item equilibrium is maintained throughout the entire experiment in
+            order that both \Kon{} and \Koff{} remain constant, which requires
+            that concentrations of both $F$ and $S$ remain constant;
       \item distribution of tagged molecule mimics the endogenous protein;
-      \item the binding sites are part of a large, relatively immobile complex, at
-            least on the time and length scale of the recovery.
+      \item the binding sites are part of a large, relatively immobile complex,
+            at least on the time and length scale of the recovery.
     \end{itemize}
 
   \subsection{Objectives}
 
     We aim to develop a technique capable of measuring subtle kinetic
-    alterations of the nucleosome in live cells for study of the
+    alterations of the nucleosome in live cells which will allow us to study the
     structure--function relationship of the nucleosome.
-    Starting with the histone SIN mutant H4~R45H, know \textit{in vitro} to
-    cause the highest increase in mobility, we can test FRAP for this
-    corner-cases while validating \textit{in vivo} the previous results.
+    Since the histone SIN mutant H4~R45H has induced \textit{in vitro} the
+    highest increase in nucleosome mobility, we will use it as positive
+    control for testing FRAP for this purpose while at the same time
+    validate \textit{in vivo} the previous results.
 
-    These results lead to more detailed model of the nucleosome, allowing
-    to predict effects of extra mutations which can be feed back to this
-    technique for testing. A continuous cycle of this approach will then lead
-    to continuous refining of the nucleosome model.
+    The \textit{in vivo} results will lead to a more detailed model of the
+    nucleosome, predicting effects of extra mutations that can be feed back
+    to this technique for testing. A continuous cycle of this approach will
+    lead to an increasingly refined model of the nucleosome.
 
