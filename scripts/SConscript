@@ -1,0 +1,99 @@
+## coding: utf-8
+from os import path
+import subprocess
+
+Import (
+  'env',
+  'data_dir',
+)
+
+## a list of lists, each element is the source file, the second is the
+## filename in the data directory, the third is a list with the results
+commands = [
+  ['roi.m', 'Location8Cell1.lsm', [
+    'roi-prebleach.png',
+    'roi-postbleach.png',
+    'roi-subtracted.png',
+    'roi-selected.png',
+  ]],
+  ['frapinator.sh', 'Image114.lsm', [
+    'frapinator.png'
+  ]],
+  ['confluent.m', 'H4\ R45H_L3_Sum.lsm', [
+    'confluent-hela.png'
+  ]],
+  ['horse.m', 'Horse_confluent_H2B-GFP_01_08_R3D_D3D.dv', [
+    'confluent-horse.png'
+  ]],
+  ['cropreg.m', 'HeLa_H3_1A5_01_6_R3D_D3D.dv', [
+    'cropreg.png'
+  ]],
+  ['ifrap.m', 'HeLa_H2B-PAGFP_01_12_R3D_D3D.dv', [
+    'ifrap-pre.png',
+    'ifrap-post.png',
+    'ifrap.png',
+  ]],
+]
+
+kill_frap = []
+for cm in commands:
+  kill_frap.append (env.Command (
+    source = 'kill-frap-' + cm[0],
+    target = ['kill-frap-' + fn for fn in cm[2]],
+    action = "$SOURCE %s $TARGETS" % path.join (data_dir, cm[1]),
+  ))
+
+Depends (kill_frap, [
+  'imread_dv.m',
+  'montage_cdata.m',
+])
+
+Return (['kill_frap'])
+
+##
+## Check that we have all the required tools installed
+##
+
+def CheckApp (context, app_name):
+    context.Message ("Checking for %s..." % app_name)
+    is_ok = context.env.WhereIs (app_name)
+    if not is_ok:
+        ## because https://bitbucket.org/scons/scons/pull-request/67
+        is_ok = False
+    context.Result (is_ok)
+    return is_ok
+
+def RunOctave (context, msg, snippet):
+    context.Message ("Checking for %s..." % msg)
+    is_ok = True
+    if (subprocess.call (["octave", "-qf", "--eval", snippet])):
+      is_ok = False
+    context.Result (is_ok)
+    return is_ok
+
+conf = Configure (
+  env,
+  custom_tests = {
+    "CheckApp"  : CheckApp,
+    "RunOctave" : RunOctave,
+  },
+)
+
+if not conf.CheckApp ("octave"):
+    print ("GNU Octave must be installed")
+    Exit (1)
+
+if not conf.RunOctave ("Octave's image package", "pkg load image"):
+    print ("Octave's image package must be installed")
+    Exit (1)
+
+if not conf.CheckApp ("bfconvert"):
+    print ("bfconvert - Convert tool from bioformats is required")
+    Exit (1)
+
+if not conf.CheckApp ("fiji"):
+    print ("fiji - distribution of ImageJ is required")
+    Exit (1)
+
+env = conf.Finish ()
+

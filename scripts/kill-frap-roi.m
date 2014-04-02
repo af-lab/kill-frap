@@ -33,15 +33,17 @@
 ## in the metadata of the file.
 
 pkg load image;
+addpath (fileparts (mfilename ("fullpath")));
 
-if (numel (argv ()) < 1)
-  printf ("No argument for image files")
-  exit (1);
-elseif (numel (argv ()) > 1)
-  warning ("Multiple arguments. Only the first will be considered.")
+if (numel (argv ()) != 5)
+  error ("Requires exactly 5 arguments")
 endif
 
 fpath = argv (){1};
+fpre  = argv (){2};
+fpost = argv (){3};
+fsub  = argv (){4};
+fsel  = argv (){5};
 
 ## Even though the images are uint8, this may cause out of memory errors
 ## if GraphicsMagick was built with quantum-depth 32. Also, we read every
@@ -120,10 +122,10 @@ pre  = im2uint8 (imadjust (pre)  * 0.5);
 post = im2uint8 (imadjust (post) * 0.5);
 sub  = im2uint8 (imadjust (sub)  * 0.5);
 
-imwrite (pre,  "roi-prebleach.png");
-imwrite (post, "roi-postbleach.png");
-imwrite (sub,  "roi-subtracted.png");
+imwrite (pre,  fpre);
+imwrite (post, fpost);
+imwrite (sub,  fsub);
 
 pre(background | bleach | nucleus) = getrangefromclass (pre)(2);
-imwrite (pre, "roi-selected.png");
+imwrite (pre, fsel);
 

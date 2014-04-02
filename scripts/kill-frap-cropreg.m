@@ -22,12 +22,13 @@
 montage_size = [5 3];
 
 pkg load image;
+addpath (fileparts (mfilename ("fullpath")));
 
-if (numel (argv ()) < 1)
-  printf ("No argument for image files")
-  exit (1);
+if (numel (argv ()) != 2)
+  error ("Requires exactly 2 arguments")
 endif
-fpath = argv (){1};
+in_img  = argv (){1};
+out_img = argv (){2};
 
 function seed = Crop_Reg (img, seed, rect, ratio)
 
@@ -91,7 +92,7 @@ function seed = Crop_Reg (img, seed, rect, ratio)
 
 endfunction
 
-img = imread (dv2tif (fpath), "Index", "all");
+img = imread_dv (in_img, "Index", "all");
 
 ## the image has been deconvolved so we need to trim the borders
 img = img(31:end-30,31:end-30,:,:);
@@ -112,11 +113,14 @@ img  = im2uint16 (imgd);
 rect = [570   250   280   300];
 [seed, rect] = imcrop (img(:,:,:,1), rect);
 tracked = Crop_Reg (img, seed, rect, 0.2);
-imwrite (tracked, "tracked.tif");
 
-tmpname = [tmpnam(P_tmpdir ()) ".ijm"]; # ImageJ REALLY needs a file extension
+f_tracked = [tmpnam(P_tmpdir ()) ".tif"];
+f_aligned = [tmpnam(P_tmpdir ()) ".tif"];
+imwrite (tracked, f_tracked);
 
-[fid, msg] = fopen (tmpname, "w");
+f_macro = [tmpnam(P_tmpdir ()) ".ijm"]; # ImageJ REALLY needs a file extension
+
+[fid, msg] = fopen (f_macro, "w");
 if (fid == -1)
   error (msg);
 endif
@@ -124,20 +128,22 @@ endif
 fprintf (fid, "\n\
 fpath = getArgument();\n\
 open (fpath);\n\
-ftif = getDirectory ('image') + 'aligned.tif';\n\
+ftif = '%s';\n\
 run ('StackReg', 'transformation=[Rigid Body]');\n\
-saveAs (ftif);"
+saveAs (ftif);", f_aligned
 );
 fflush (fid);
 fclose (fid);
 
-[status, output] = system (sprintf ("fiji -batch %s %s", tmpname, "tracked.tif"));
+[status, output] = system (sprintf ("fiji -batch %s %s", f_macro, f_tracked));
 if (status)
   error (output);
 endif
-unlink (tmpname); # if it fails, it's in /tmp so who cares?
+aligned = imread (f_aligned, "Index", "all");
+unlink (f_macro); # if it fails, it's in /tmp so who cares?
+unlink (f_tracked); # if it fails, it's in /tmp so who cares?
+unlink (f_aligned); # if it fails, it's in /tmp so who cares?
 
-aligned = imread ("aligned.tif", "Index", "all");
 
 ## inset the aligned image on the top left corner of the corresponding
 ## frame, with a small white border around it
@@ -157,5 +163,5 @@ mont_img = montage_cdata (img,
   "MarginWidth", 10,
   "Indices", [1 2:2:size(img, 4)](1:prod (montage_size))
 );
-imwrite (mont_img, "cropreg.png");
+imwrite (mont_img, out_img);
 

@@ -1,0 +1,11 @@
+## coding: utf-8
+from os import path
+
+Import ('env')
+
+figs = [
+  'facs-stable-cell-lines.pdf',
+]
+
+Return ('figs')
+

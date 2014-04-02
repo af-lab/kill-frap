@@ -22,14 +22,18 @@
 montage_size = [5 4];
 
 pkg load image;
+addpath (fileparts (mfilename ("fullpath")));
 
-if (numel (argv ()) < 1)
-  printf ("No argument for image files")
-  exit (1);
+if (numel (argv ()) != 4)
+  error ("Requires exactly 4 arguments")
 endif
-fpath = argv (){1};
 
-img = imread (dv2tif (fpath), "Index", "all");
+in_img    = argv (){1};
+out_pre   = argv (){2};
+out_post  = argv (){3};
+out_iFRAP = argv (){4};
+
+img = imread_dv (in_img, "Index", "all");
 
 ## the image has been deconvolved so we need to trim the borders
 img = img(31:end-30,31:end-30,:,:);
@@ -56,8 +60,8 @@ endfunction
 prepost = rgb(300:end,250:end,:,1:2);
 prepost(:,:,1,:) = adjust_j (prepost(:,:,1,:), 1); # adjust red channel
 prepost(:,:,2,:) = adjust_j (prepost(:,:,2,:), 1); # adjust green channel
-imwrite (prepost(:,:,:,1), "ifrap-pre.png");
-imwrite (prepost(:,:,:,2), "ifrap-post.png");
+imwrite (prepost(:,:,:,1), out_pre);
+imwrite (prepost(:,:,:,2), out_post);
 
 ## an even smaller crop of the bleach spot only
 spot = imcrop (rgb, [275 420 250 150]);
@@ -69,4 +73,5 @@ mont_img = montage_cdata (spot,
   "Indices", 2:2:(prod (montage_size) *2 +1),
   "MarginWidth", 5
 );
-imwrite (mont_img, "ifrap.png");
+imwrite (mont_img, out_iFRAP);
+

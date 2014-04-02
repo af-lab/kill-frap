@@ -16,12 +16,14 @@
 ## along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 pkg load image;
+addpath (fileparts (mfilename ("fullpath")));
 
-if (numel (argv ()) < 1)
-  printf ("No argument for image files")
-  exit (1);
+if (numel (argv ()) != 2)
+  error ("Requires exactly 2 arguments")
 endif
+
 fpath = argv (){1};
+f_out = argv (){2};
 
 montage_size = [6 4]; # total of 24 panels (6 rows by 4 columns)
 
@@ -58,12 +60,12 @@ indices = [15 indices+16];
 
 img = imread (fpath,
   "Index", indices
-  "PixelRegion", {{429:842}, {105:482}}
-);
+#  "PixelRegion", {{429 842}, {105 482}} # we could have used this but the fix was not released on time
+)(429:842, 105:482,:,:);
 
 mont_img = montage_cdata (img,
   "Size", montage_size,
   "MarginWidth", 10
 );
-imwrite (mont_img, "confluent-hela.png")
+imwrite (mont_img, f_out)
 

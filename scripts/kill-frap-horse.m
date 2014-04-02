@@ -18,14 +18,13 @@
 montage_size = [6 5];
 
 pkg load image;
+addpath (fileparts (mfilename ("fullpath")));
 
-if (numel (argv ()) < 1)
-  printf ("No argument for image files")
-  exit (1);
+if (numel (argv ()) != 2)
+  error ("Requires exactly 2 arguments")
 endif
-fpath = argv (){1};
 
-img = imread (dv2tif (fpath), "Index", "all");
+img = imread_dv (argv (){1}, "Index", "all");
 
 ## the image has been deconvolved so we need to trim the borders
 img = img(31:end-30,31:end-30,:,:);
@@ -42,5 +41,5 @@ mont_img = montage_cdata (img,
   "MarginWidth", 10,
   "Indices", 1:(montage_size(1)*montage_size(2))
 );
-imwrite (mont_img, "confluent-horse.png")
+imwrite (mont_img, argv (){2})
 

@@ -16,12 +16,21 @@
 ## Original image is on the proprietary dv file format. We use the
 ## bioformats command line tools to convert it to tif
 
-function tif = dv2tif (dv)
+function img = imread_dv (dv, varargin)
+  if (nargin < 1)
+    print_usage ();
+  endif
   [fdir, fname, fext] = fileparts (dv);
   tif = fullfile (fdir, [fname ".tif"]);
 
-  [status, output] = system (sprintf ("bfconvert %s %s", dv, tif));
+  [status, output] = system (sprintf ("bfconvert -overwrite %s %s", dv, tif));
   if (status)
     error (output);
+  endif
+  img = imread (tif, varargin{:});
+
+  [err, msg] = unlink (tif);
+  if (err)
+    warning ("imread_dv: unable to remove tif file after conversion from dv");
   endif
 endfunction
