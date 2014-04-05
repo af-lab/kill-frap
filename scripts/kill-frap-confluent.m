@@ -54,14 +54,24 @@ img = img(:,:,:,indices); # or we use the Indices option of montage()
 
 ## However, we actually only want part of the whole field of view, one image
 ## for every 21 minutes, each frame has a 90 seconds interval, and the first
-## 15 frames are pre-bleach
-indices = [0:17:480](1:23);
-indices = [15 indices+16];
+## 15 frames are pre-bleach. But we are readong from the lsm files so only
+## each other frame counts
+indices = [0:34:960](1:23);
+indices = [29 indices+31];
 
 img = imread (fpath,
-  "Index", indices
-#  "PixelRegion", {{429 842}, {105 482}} # we could have used this but the fix was not released on time
-)(429:842, 105:482,:,:);
+  "Index", indices,
+  "PixelRegion", {[429 842], [105 482]}
+);
+
+## I don't want to use the current version of imadjust because it needs 
+## to be changed for Matlab incompatibilities. The following will at least
+## keep stable
+imgd = im2double (img);
+mind = min (imgd(:,:,:,1)(:));
+maxd = max (imgd(:,:,:,1)(:));
+imgd = (imgd - mind) / maxd;
+img  = im2uint8 (imgd);
 
 mont_img = montage_cdata (img,
   "Size", montage_size,
