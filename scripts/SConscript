@@ -17,16 +17,17 @@ commands = [
     'roi-selected.png',
   ]],
   ['frapinator.sh', 'Image114.lsm', [
-    'frapinator.png'
+    'frapinator.png',
+    'frapinator-data.txt'
   ]],
   ['confluent.m', 'H4\ R45H_L3_Sum.lsm', [
     'confluent-hela.png'
   ]],
   ['horse.m', 'Horse_confluent_H2B-GFP_01_08_R3D_D3D.dv', [
-    'confluent-horse.png'
+    'confluent-horse.png',
   ]],
   ['cropreg.m', 'HeLa_H3_1A5_01_6_R3D_D3D.dv', [
-    'cropreg.png'
+    'cropreg.png',
   ]],
   ['ifrap.m', 'HeLa_H2B-PAGFP_01_12_R3D_D3D.dv', [
     'ifrap-pre.png',
