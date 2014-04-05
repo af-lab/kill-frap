@@ -115,32 +115,37 @@ rect = [570   250   280   300];
 tracked = Crop_Reg (img, seed, rect, 0.2);
 
 f_tracked = [tmpnam(P_tmpdir ()) ".tif"];
-f_aligned = [tmpnam(P_tmpdir ()) ".tif"];
 imwrite (tracked, f_tracked);
 
-f_macro = [tmpnam(P_tmpdir ()) ".ijm"]; # ImageJ REALLY needs a file extension
-
+f_macro = [tmpnam(P_tmpdir ()) ".py"];
 [fid, msg] = fopen (f_macro, "w");
 if (fid == -1)
   error (msg);
 endif
 
+f_aligned = [tmpnam(P_tmpdir ()) ".tif"];
 fprintf (fid, "\n\
-fpath = getArgument();\n\
-open (fpath);\n\
-ftif = '%s';\n\
-run ('StackReg', 'transformation=[Rigid Body]');\n\
-saveAs (ftif);", f_aligned
+from ij import IJ\n\
+IJ.runMacro(\"\"\"\n\
+open('%s');\n\
+run('StackReg','transformation=[Rigid Body]');\n\
+saveAs('%s');\n\
+\"\"\")\n\
+exit(0)", f_tracked, f_aligned
 );
 fflush (fid);
 fclose (fid);
 
-[status, output] = system (sprintf ("fiji -batch %s %s", f_macro, f_tracked));
+## We should really replace StackReg with our own implementation in Octave.
+## We can't use --headless because the plugin is too dependent on the GUI,
+## even though it doesn't really need it
+[status, output] = system (sprintf ("fiji %s", f_macro));
 if (status)
+  ## this is useless. ImageJ and StackReg, always returns zero
   error (output);
 endif
 aligned = imread (f_aligned, "Index", "all");
-unlink (f_macro); # if it fails, it's in /tmp so who cares?
+unlink (f_macro);   # if it fails, it's in /tmp so who cares?
 unlink (f_tracked); # if it fails, it's in /tmp so who cares?
 unlink (f_aligned); # if it fails, it's in /tmp so who cares?
 
