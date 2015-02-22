@@ -1,5 +1,7 @@
-## coding: utf-8
-from os import path
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import os.path
 import subprocess
 
 Import (
@@ -20,7 +22,7 @@ commands = [
     'frapinator.png',
     'frapinator-data.txt'
   ]],
-  ['confluent.m', 'H4\ R45H_L3_Sum.lsm', [
+  ['confluent.m', 'H4 R45H_L3_Sum.lsm', [
     'confluent-hela.png'
   ]],
   ['horse.m', 'Horse_confluent_H2B-GFP_01_08_R3D_D3D.dv', [
@@ -41,7 +43,7 @@ for cm in commands:
   kill_frap.append (env.Command (
     source = 'kill-frap-' + cm[0],
     target = ['kill-frap-' + fn for fn in cm[2]],
-    action = "$SOURCE %s $TARGETS" % path.join (data_dir, cm[1]),
+    action = '$SOURCE "%s" $TARGETS' % os.path.join (data_dir, cm[1]),
   ))
 
 Depends (kill_frap, [
@@ -49,20 +51,16 @@ Depends (kill_frap, [
   'montage_cdata.m',
 ])
 
-Return (['kill_frap'])
 
 ##
 ## Check that we have all the required tools installed
 ##
 
-def CheckApp (context, app_name):
-    context.Message ("Checking for %s..." % app_name)
-    is_ok = context.env.WhereIs (app_name)
-    if not is_ok:
-        ## because https://bitbucket.org/scons/scons/pull-request/67
-        is_ok = False
-    context.Result (is_ok)
-    return is_ok
+def CheckProg(context, app_name):
+  context.Message("Checking for %s..." % app_name)
+  is_ok = context.env.WhereIs(app_name)
+  context.Result(is_ok)
+  return is_ok
 
 def RunOctave (context, msg, snippet):
     context.Message ("Checking for %s..." % msg)
@@ -75,13 +73,22 @@ def RunOctave (context, msg, snippet):
 conf = Configure (
   env,
   custom_tests = {
-    "CheckApp"  : CheckApp,
+    "CheckApp"  : CheckProg,
     "RunOctave" : RunOctave,
   },
 )
 
-if not conf.CheckApp ("octave"):
-    print ("GNU Octave must be installed")
+apps = [
+  ["octave",    "GNU Octave must be installed"],
+  ["bfconvert", "bfconvert - Convert tool from bioformats is required"],
+  ["fiji",      "fiji - distribution of ImageJ is required"],
+  ["bp_genbank_ref_extractor", "bp_genbank_ref_extractor - BioPerl's Bio-EUtilities application"],
+  ["pod2latex", "pod2latex is required to create manual for bp_genbank_ref_extractor"],
+]
+
+for app in apps:
+  if not conf.CheckProg (app[0]):
+    print (app[1])
     Exit (1)
 
 if not conf.RunOctave ("Octave's image package", "pkg load image"):
@@ -98,3 +105,4 @@ if not conf.CheckApp ("fiji"):
 
 env = conf.Finish ()
 
+Return (['kill_frap'])
