@@ -73,7 +73,7 @@ def RunOctave (context, msg, snippet):
 conf = Configure (
   env,
   custom_tests = {
-    "CheckApp"  : CheckProg,
+    "CheckProg" : CheckProg,
     "RunOctave" : RunOctave,
   },
 )
