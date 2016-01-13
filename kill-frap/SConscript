@@ -4,10 +4,9 @@
 import os.path
 import subprocess
 
-Import (
-  'env',
-  'data_dir',
-)
+Import('env')
+
+## FIXME: This is really ugly.  I can do better.
 
 ## a list of lists, each element is the source file, the second is the
 ## filename in the data directory, the third is a list with the results
@@ -40,34 +39,31 @@ commands = [
 
 kill_frap = []
 for cm in commands:
-  kill_frap.append (env.Command (
-    source = 'kill-frap-' + cm[0],
-    target = ['kill-frap-' + fn for fn in cm[2]],
-    action = '$SOURCE "%s" $TARGETS' % os.path.join (data_dir, cm[1]),
+  kill_frap.append(env.Command(
+    source = cm[0],
+    target = [os.path.join("results", fn) for fn in cm[2]],
+    action = '$SOURCE "%s" $TARGETS' % os.path.join("data", cm[1]),
   ))
 
-Depends (kill_frap, [
-  'imread_dv.m',
-  'montage_cdata.m',
-])
+Depends(kill_frap,
+  [os.path.join("scripts", f) for f in ['imread_dv.m', 'montage_cdata.m']]
+)
 
 
 ##
-## Check that we have all the required tools installed
+## "Configure" - check that we have all the required tools installed
 ##
 
-def CheckProg(context, app_name):
-  context.Message("Checking for %s..." % app_name)
-  is_ok = context.env.WhereIs(app_name)
+def CheckProg(context, prog_name):
+  context.Message("Checking for %s..." % prog_name)
+  is_ok = context.env.WhereIs(prog_name)
   context.Result(is_ok)
   return is_ok
 
-def RunOctave (context, msg, snippet):
-    context.Message ("Checking for %s..." % msg)
-    is_ok = True
-    if (subprocess.call (["octave", "-qf", "--eval", snippet])):
-      is_ok = False
-    context.Result (is_ok)
+def RunOctave(context, msg, snippet):
+    context.Message("Checking for %s..." % msg)
+    is_ok = (subprocess.call(["octave", "-qf", "--eval", snippet]) == 0)
+    context.Result(is_ok)
     return is_ok
 
 conf = Configure (
@@ -78,31 +74,26 @@ conf = Configure (
   },
 )
 
-apps = [
-  ["octave",    "GNU Octave must be installed"],
-  ["bfconvert", "bfconvert - Convert tool from bioformats is required"],
-  ["fiji",      "fiji - distribution of ImageJ is required"],
-  ["bp_genbank_ref_extractor", "bp_genbank_ref_extractor - BioPerl's Bio-EUtilities application"],
-  ["pod2latex", "pod2latex is required to create manual for bp_genbank_ref_extractor"],
-]
+## How the fuck is this not the default in SCons?
+if not env.GetOption('help'):
+  progs = {
+    "octave"
+      : "GNU Octave must be installed",
+    "bfconvert"
+      : "bfconvert - Convert tool from bioformats is required",
+    "fiji"
+      : "fiji - distribution of ImageJ is required",
+  }
 
-for app in apps:
-  if not conf.CheckProg (app[0]):
-    print (app[1])
-    Exit (1)
+  for p_name, p_desc in progs.iteritems():
+    if not conf.CheckProg(p_name):
+      print p_desc
+      Exit(1)
 
-if not conf.RunOctave ("Octave's image package", "pkg load image"):
-    print ("Octave's image package must be installed")
-    Exit (1)
+  if not conf.RunOctave("Octave's image package", "pkg load image"):
+    print "Octave's image package must be installed"
+    Exit(1)
 
-if not conf.CheckApp ("bfconvert"):
-    print ("bfconvert - Convert tool from bioformats is required")
-    Exit (1)
-
-if not conf.CheckApp ("fiji"):
-    print ("fiji - distribution of ImageJ is required")
-    Exit (1)
-
-env = conf.Finish ()
+env = conf.Finish()
 
 Return (['kill_frap'])
