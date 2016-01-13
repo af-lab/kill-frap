@@ -1,11 +1,15 @@
-Scripts to build thesis figures
-===============================
+Kill FRAP chapter
+=================
 
-Most of the content of these scripts are adapted pieces of code that is
-available elsewhere. The original code should be used for all purposes, but
-this gives us finer control to remove the borders caused from deconvolution,
-analyze only specific borders, specifify only region of the image, etc.
+Where we talk about our attempt at using FRAP to measure differences in
+dynamics between histone mutants, and then explain why it is not possible.
 
-We use snippets from [FRAPINATOR](https://github.com/af-lab/frapinator)
-and [CropReg](https://github.com/af-lab/scripts/blob/master/microscopy/CropReg.m).
+It has the following subdirectories:
 
+* `data` - the raw data.  Almost empty on a fresh clone because the files
+  are too large.  Contact David Pinto (author) or Andrew Flaus (PhD
+  supervisor) to obtain those files.  SCons will use checksums to make sure
+  you got the right files.
+* `figs` - figures that are not generated as part of the analysis.
+* `results` - figures that are generated as part of the analysis.
+* `scripts` - code for the analysis.  Fills `results` with stuff from `data`.
