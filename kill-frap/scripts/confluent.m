@@ -16,7 +16,6 @@
 ## along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 pkg load image;
-addpath (fileparts (mfilename ("fullpath")));
 
 if (numel (argv ()) != 2)
   error ("Requires exactly 2 arguments")
@@ -64,18 +63,11 @@ img = imread (fpath,
   "PixelRegion", {[429 842], [105 482]}
 );
 
-## I don't want to use the current version of imadjust because it needs 
-## to be changed for Matlab incompatibilities. The following will at least
-## keep stable
-imgd = im2double (img);
-mind = min (imgd(:,:,:,1)(:));
-maxd = max (imgd(:,:,:,1)(:));
-imgd = (imgd - mind) / maxd;
-img  = im2uint8 (imgd);
+img = imadjust (img, stretchlim (img(:,:,:,1), 0), [0; 1]);
 
 mont_img = montage_cdata (img,
   "Size", montage_size,
   "MarginWidth", 10
 );
-imwrite (mont_img, f_out)
 
+imwrite (mont_img, f_out);

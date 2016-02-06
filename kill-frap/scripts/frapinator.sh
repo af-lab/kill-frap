@@ -1,5 +1,6 @@
 #!/bin/bash
-set -e # halt if unhandled error
+
+set -e
 
 ## FIXME Now we really know how to program, we should make frapinator a better
 ## program. This is unnaceptable.
@@ -53,4 +54,3 @@ MASK=$(dirname $1)"/masks_"$FILE".tif"
 rm $MASK
 mv $PLOT $OUT_IMG
 mv $DATA $OUT_DATA
-

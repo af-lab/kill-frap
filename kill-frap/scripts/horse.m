@@ -1,6 +1,6 @@
 #!/usr/local/bin/octave -qf
 ##
-## Copyright (C) 2014 Carnë Draug <carandraug+dev@gmail.com>
+## Copyright (C) 2014-2016 Carnë Draug <carandraug+dev@gmail.com>
 ##
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -15,16 +15,15 @@
 ## You should have received a copy of the GNU General Public License
 ## along with this program; if not, see <http://www.gnu.org/licenses/>.
 
-montage_size = [6 5];
-
 pkg load image;
-addpath (fileparts (mfilename ("fullpath")));
+
+montage_size = [6 5];
 
 if (numel (argv ()) != 2)
   error ("Requires exactly 2 arguments")
 endif
 
-img = imread_dv (argv (){1}, "Index", "all");
+img = imread_dv (argv (){1});
 
 ## the image has been deconvolved so we need to trim the borders
 img = img(31:end-30,31:end-30,:,:);
@@ -41,5 +40,4 @@ mont_img = montage_cdata (img,
   "MarginWidth", 10,
   "Indices", 1:(montage_size(1)*montage_size(2))
 );
-imwrite (mont_img, argv (){2})
-
+imwrite (mont_img, argv (){2});

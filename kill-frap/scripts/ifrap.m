@@ -1,6 +1,6 @@
 #!/usr/local/bin/octave -qf
 ##
-## Copyright (C) 2014 Carnë Draug <carandraug+dev@gmail.com>
+## Copyright (C) 2014-2016 Carnë Draug <carandraug+dev@gmail.com>
 ##
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -19,10 +19,9 @@
 ## the thesis. The core of this script can be found at:
 ## https://github.com/af-lab/scripts/blob/master/microscopy/CropReg.m
 
-montage_size = [5 4];
-
 pkg load image;
-addpath (fileparts (mfilename ("fullpath")));
+
+montage_size = [5 4];
 
 if (numel (argv ()) != 4)
   error ("Requires exactly 4 arguments")
@@ -33,7 +32,7 @@ out_pre   = argv (){2};
 out_post  = argv (){3};
 out_iFRAP = argv (){4};
 
-img = imread_dv (in_img, "Index", "all");
+img = imread_dv (in_img);
 
 ## the image has been deconvolved so we need to trim the borders
 img = img(31:end-30,31:end-30,:,:);
@@ -46,27 +45,22 @@ red   = img(:,:,:,1:(size (img, 4) /2));        # mCherry alpha-tubulin
 green = img(:,:,:,((size (img, 4) /2) +1):end); # H2B PAGFP
 rgb   = cat (3, red, green, zeros (size (red), class (red)));
 
-## we want to adjust the intensity based on the second frame, after
-## the PAGFP has been activated. And we adjust the intensity of each
-## channel separately.
-function adjusted = adjust_j (img, f)
-  imgd = im2double (img);
-  mind = min (imgd(:,:,:,2)(:));
-  maxd = max (imgd(:,:,:,2)(:)) / f;
-  adjusted = im2uint16 ((imgd - mind) / maxd);
-endfunction
 
-## just the first two frames to show photo activation
+## Just the first two frames to show photo activation.  We will adjust
+## intensity based on the second frame, after photo-activation.
 prepost = rgb(300:end,250:end,:,1:2);
-prepost(:,:,1,:) = adjust_j (prepost(:,:,1,:), 1); # adjust red channel
-prepost(:,:,2,:) = adjust_j (prepost(:,:,2,:), 1); # adjust green channel
+pre_lims = stretchlim (prepost(:,:,:,2), 0);
+prepost = imadjust (prepost, repmat (pre_lims, [1 1 2]));
+
 imwrite (prepost(:,:,:,1), out_pre);
 imwrite (prepost(:,:,:,2), out_post);
 
-## an even smaller crop of the bleach spot only
+
+## An even smaller crop of the bleach spot only
 spot = imcrop (rgb, [275 420 250 150]);
-spot(:,:,1,:) = adjust_j (spot(:,:,1,:), 0.3); # adjust red channel
-spot(:,:,2,:) = adjust_j (spot(:,:,2,:), 1);   # adjust green channel
+spot_lims = stretchlim (spot(:,:,:,2), 0);
+spot_lims(2,1,:) /= 0.3;
+spot = imadjust (spot, repmat (spot_lims, [1 1 size(spot, 4)]));
 
 mont_img = montage_cdata (spot,
   "Size", montage_size,
@@ -74,4 +68,3 @@ mont_img = montage_cdata (spot,
   "MarginWidth", 5
 );
 imwrite (mont_img, out_iFRAP);
-

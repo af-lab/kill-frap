@@ -3,52 +3,65 @@
 
 import os.path
 import subprocess
+import json
+import hashlib
 
 Import('env')
 
-## FIXME: This is really ugly.  I can do better.
+## Simple Builder to call Octave scripts.  Note that the targets are
+## all in a single command.
+def octave_script(env, script, source, target, args=[]):
+  script = env.File(script)
+  octave_path = env.Dir('lib-octave')
+  c = env.Command(target, source, SCRIPT=script, OCTAVE_PATH=octave_path,
+                  action='$OCTAVE --quiet --path $OCTAVE_PATH $SCRIPT $SOURCE $TARGETS')
+  env.Depends(c, [script])
+  return c
 
-## a list of lists, each element is the source file, the second is the
-## filename in the data directory, the third is a list with the results
-commands = [
-  ['roi.m', 'Location8Cell1.lsm', [
-    'roi-prebleach.png',
-    'roi-postbleach.png',
-    'roi-subtracted.png',
-    'roi-selected.png',
-  ]],
-  ['frapinator.sh', 'Image114.lsm', [
-    'frapinator.png',
-    'frapinator-data.txt'
-  ]],
-  ['confluent.m', 'H4 R45H_L3_Sum.lsm', [
-    'confluent-hela.png'
-  ]],
-  ['horse.m', 'Horse_confluent_H2B-GFP_01_08_R3D_D3D.dv', [
-    'confluent-horse.png',
-  ]],
-  ['cropreg.m', 'HeLa_H3_1A5_01_6_R3D_D3D.dv', [
-    'cropreg.png',
-  ]],
-  ['ifrap.m', 'HeLa_H2B-PAGFP_01_12_R3D_D3D.dv', [
-    'ifrap-pre.png',
-    'ifrap-post.png',
-    'ifrap.png',
-  ]],
+env.AddMethod(octave_script, "OctaveScript")
+
+
+def path4script(fname=""):
+  return os.path.join("scripts", fname)
+def path4data(fname=""):
+  return os.path.join("data", fname)
+def path4result(fname=""):
+  return os.path.join("results", fname)
+
+kill_frap = [
+  env.OctaveScript(
+    script = path4script("roi.m"),
+    source = path4data("Location8Cell1.lsm"),
+    target = [path4result(f) for f in ["roi-prebleach.png", "roi-postbleach.png",
+                                       "roi-subtracted.png", "roi-selected.png"]],
+  ),
+  env.OctaveScript(
+    script = path4script("confluent.m"),
+    source = path4data("H4 R45H_L3_Sum.lsm"),
+    target = path4result("confluent-hela.png"),
+  ),
+  env.OctaveScript(
+    script = path4script("horse.m"),
+    source = path4data("Horse_confluent_H2B-GFP_01_08_R3D_D3D.dv"),
+    target = path4result("confluent-horse.png"),
+  ),
+  env.OctaveScript(
+    script = path4script("ifrap.m"),
+    source = path4data("HeLa_H2B-PAGFP_01_12_R3D_D3D.dv"),
+    target = [path4result(f) for f in ['ifrap-pre.png', 'ifrap-post.png',
+                                       'ifrap.png']],
+  ),
+  env.Command(
+    source = [path4script("frapinator.sh"), path4data("Image114.lsm")],
+    target = [path4result(f) for f in ['frapinator.png', 'frapinator-data.txt']],
+    action = '$SOURCES $TARGETS',
+  ),
+  env.OctaveScript(
+    script = path4script("cropreg.m"),
+    source = path4data("HeLa_H3_1A5_01_6_R3D_D3D.dv"),
+    target = path4result("cropreg.png"),
+  ),
 ]
-
-kill_frap = []
-for cm in commands:
-  kill_frap.append(env.Command(
-    source = cm[0],
-    target = [os.path.join("results", fn) for fn in cm[2]],
-    action = '$SOURCE "%s" $TARGETS' % os.path.join("data", cm[1]),
-  ))
-
-Depends(kill_frap,
-  [os.path.join("scripts", f) for f in ['imread_dv.m', 'montage_cdata.m']]
-)
-
 
 ##
 ## "Configure" - check that we have all the required tools installed
@@ -66,11 +79,24 @@ def RunOctave(context, msg, snippet):
     context.Result(is_ok)
     return is_ok
 
+def CheckDataMD5(context, md5s):
+  context.Message("Checking for kill-frap data files integrity...")
+
+  for fpath, md5 in md5s.iteritems():
+    read_md5 = hashlib.md5(open(fpath, "rb").read()).hexdigest()
+    if md5 != read_md5:
+      context.Result("failed for " + fpath)
+      return False
+  else:
+    context.Result(True)
+    return True
+
 conf = Configure (
   env,
   custom_tests = {
     "CheckProg" : CheckProg,
     "RunOctave" : RunOctave,
+    "CheckDataMD5" : CheckDataMD5,
   },
 )
 
@@ -79,8 +105,6 @@ if not env.GetOption('help'):
   progs = {
     "octave"
       : "GNU Octave must be installed",
-    "bfconvert"
-      : "bfconvert - Convert tool from bioformats is required",
     "fiji"
       : "fiji - distribution of ImageJ is required",
   }
@@ -90,8 +114,25 @@ if not env.GetOption('help'):
       print p_desc
       Exit(1)
 
+  if not conf.RunOctave("Octave's bioformats package", "pkg load bioformats"):
+    print "Octave's bioformats package must be installed"
+    Exit(1)
+
   if not conf.RunOctave("Octave's image package", "pkg load image"):
     print "Octave's image package must be installed"
+    Exit(1)
+
+  with open(path4data("data-md5.json"), "r") as fid:
+    data_md5s = json.load(fid)
+  data_md5s = {path4data(fname) : md5 for fname, md5 in data_md5s.iteritems()}
+
+  for fpath in data_md5s.keys():
+    if not os.path.isfile(fpath):
+      print "Missing data file " + fpath
+      Exit(1)
+
+  if not conf.CheckDataMD5(data_md5s):
+    print "Found corrupt or incorrect data file"
     Exit(1)
 
 env = conf.Finish()

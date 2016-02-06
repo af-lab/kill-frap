@@ -28,27 +28,11 @@
 ##
 ##        2010-04-28 H4 R45H (11h after mitosis) 20px circle and 30ms scan and laser 7 2500frames
 ##
-## This was one of the images collected at NIH in a Zeiss 510. Since we kept
-## the original lsm files, I'll guess more details of the system can be found
+## This was one of the images collected at NIH in a Zeiss 510.  We kept
+## the original lsm files so more details of the system can be found
 ## in the metadata of the file.
 
 pkg load image;
-addpath (fileparts (mfilename ("fullpath")));
-
-if (numel (argv ()) != 5)
-  error ("Requires exactly 5 arguments")
-endif
-
-fpath = argv (){1};
-fpre  = argv (){2};
-fpost = argv (){3};
-fsub  = argv (){4};
-fsel  = argv (){5};
-
-## Even though the images are uint8, this may cause out of memory errors
-## if GraphicsMagick was built with quantum-depth 32. Also, we read every
-## other image because lsm files have the thumbnails intertwined
-img = imread (fpath, "Index", 1:2:240);
 
 function [perim] = find_background (img)
   ## we used a 30x30 square for background
@@ -105,27 +89,44 @@ function [perim] = find_nucleus (img, bleach)
   perim = bwperim (clean_mask);
 endfunction
 
-img  = im2double (img);
-pre  = mean (img(:,:,:, 51:100), 4);
-post = mean (img(:,:,:,101:105), 4);
+function main (argv)
+  if (numel (argv) != 5)
+    error ("Requires exactly 5 arguments")
+  endif
 
-sub = pre - post;
-sub(sub < 0) = 0;
+  fpath = argv{1};
+  fpre  = argv{2};
+  fpost = argv{3};
+  fsub  = argv{4};
+  fsel  = argv{5};
 
-[background] = find_background (pre);
-[bleach, coord] = find_bleach (sub);
-[nucleus] = find_nucleus (pre, coord);
+  ## We read every other image because lsm files have the thumbnails
+  ## intertwined.
+  img = imread (fpath, "Index", 1:2:240);
 
-## adjust image intensity for display. Only up to 75% of the range
-## so that the ROI borders can be seen when set to white.
-pre  = im2uint8 (imadjust (pre)  * 0.5);
-post = im2uint8 (imadjust (post) * 0.5);
-sub  = im2uint8 (imadjust (sub)  * 0.5);
+  img  = im2double (img);
+  pre  = mean (img(:,:,:, 51:100), 4);
+  post = mean (img(:,:,:,101:105), 4);
 
-imwrite (pre,  fpre);
-imwrite (post, fpost);
-imwrite (sub,  fsub);
+  sub = pre - post;
+  sub(sub < 0) = 0;
 
-pre(background | bleach | nucleus) = getrangefromclass (pre)(2);
-imwrite (pre, fsel);
+  [background] = find_background (pre);
+  [bleach, coord] = find_bleach (sub);
+  [nucleus] = find_nucleus (pre, coord);
 
+  ## adjust image intensity for display. Only up to 75% of the range
+  ## so that the ROI borders can be seen when set to white.
+  pre  = im2uint8 (imadjust (pre)  * 0.5);
+  post = im2uint8 (imadjust (post) * 0.5);
+  sub  = im2uint8 (imadjust (sub)  * 0.5);
+
+  imwrite (pre,  fpre);
+  imwrite (post, fpost);
+  imwrite (sub,  fsub);
+
+  pre(background | bleach | nucleus) = getrangefromclass (pre)(2);
+  imwrite (pre, fsel);
+endfunction
+
+main (argv ());

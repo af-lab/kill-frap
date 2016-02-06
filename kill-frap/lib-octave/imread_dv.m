@@ -1,4 +1,4 @@
-## Copyright (C) 2014 Carnë Draug <carandraug+dev@gmail.com>
+## Copyright (C) 2014-2016 Carnë Draug <carandraug+dev@gmail.com>
 ##
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -14,23 +14,21 @@
 ## along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 ## Original image is on the proprietary dv file format. We use the
-## bioformats command line tools to convert it to tif
+## bioformats to read it.
 
-function img = imread_dv (dv, varargin)
+function img = imread_dv (fpath)
   if (nargin < 1)
     print_usage ();
   endif
-  [fdir, fname, fext] = fileparts (dv);
-  tif = fullfile (fdir, [fname ".tif"]);
 
-  [status, output] = system (sprintf ("bfconvert -overwrite %s %s", dv, tif));
-  if (status)
-    error (output);
-  endif
-  img = imread (tif, varargin{:});
+  pkg load bioformats;
+  javaMethod ('enableLogging', 'loci.common.DebugTools', 'ERROR');
 
-  [err, msg] = unlink (tif);
-  if (err)
-    warning ("imread_dv: unable to remove tif file after conversion from dv");
-  endif
+  reader = bfGetReader (fpath);
+  n_planes = reader.getImageCount ();
+  img = bfGetPlane (reader, 1);
+  img = postpad (img, n_planes, 0, 4);
+  for p_idx = 2:n_planes
+    img(:,:,:,p_idx) = bfGetPlane (reader, p_idx);
+  endfor
 endfunction

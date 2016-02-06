@@ -1,6 +1,6 @@
 #!/usr/local/bin/octave -qf
 ##
-## Copyright (C) 2014 Carnë Draug <carandraug+dev@gmail.com>
+## Copyright (C) 2014-2016 Carnë Draug <carandraug+dev@gmail.com>
 ##
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -19,16 +19,9 @@
 ## the thesis. The core of this script can be found at:
 ## https://github.com/af-lab/scripts/blob/master/microscopy/CropReg.m
 
-montage_size = [5 3];
-
 pkg load image;
-addpath (fileparts (mfilename ("fullpath")));
 
-if (numel (argv ()) != 2)
-  error ("Requires exactly 2 arguments")
-endif
-in_img  = argv (){1};
-out_img = argv (){2};
+montage_size = [5 3];
 
 function seed = Crop_Reg (img, seed, rect, ratio)
 
@@ -92,81 +85,86 @@ function seed = Crop_Reg (img, seed, rect, ratio)
 
 endfunction
 
-img = imread_dv (in_img, "Index", "all");
+function aligned = stackreg (img)
 
-## the image has been deconvolved so we need to trim the borders
-img = img(31:end-30,31:end-30,:,:);
+  ## FIXME we really need to make this better...  Can we implement
+  ##      stack reg in Octave?  StackReg is not free software.
 
-## although file bitdepth is 16bit, DeltaVision was actually only 12bit
-## so this needs to be readjusted
-img *= 2^(16-12);
+  f_tracked = [tmpnam(P_tmpdir ()) ".tif"];
+  imwrite (img, f_tracked);
 
-## I don't want to use the current version of imadjust because it needs 
-## to be changed for Matlab incompatibilities. The following will at least
-## keep stable
-imgd = im2double (img);
-mind = min (imgd(:,:,:,1)(:));
-maxd = max (imgd(:,:,:,1)(:));
-imgd = (imgd - mind) / maxd;
-img  = im2uint16 (imgd);
+  f_macro = [tmpnam(P_tmpdir ()) ".py"];
+  [fid, msg] = fopen (f_macro, "w");
+  if (fid == -1)
+    error (msg);
+  endif
 
-rect = [570   250   280   300];
-[seed, rect] = imcrop (img(:,:,:,1), rect);
-tracked = Crop_Reg (img, seed, rect, 0.2);
+  f_aligned = [tmpnam(P_tmpdir ()) ".tif"];
+  fprintf (fid, "\n\
+  from ij import IJ\n\
+  IJ.runMacro(\"\"\"\n\
+  open('%s');\n\
+  run('StackReg','transformation=[Rigid Body]');\n\
+  saveAs('%s');\n\
+  \"\"\")\n\
+  exit(0)", f_tracked, f_aligned
+  );
+  fflush (fid);
+  fclose (fid);
 
-f_tracked = [tmpnam(P_tmpdir ()) ".tif"];
-imwrite (tracked, f_tracked);
+  ## We should really replace StackReg with our own implementation in Octave.
+  ## We can't use --headless because the plugin is too dependent on the GUI,
+  ## even though it doesn't really need it
+  [status, output] = system (sprintf ("fiji %s", f_macro));
+  if (status)
+    ## this is useless. ImageJ and StackReg, always returns zero
+    error (output);
+  endif
+  aligned = imread (f_aligned, "Index", "all");
+  unlink (f_macro);   # if it fails, it's in /tmp so who cares?
+  unlink (f_tracked); # if it fails, it's in /tmp so who cares?
+  unlink (f_aligned); # if it fails, it's in /tmp so who cares?
 
-f_macro = [tmpnam(P_tmpdir ()) ".py"];
-[fid, msg] = fopen (f_macro, "w");
-if (fid == -1)
-  error (msg);
-endif
+endfunction
 
-f_aligned = [tmpnam(P_tmpdir ()) ".tif"];
-fprintf (fid, "\n\
-from ij import IJ\n\
-IJ.runMacro(\"\"\"\n\
-open('%s');\n\
-run('StackReg','transformation=[Rigid Body]');\n\
-saveAs('%s');\n\
-\"\"\")\n\
-exit(0)", f_tracked, f_aligned
-);
-fflush (fid);
-fclose (fid);
+function main (argv)
 
-## We should really replace StackReg with our own implementation in Octave.
-## We can't use --headless because the plugin is too dependent on the GUI,
-## even though it doesn't really need it
-[status, output] = system (sprintf ("fiji %s", f_macro));
-if (status)
-  ## this is useless. ImageJ and StackReg, always returns zero
-  error (output);
-endif
-aligned = imread (f_aligned, "Index", "all");
-unlink (f_macro);   # if it fails, it's in /tmp so who cares?
-unlink (f_tracked); # if it fails, it's in /tmp so who cares?
-unlink (f_aligned); # if it fails, it's in /tmp so who cares?
+  if (numel (argv ()) != 2)
+    error ("Requires exactly 2 arguments")
+  endif
+  in_img  = argv (){1};
+  out_img = argv (){2};
 
+  img = imread_dv (in_img);
 
-## inset the aligned image on the top left corner of the corresponding
-## frame, with a small white border around it
-aligned = padarray (aligned, [5 5], getrangefromclass (aligned)(2), "post");
-img(1:rows (aligned), 1:columns (aligned),:,:) = aligned;
+  ## the image has been deconvolved so we need to trim the borders
+  img = img(31:end-30,31:end-30,:,:);
 
-## add an arrow to the image, pointing to the cell being tracked,
-## but only on the first frame
-arrow = imdilate (logical (eye (100)), strel ("square", 5));
-arrow(end-49:end, end-49:end) |= logical (imrotate (tril (ones(50)), 90));
-[r, c] = find (arrow);
-ind    = sub2ind (size (img), r + rect(2) -50, c + rect(1) -50);
-img(ind) = getrangefromclass (img)(2);
+  img = imadjust (img, stretchlim (img(:,:,:,1), 0));
 
-mont_img = montage_cdata (img,
-  "Size", montage_size,
-  "MarginWidth", 10,
-  "Indices", [1 2:2:size(img, 4)](1:prod (montage_size))
-);
-imwrite (mont_img, out_img);
+  rect = [570   250   280   300];
+  [seed, rect] = imcrop (img(:,:,:,1), rect);
+  tracked = Crop_Reg (img, seed, rect, 0.2);
 
+  ## inset the aligned image on the top left corner of the corresponding
+  ## frame, with a small white border around it
+  aligned = padarray (aligned, [5 5], getrangefromclass (aligned)(2), "post");
+  img(1:rows (aligned), 1:columns (aligned),:,:) = aligned;
+
+  ## add an arrow to the image, pointing to the cell being tracked,
+  ## but only on the first frame
+  arrow = imdilate (logical (eye (100)), strel ("square", 5));
+  arrow(end-49:end, end-49:end) |= logical (imrotate (tril (ones(50)), 90));
+  [r, c] = find (arrow);
+  ind    = sub2ind (size (img), r + rect(2) -50, c + rect(1) -50);
+  img(ind) = getrangefromclass (img)(2);
+
+  mont_img = montage_cdata (img,
+    "Size", montage_size,
+    "MarginWidth", 10,
+    "Indices", [1 2:2:size(img, 4)](1:prod (montage_size))
+  );
+  imwrite (mont_img, out_img);
+endfunction
+
+main (argv ());
