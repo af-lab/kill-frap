@@ -73,9 +73,9 @@ def CheckProg(context, prog_name):
   context.Result(is_ok)
   return is_ok
 
-def RunOctave(context, msg, snippet):
-    context.Message("Checking for %s..." % msg)
-    is_ok = (subprocess.call(["octave", "-qf", "--eval", snippet]) == 0)
+def CheckOctavePackage(context, pkg):
+    context.Message("Checking for Octave package %s..." % pkg)
+    is_ok = (subprocess.call(["octave", "-qf", "--eval", "pkg load " + pkg]) == 0)
     context.Result(is_ok)
     return is_ok
 
@@ -95,7 +95,7 @@ conf = Configure (
   env,
   custom_tests = {
     "CheckProg" : CheckProg,
-    "RunOctave" : RunOctave,
+    "CheckOctavePackage" : CheckOctavePackage,
     "CheckDataMD5" : CheckDataMD5,
   },
 )
@@ -114,13 +114,10 @@ if not env.GetOption('help'):
       print p_desc
       Exit(1)
 
-  if not conf.RunOctave("Octave's bioformats package", "pkg load bioformats"):
-    print "Octave's bioformats package must be installed"
-    Exit(1)
-
-  if not conf.RunOctave("Octave's image package", "pkg load image"):
-    print "Octave's image package must be installed"
-    Exit(1)
+  for pkg in ['image', 'bioformats']:
+    if not conf.CheckOctavePackage(pkg):
+      print "Octave's %s package must be installed" % pkg
+      Exit(1)
 
   with open(path4data("data-md5.json"), "r") as fid:
     data_md5s = json.load(fid)
