@@ -51,16 +51,16 @@ kill_frap = [
     target = [path4result(f) for f in ['ifrap-pre.png', 'ifrap-post.png',
                                        'ifrap.png']],
   ),
-  env.Command(
-    source = [path4script("frapinator.sh"), path4data("Image114.lsm")],
-    target = [path4result(f) for f in ['frapinator.png', 'frapinator-data.txt']],
-    action = '$SOURCES $TARGETS',
-  ),
-  env.OctaveScript(
-    script = path4script("cropreg.m"),
-    source = path4data("HeLa_H3_1A5_01_6_R3D_D3D.dv"),
-    target = path4result("cropreg.png"),
-  ),
+#  env.Command(
+#    source = [path4script("frapinator.sh"), path4data("Image114.lsm")],
+#    target = [path4result(f) for f in ['frapinator.png', 'frapinator-data.txt']],
+#    action = '$SOURCES $TARGETS',
+#  ),
+#  env.OctaveScript(
+#    script = path4script("cropreg.m"),
+#    source = path4data("HeLa_H3_1A5_01_6_R3D_D3D.dv"),
+#    target = path4result("cropreg.png"),
+#  ),
 ]
 
 ##
@@ -105,8 +105,8 @@ if not env.GetOption('help'):
   progs = {
     "octave"
       : "GNU Octave must be installed",
-    "fiji"
-      : "fiji - distribution of ImageJ is required",
+#    "fiji"
+#      : "fiji - distribution of ImageJ is required",
   }
 
   for p_name, p_desc in progs.iteritems():
