@@ -1,0 +1,52 @@
+*.acn
+*.acr
+*.alg
+*.aux
+*.bbl
+*.blg
+*.dvi
+*.fdb_latexmk
+*.fls
+*.glg
+*.glo
+*.gls
+*.idx
+*.ilg
+*.ind
+*.ist
+*.lof
+*.log
+*.lot
+*.maf
+*.mtc
+*.mtc0
+*.nav
+*.nlo
+*.out
+*.pdf
+*.pdfsync
+*.ps
+*.snm
+*.synctex.gz
+*.tdo
+*.toc
+*.vrb
+*.xdy
+
+## SCons stuff
+.sconf_temp/*
+.sconsign.dblite
+config.log
+
+## Do not accidentally commit anything in data and results.  `data' is
+## often too large and `results' are generated as part of the build.
+data/
+results/
+
+## Because Andrew uses Mac
+.DS_Store
+
+## SCons stuff
+.sconf_temp/*
+.sconsign.dblite
+config.log
