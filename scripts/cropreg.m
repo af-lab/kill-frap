@@ -115,7 +115,7 @@ function aligned = stackreg (img)
   ## We should really replace StackReg with our own implementation in Octave.
   ## We can't use --headless because the plugin is too dependent on the GUI,
   ## even though it doesn't really need it
-  [status, output] = system (sprintf ("fiji %s", f_macro));
+  [status, output] = system (sprintf ("imagej %s", f_macro));
   if (status)
     ## this is useless. ImageJ and StackReg, always returns zero
     error (output);

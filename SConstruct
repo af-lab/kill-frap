@@ -152,8 +152,8 @@ if not (env.GetOption('help') or env.GetOption('clean')):
   progs = {
     "octave"
       : "GNU Octave must be installed",
-    "fiji"
-      : "fiji - distribution of ImageJ is required",
+    "imagej"
+      : "ImageJ needs to be installed (and imagej in the path)",
   }
 
   for p_name, p_desc in progs.iteritems():
