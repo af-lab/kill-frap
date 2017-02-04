@@ -1,12 +1,42 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+## Copyright 2014-2017 David Miguel Susano Pinto
+##
+## Copying and distribution of this file, with or without modification,
+## are permitted in any medium without royalty provided the copyright
+## notice and this notice are preserved.  This file is offered as-is,
+## without any warranty.
+
 import os.path
 import subprocess
 import json
 import hashlib
 
-Import('env')
+env = Environment()
+
+
+vars = Variables()
+vars.Add('OCTAVE', default='octave', help='The Octave interpreter')
+vars.Update(env)
+Help(vars.GenerateHelpText(env))
+
+
+AddOption(
+  "--verbose",
+  dest    = "verbose",
+  action  = "store_true",
+  default = False,
+  help    = "Print LaTeX and BibTeX output."
+)
+
+if not env.GetOption("verbose"):
+  env.AppendUnique(PDFLATEXFLAGS  = "-interaction=batchmode")
+  env.AppendUnique(PDFTEXFLAGS    = "-interaction=batchmode")
+  env.AppendUnique(TEXFLAGS       = "-interaction=batchmode")
+  env.AppendUnique(LATEXFLAGS     = "-interaction=batchmode")
+  env.AppendUnique(BIBTEXFLAGS    = "--terse")  # some ports of BibTeX may use --quiet instead
+
 
 ## Simple Builder to call Octave scripts.  Note that the targets are
 ## all in a single command.
@@ -28,7 +58,7 @@ def path4data(fname=""):
 def path4result(fname=""):
   return os.path.join("results", fname)
 
-kill_frap = [
+figures = [
   env.OctaveScript(
     script = path4script("roi.m"),
     source = path4data("Location8Cell1.lsm"),
@@ -51,17 +81,31 @@ kill_frap = [
     target = [path4result(f) for f in ['ifrap-pre.png', 'ifrap-post.png',
                                        'ifrap.png']],
   ),
-#  env.Command(
-#    source = [path4script("frapinator.sh"), path4data("Image114.lsm")],
-#    target = [path4result(f) for f in ['frapinator.png', 'frapinator-data.txt']],
-#    action = '$SOURCES $TARGETS',
-#  ),
-#  env.OctaveScript(
-#    script = path4script("cropreg.m"),
-#    source = path4data("HeLa_H3_1A5_01_6_R3D_D3D.dv"),
-#    target = path4result("cropreg.png"),
-#  ),
+  env.Command(
+    source = [path4script("frapinator.sh"), path4data("Image114.lsm")],
+    target = [path4result(f) for f in ['frapinator.png', 'frapinator-data.txt']],
+    action = '$SOURCES $TARGETS',
+  ),
+  env.OctaveScript(
+    script = path4script("cropreg.m"),
+    source = path4data("HeLa_H3_1A5_01_6_R3D_D3D.dv"),
+    target = path4result("cropreg.png"),
+  ),
 ]
+
+env.Alias("figures", figures)
+
+
+##
+## manuscript (default target)
+##
+
+manuscript = env.PDF(target="kill-frap.pdf", source="kill-frap.tex")
+env.Alias("kill-frap", manuscript)
+Depends(manuscript, [figures])
+
+env.Default(manuscript)
+
 
 ##
 ## "Configure" - check that we have all the required tools installed
@@ -100,13 +144,16 @@ conf = Configure (
   },
 )
 
-## How the fuck is this not the default in SCons?
-if not env.GetOption('help'):
+## Seriously, this should be the default.  Otherwise, users won't even
+## get to see the help text  unless they pass the configure tests.
+## And Configure(..., clean=False,help=False) does not really work,
+## it just makes all configure tests fail.
+if not (env.GetOption('help') or env.GetOption('clean')):
   progs = {
     "octave"
       : "GNU Octave must be installed",
-#    "fiji"
-#      : "fiji - distribution of ImageJ is required",
+    "fiji"
+      : "fiji - distribution of ImageJ is required",
   }
 
   for p_name, p_desc in progs.iteritems():
@@ -133,5 +180,3 @@ if not env.GetOption('help'):
     Exit(1)
 
 env = conf.Finish()
-
-Return (['kill_frap'])
