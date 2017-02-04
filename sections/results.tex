@@ -30,7 +30,7 @@
 
       Cells expressing GFP tagged histone proteins have well defined nuclei.
       The large amount of histone protein and specificity for nuclear chromatin
-      produces a strong and clear signal for the nuclei contrasted on a dark background (\fref{fig:kill-frap:roi}).
+      produces a strong and clear signal for the nuclei contrasted on a dark background \frefp{fig:kill-frap:roi}.
 
       \begin{figure}
         \centering
@@ -77,9 +77,9 @@
         \label{fig:kill-frap:roi}
       \end{figure}
 
-      Subtraction of the post-bleach (\fref{fig:kill-frap:postbleach}) from
-      the pre-bleach (\fref{fig:kill-frap:prebleach}) images displays
-      a clear circular shape corresponding to the bleach spot (\fref{fig:kill-frap:subtracted}).
+      Subtraction of the post-bleach \frefp{fig:kill-frap:postbleach} from
+      the pre-bleach \frefp{fig:kill-frap:prebleach} images displays
+      a clear circular shape corresponding to the bleach spot \frefp{fig:kill-frap:subtracted}.
       The centre for this spot was identified by finding the maximum of the convolution matrix
       between the subtracted image and a disk kernel.
       To reduce signal-to-noise ratios, multiple pre and post-bleach images of the cell
@@ -89,7 +89,7 @@
 
       An approximate border for cell nuclei could be readily defined using Otsu's method for image threshold.
       As with the identification of bleach spots, multiple pre-bleach images
-      were averaged before threshold definition for a more accurate cell border (\fref{fig:kill-frap:selected}).
+      were averaged before threshold definition for a more accurate cell border \frefp{fig:kill-frap:selected}.
       Since multiple nuclei often appeared in a single image, the coordinates for the bleach spot
       were used as reference to select the correct nucleus.
       The background region was identified by finding the minimum of the convolution matrix
@@ -123,7 +123,7 @@
       This has the advanatge that the user can set command-line options without scripting.
       Representative images are saved with results and all intermediate analysis is logged for post-processing analysis.
       These include the automatically identified ROIs and
-      plots of measured intensities, bleach spot profile, and fitting to different models \fref{fig:kill-frap:frapinator}.
+      plots of measured intensities, bleach spot profile, and fitting to different models \frefp{fig:kill-frap:frapinator}.
       Frapinator is available for public download under the GPL \footnote{\url{https://github.com/github/octave-frap}}.
 
   \subsection{Tracking of cell nuclei}
@@ -140,7 +140,7 @@
 
     Histone proteins exhibit extremely slow kinetics of exchange
     requiring FRAP to be performed over several hours during which cell movement is
-    a particular issue. % \fref{fig:kill-frap:cell-movement}.
+    a particular issue. % \frefp{fig:kill-frap:cell-movement}.
 
     %% This needs some sentences describing the nature of effects of the movement,
     %% and a semi-emirical statement of the scale of the movement
@@ -188,7 +188,7 @@
         \label{fig:kill-frap:confluent-hela}
       \end{figure}
 
-      Tracking of the ROIs over time was still required \fref{fig:kill-frap:confluent-hela}.
+      Tracking of the ROIs over time was still required \frefp{fig:kill-frap:confluent-hela}.
       %% Isn't this out of order since CropReg section is below.
       %% Even if you did it in a different order, why not put the horse cells first.
 
@@ -207,7 +207,7 @@
       To balance transfection efficiency and expression we transfected cells at
       \SI{70}{\percent} confluence and imaged them after 3 days.
 
-      Even after reaching confluence, we observed movement of transfected horse cells \fref{fig:kill-frap:confluent-horse}.
+      Even after reaching confluence, we observed movement of transfected horse cells \frefp{fig:kill-frap:confluent-horse}.
       %% Is there some sort of relative statement about the degree of reduction or residual movement?
       In addition, the observed movement was dramatically different in primary horse than in HeLa cells.
       Transfected horse cells displayed a helical motion about the vector of their movement
@@ -223,7 +223,7 @@
             Primary horse fibrolasts display contact inhibition and halt growth
             once they reach confluence. However, this does not stop cell
             motion which can still be seen moving. In addition, when compared
-            to the cancer cell line HeLa (\fref{fig:kill-frap:confluent-hela}),
+            to the cancer cell line HeLa \frefp{fig:kill-frap:confluent-hela},
             the horse fibroblasts frequently rotated around the $x$ and $y$
             axis. Circle FRAP was performed in a widefield microscope.
             Top left panel is the pre-bleach image, while the others have a
@@ -273,7 +273,7 @@
       \end{figure}
 
       Using this image processing approach we were able to track individual cell nuclei
-      throughout an entire sequence of FRAP experiments \fref{fig:kill-frap:cropreg} provided
+      throughout an entire sequence of FRAP experiments \frefp{fig:kill-frap:cropreg} provided
       that nuclei did not overlap.
       Although only a small minority of image sequences satisfied this requirement,
       it was possible to collect sufficient observations for FRAP calcultions.
@@ -360,7 +360,7 @@
       Since PAGFP cannot be easily detected before photoactivation, cells
       were co-transfected with mCherry--\textalpha--tubulin which localises
       exclusively to the cytoplasm, giving an outline of the nuclear region
-      \fref{fig:kill-frap:ifrap}.
+      \frefp{fig:kill-frap:ifrap}.
 
       \begin{figure}
         \centering
@@ -400,4 +400,4 @@
       Using this FRAP variant, the movement of chromatin was more noticeable.
       Rather than an homogeneous loss of fluorescence, the activated
       spot uncurled itself overtime with individual branches of
-      localized PA-GFP appearing in the nuclei (\fref{fig:kill-frap:ifrap}).
+      localized PAGFP appearing in the nuclei \frefp{fig:kill-frap:ifrap}.
