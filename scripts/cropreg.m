@@ -1,6 +1,6 @@
 #!/usr/local/bin/octave -qf
 ##
-## Copyright (C) 2014-2016 Carnë Draug <carandraug+dev@gmail.com>
+## Copyright (C) 2014-2017 Carnë Draug <carandraug+dev@gmail.com>
 ##
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -20,8 +20,6 @@
 ## https://github.com/af-lab/scripts/blob/master/microscopy/CropReg.m
 
 pkg load image;
-
-montage_size = [5 3];
 
 function seed = Crop_Reg (img, seed, rect, ratio)
 
@@ -86,48 +84,53 @@ function seed = Crop_Reg (img, seed, rect, ratio)
 endfunction
 
 function aligned = stackreg (img)
+  ## This is ridiculous but I can't figure out how to do it in a nicer
+  ## way.  In theory, we should be able to just create an ImagePlus
+  ## object and then call some method in StackReg with it.  But
+  ## StackReg only has the run method which will create a dialog and
+  ## works on the currently open image.
 
-  ## FIXME we really need to make this better...  Can we implement
-  ##      stack reg in Octave?  StackReg is not free software.
+  ## ImageJ plugins dir defaults to "../plugins", relative to the
+  ## location of ij.jar (if documnetation is to be believed).
+  ## However, that does not happen in Debian and Ubuntu so make this
+  ## configurable with environment variables.
+  imagej_pluginsdir = getenv ("IMAGEJ_PLUGINSDIR");
+  if (! isempty (imagej_pluginsdir))
+    javaMethod ("setProperty", "java.lang.System",
+                "plugins.dir", imagej_pluginsdir);
+  endif
 
-  f_tracked = [tmpnam(P_tmpdir ()) ".tif"];
+  imagej = javaObject ("ij.ImageJ", java_get ("ij.ImageJ", "NO_SHOW"));
+  if (! javaMethod("getCommands", "ij.Menus").containsKey ("StackReg "))
+    error ("stackreg: did not found 'StackReg ' command in ImageJ");
+  endif
+
+  ## Going from an Octave array to an ImagePlus object seems way too
+  ## complicated.  And I can't figure out how to use ShortProcessor
+  ## from Octave.  This is easier.
+  f_tracked = [tempname() ".tif"];
   imwrite (img, f_tracked);
 
-  f_macro = [tmpnam(P_tmpdir ()) ".py"];
-  [fid, msg] = fopen (f_macro, "w");
-  if (fid == -1)
-    error (msg);
-  endif
+  ## I can't figure out how to enter batch mode and not have the image
+  ## window be displayed.  I can get it return an ImagePlus object but
+  ## then I can't use it on StackReg.  Not that it matters anyway
+  ## since we are using xvfb.
+  javaMethod ("open", "ij.IJ", f_tracked);
+  javaMethod ("runMacro", "ij.IJ",
+              "run('StackReg ', 'transformation=[Rigid Body]');");
 
-  f_aligned = [tmpnam(P_tmpdir ()) ".tif"];
-  fprintf (fid, "\n\
-  from ij import IJ\n\
-  IJ.runMacro(\"\"\"\n\
-  open('%s');\n\
-  run('StackReg','transformation=[Rigid Body]');\n\
-  saveAs('%s');\n\
-  \"\"\")\n\
-  exit(0)", f_tracked, f_aligned
-  );
-  fflush (fid);
-  fclose (fid);
-
-  ## We should really replace StackReg with our own implementation in Octave.
-  ## We can't use --headless because the plugin is too dependent on the GUI,
-  ## even though it doesn't really need it
-  [status, output] = system (sprintf ("imagej %s", f_macro));
-  if (status)
-    ## this is useless. ImageJ and StackReg, always returns zero
-    error (output);
-  endif
+  ## Is there a way to get the pixel values from an ImageJPlus other
+  ## than loopig every single one?
+  f_aligned = [tempname() ".tif"];
+  javaMethod ("save", "ij.IJ", f_aligned);
   aligned = imread (f_aligned, "Index", "all");
-  unlink (f_macro);   # if it fails, it's in /tmp so who cares?
+
   unlink (f_tracked); # if it fails, it's in /tmp so who cares?
   unlink (f_aligned); # if it fails, it's in /tmp so who cares?
-
 endfunction
 
 function main (argv)
+  montage_size = [5 3];
 
   if (numel (argv ()) != 2)
     error ("Requires exactly 2 arguments")
@@ -145,6 +148,7 @@ function main (argv)
   rect = [570   250   280   300];
   [seed, rect] = imcrop (img(:,:,:,1), rect);
   tracked = Crop_Reg (img, seed, rect, 0.2);
+  aligned = stackreg (tracked);
 
   ## inset the aligned image on the top left corner of the corresponding
   ## frame, with a small white border around it

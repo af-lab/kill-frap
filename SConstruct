@@ -17,7 +17,13 @@ env = Environment()
 
 
 vars = Variables()
-vars.Add('OCTAVE', default='octave', help='The Octave interpreter')
+
+vars.Add('OCTAVE', default='octave',
+         help='The Octave interpreter')
+
+vars.Add('IMAGEJ_PLUGINSDIR', default='/usr/share/imagej/plugins/',
+         help='Value for ImageJ plugins.dir')
+
 vars.Update(env)
 Help(vars.GenerateHelpText(env))
 
@@ -48,7 +54,18 @@ def octave_script(env, script, source, target, args=[]):
   env.Depends(c, [script])
   return c
 
+def octave_with_imagej(env, script, source, target, args=[]):
+  script = env.File(script)
+  octave_path = env.Dir('lib-octave')
+  c = env.Command(target, source, SCRIPT=script, OCTAVE_PATH=octave_path,
+                  action='IMAGEJ_PLUGINSDIR=$IMAGEJ_PLUGINSDIR'
+                         ' xvfb-run $OCTAVE --quiet --path $OCTAVE_PATH'
+                         ' $SCRIPT $SOURCE $TARGETS')
+  env.Depends(c, [script])
+  return c
+
 env.AddMethod(octave_script, "OctaveScript")
+env.AddMethod(octave_with_imagej, "OctaveWithImageJ")
 
 
 def path4script(fname=""):
@@ -86,7 +103,7 @@ figures = [
     target = [path4result(f) for f in ['frapinator.png', 'frapinator-data.txt']],
     action = '$SOURCES $TARGETS',
   ),
-  env.OctaveScript(
+  env.OctaveWithImageJ(
     script = path4script("cropreg.m"),
     source = path4data("HeLa_H3_1A5_01_6_R3D_D3D.dv"),
     target = path4result("cropreg.png"),
@@ -135,12 +152,20 @@ def CheckDataMD5(context, md5s):
     context.Result(True)
     return True
 
+def CheckIJinJavaClasspath(context):
+  context.Message("Checking if ImageJ (ij.jar) is in Octave's javaclasspath...")
+  cmd = 'try javaMethod ("getVersion", "ij.IJ"); catch exit (1) end'
+  is_ok = (subprocess.call(["octave", "-qf", "--eval", cmd]) == 0)
+  context.Result(is_ok)
+  return is_ok
+
 conf = Configure (
   env,
   custom_tests = {
     "CheckProg" : CheckProg,
     "CheckOctavePackage" : CheckOctavePackage,
     "CheckDataMD5" : CheckDataMD5,
+    "CheckIJinJavaClasspath" : CheckIJinJavaClasspath,
   },
 )
 
@@ -152,8 +177,8 @@ if not (env.GetOption('help') or env.GetOption('clean')):
   progs = {
     "octave"
       : "GNU Octave must be installed",
-    "imagej"
-      : "ImageJ needs to be installed (and imagej in the path)",
+    "xvfb-run"
+      : "xvfb-run is needed because of ImageJ",
   }
 
   for p_name, p_desc in progs.iteritems():
@@ -174,6 +199,13 @@ if not (env.GetOption('help') or env.GetOption('clean')):
     if not os.path.isfile(fpath):
       print "Missing data file " + fpath
       Exit(1)
+
+  if not conf.CheckIJinJavaClasspath():
+    print "ImageJ (ij.jar) is not in Octave's javaclasspath"
+    Exit(1)
+
+  ## I guess we should also have a configure check for ImageJ commands
+  ## because of StackReg.
 
   if not conf.CheckDataMD5(data_md5s):
     print "Found corrupt or incorrect data file"
