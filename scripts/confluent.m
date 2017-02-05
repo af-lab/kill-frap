@@ -1,6 +1,6 @@
 #!/usr/local/bin/octave -qf
 ##
-## Copyright (C) 2014 Carnë Draug <carandraug+dev@gmail.com>
+## Copyright (C) 2014-2017 Carnë Draug <carandraug+dev@gmail.com>
 ##
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -16,6 +16,8 @@
 ## along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 pkg load image;
+pkg load bioformats;
+javaMethod ('enableLogging', 'loci.common.DebugTools', 'ERROR');
 
 if (numel (argv ()) != 2)
   error ("Requires exactly 2 arguments")
@@ -26,42 +28,38 @@ f_out = argv (){2};
 
 montage_size = [6 4]; # total of 24 panels (6 rows by 4 columns)
 
-## The following is if we wanted to load all frames, and have an
-## equal interval ranging from the start to the end of the image.
+## The image file 512MB, and even though the images are uint8,
+## Magick++ will read it as uint16 or uint32, it it was build with
+## that quantum-depth.  There might be other things in play since even
+## imfinfo() seems to make it run out of memory.  Anyway, we only need
+## part of the frames and image.  So:
 ##
-## The image file 512MB, and even though the images are uint8, Magick++ will
-## read it as uint16 or uint32, it it was build with that quantum-depth. That
-## may cause out of memory errors, or just crash the whole system (specially
-## if I'm booting from a USB stick).
+##   * pick one frame every 17 frames to get a figure showing the cell every
+##     25 minutes (time interval is 90 seconds).
 ##
-#{
-img     = imread (fpath, "Index", "all");
-nFrames = size (img, 4); # will be 466
+##   * start on frame 15 (last pre-bleach) and then show frame 16
+##     (first post-bleach).  We could automate this by finding max
+##     diff between frames.
+##
+##   * show only 24 frames so it fits nicely in a rectangular montage.
+##
+##   * The image is too large, show only a small region enough to make
+##     the point.
 
-subs      = img - shift (img, -1, 4);
-diffs     = sum (sum (subs));
-[~, nPre] = max (diffs(:)); # will be 15
+pixel_region = {105, 429, 378, 414}; # x_init, y_init, width, height
 
-## calculate the index of the frames to use
-nFRAP    = nFrames - nPre;
-nPanels  = montage_size(1) * montage_size(2);
-interval = ceil (nFRAP / (nPanels -1));     # -1 because the first panel will be for pre-bleach
-indices  = [nPre nPre+1:interval:nFrames];
+reader = bfGetReader (fpath);
+n_planes = reader.getImageCount ();
+if (n_planes != 466)
+  error ("we were expecting an image with 466 time points");
+endif
+planes_idx = [15 16:14:n_planes](1:24);
 
-img = img(:,:,:,indices); # or we use the Indices option of montage()
-#}
-
-## However, we actually only want part of the whole field of view, one image
-## for every 21 minutes, each frame has a 90 seconds interval, and the first
-## 15 frames are pre-bleach. But we are readong from the lsm files so only
-## each other frame counts
-indices = [0:34:960](1:23);
-indices = [29 indices+31];
-
-img = imread (fpath,
-  "Index", indices,
-  "PixelRegion", {[429 842], [105 482]}
-);
+img = bfGetPlane (reader, planes_idx(1), pixel_region{:});
+img = postpad (img, numel (planes_idx), 0, 4);
+for idx = 2:numel(planes_idx)
+  img(:,:,:,idx) = bfGetPlane (reader, planes_idx(idx), pixel_region{:});
+endfor
 
 img = imadjust (img, stretchlim (img(:,:,:,1), 0), [0; 1]);
 
