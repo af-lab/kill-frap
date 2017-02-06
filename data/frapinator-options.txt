@@ -1,0 +1,133 @@
+# Created by Octave 4.2.0, Sun Feb 05 23:25:52 2017 GMT <carandraug@word>
+# name: options
+# type: scalar struct
+# ndims: 2
+ 1 1
+# length: 25
+# name: flag_threshold
+# type: scalar
+1
+
+
+# name: flag_correct
+# type: scalar
+1
+
+
+# name: flag_log_image
+# type: scalar
+1
+
+
+# name: flag_fit_data
+# type: scalar
+1
+
+
+# name: flag_timestamps
+# type: scalar
+1
+
+
+# name: flag_frames
+# type: scalar
+0
+
+
+# name: nFrames
+# type: scalar
+1250
+
+
+# name: nPre_bleach
+# type: scalar
+100
+
+
+# name: tScan
+# type: scalar
+0.033
+
+
+# name: bleach_diameter
+# type: scalar
+40
+
+
+# name: pixel_size
+# type: scalar
+0.1
+
+
+# name: avg_start
+# type: scalar
+10
+
+
+# name: avg_end
+# type: scalar
+100
+
+
+# name: pre_start
+# type: scalar
+50
+
+
+# name: pre_end
+# type: scalar
+100
+
+
+# name: post_start
+# type: scalar
+101
+
+
+# name: post_end
+# type: scalar
+105
+
+
+# name: backg_size
+# type: scalar
+30
+
+
+# name: threshold_value
+# type: scalar
+16
+
+
+# name: nNorm
+# type: scalar
+10
+
+
+# name: binning_start
+# type: scalar
+20
+
+
+# name: bleach_factor
+# type: scalar
+1.25
+
+
+# name: resolution
+# type: scalar
+2.5
+
+
+# name: nSkip_profile
+# type: scalar
+3
+
+
+# name: Df
+# type: scalar
+200
+
+
+
+

@@ -50,7 +50,7 @@ def octave_script(env, script, source, target, args=[]):
   script = env.File(script)
   octave_path = env.Dir('lib-octave')
   c = env.Command(target, source, SCRIPT=script, OCTAVE_PATH=octave_path,
-                  action='$OCTAVE --quiet --path $OCTAVE_PATH $SCRIPT $SOURCE $TARGETS')
+                  action='$OCTAVE -W --quiet --path $OCTAVE_PATH $SCRIPT $SOURCE $TARGETS')
   env.Depends(c, [script])
   return c
 
@@ -99,8 +99,10 @@ figures = [
                                        'ifrap.png']],
   ),
   env.Command(
-    source = [path4script("frapinator.sh"), path4data("Image114.lsm")],
-    target = [path4result(f) for f in ['frapinator.png', 'frapinator-data.txt']],
+    source = [path4script("frapinator.sh"), path4data("frapinator-options.txt"),
+              path4data("Image114.lsm")],
+    target = [path4result('frapinator.png'),
+              path4result('frapinator-data.txt')],
     action = '$SOURCES $TARGETS',
   ),
   env.OctaveWithImageJ(
