@@ -138,7 +138,7 @@ def CheckProg(context, prog_name):
 
 def CheckOctavePackage(context, pkg):
     context.Message("Checking for Octave package %s..." % pkg)
-    is_ok = (subprocess.call(["octave", "-qf", "--eval", "pkg load " + pkg]) == 0)
+    is_ok = (subprocess.call(["octave", "-qf", "-W", "--eval", "pkg load " + pkg]) == 0)
     context.Result(is_ok)
     return is_ok
 
@@ -157,7 +157,7 @@ def CheckDataMD5(context, md5s):
 def CheckIJinJavaClasspath(context):
   context.Message("Checking if ImageJ (ij.jar) is in Octave's javaclasspath...")
   cmd = 'try javaMethod ("getVersion", "ij.IJ"); catch exit (1) end'
-  is_ok = (subprocess.call(["octave", "-qf", "--eval", cmd]) == 0)
+  is_ok = (subprocess.call(["octave", "-qf", "-W", "--eval", cmd]) == 0)
   context.Result(is_ok)
   return is_ok
 
