@@ -5,89 +5,97 @@
     The building block of eukaryotic chromatin structure is the nucleosome, comprising
     \SI{147}{\bp} of DNA wrapped around an octamer of two copies of core histones H2A,
     H2B, H3, and H4 \citep{luger1997crystal}.
-    Nucleosomes are arranged in a linear chain separated by DNA linkers, and
+    Nucleosome core particles are arranged in a linear chain separated by DNA linkers, and
     can be further compacted into higher order chromatin structures.
-    The role of chromatin not only encompasses DNA compaction,
-    but also involves providing a dynamic complex to mediate access to genetic
-    information by a capability to undergo reconfiguration of structure. \addref{Flaus?}
+    The role of chromatin not only achieves DNA compaction,
+    but also provides a dynamic complex to mediate access to genetic
+    information through its capability to undergo reconfiguration of structure. \addref{Flaus?}
 
-    Local reconfiguration of chromatin can be achieved
+    Local remodelling of chromatin can be achieved
     by changing nucleosome structure or altering its composition.
-    This can be performed through post-translational modifications
+    This can be performed intrinsically through post-translational modification
     or incorporation of histone variants,
     causing nucleosomes to alter DNA sequence preferences or recruit other proteins.
     Alternatively, chaperones and ATP-dependent chromatin remodelling complexes
-    act extrinsically in nucleosome position.
+    can act extrinsically to alter nucleosome structure or position.
 
-    An important example of nucleosome remodelling is the SWI/SNF complex
+  \subsection{Histone SIN mutants}
+
+    The archetype of ATP-dependent nucleosome remodelling is the SWI/SNF complex
     whose deficiency causes growth defects in yeast.
     This complex was identified independently through screens for
-    mating type SWIthching \citep{SWI-mutants}
+    mating type SWItching \citep{SWI-mutants}
     or Sucrose Non Fermentation \citep{SNF-mutants-original-discovery, SNF-mutants2}.
 
-    A set of mutations have been uncovered that compensate
+    A set of mutations were identified that compensate
     for the loss of the SWI/SNF complex
     that are collectively known as SIN mutations because they
     provide SWI/SNF INdependence  \addref{?}.
-    A subset of these are single amino-acid changes in core histones,
+    A subset of these SIN mutations result in single amino-acid changes to core histones,
     providing a direct link between SWI/SNF and chromatin and suggesting
-    that the histone mutation sites are involved in nucleosome dynamics and therefore
-    of major importance in the nucleosome structure. This hypothesis has been tested \textit{in vitro}
-    where SIN mutant nucleosomes display higher thermal mobility \citep{flaus2004sin}
-    and observed in crystal structures of the mutants \addref{muthurajan2004crystal}.
+    that the mutated histone protein residues influence the same 
+    nucleosome dynamic pathways leveraged by the enzyme and are therefore
+    of major importance in the nucleosome structure.
+    This predicted that the stability of SIN mutant containing nucleosomes would be affected in chromatin.
+    The hypothesis has been tested \textit{in vitro}
+    where it was observed that SIN mutant nucleosomes display higher 
+    thermally driven nucleosome sliding mobility \citep{flaus2004sin}
+    and that the mutated residues alter histone-DNA contacts in crystal structures \addref{muthurajan2004crystal}.
 
-    A complementary demostration of the effect of histone SIN mutants
-    in the more complex \textit{in vivo} chromatin environment would
-    validate the functional significance of these residues
-    and contribute to the understanding of conservation of histone sequences
+    However, the effect of histone protein SIN mutants
+    in the more complex \textit{in vivo} chromatin environment 
+    of mammailian cells has not been demonstrated. This is important to
+    validate the functional significance of the residues
+    and their implications for the basis of high conservation of 
+    histone protein sequences in eukaryotes.
 
-  \subsection{FRAP}
+  \subsection{Fluorescence Recovery After Photobleaching}
 
     Fluorescence Recovery After Photobleaching (FRAP) is an optical technique
     that reveals the dynamics of fluorescently tagged molecules within live cells.
     Tagged molecules inside a small region are irreversibly photobleached by
-    action of a high-power focused laser beam and the recovery rate of fluorescence
-    is measured. The recovery rate is interpreted as unbleached molecules
+    a high power focused laser beam and the recovery rate of fluorescence
+    in the bleached area is measured. The recovery rate is interpreted as unbleached molecules
     from outside of the region at the time of photobleaching diffusing into the bleached area.
     It is assumed that this fluorescence recovery reflects natural protein movement.
 
     FRAP can be described by a simple chemical equilibrium:
 
     \begin{displaymath}
-      F + S \overset{K_{on}}{\underset{K_{off}}{\rightleftharpoons}} FS
+      F + S \overset{k_{on}}{\underset{k_{off}}{\rightleftharpoons}} FS
     \end{displaymath}
 
     where $F$ represents freely diffusing proteins, $S$ represents immobile vacant
     binding sites, and $FS$ the complex between the two, when the protein is bound
-    to the binding site. This technique measures the value of \Kon{} and \Koff{},
-    the association and dissociation constants by observing how fast a
-    small population of photobleached $F$ in the $FS$ complex is replaced.
+    to the binding site. The value of \kon{} and \koff{},
+    are estimated from the rate at which photobleached $F$ is replaced in the $FS$ complex.
 
-    This technique has been extensively used to obtain qualitative and quantitative
+    Ongoing development of FRAP has led to increasingly complex models
+    that are both more precise and accurate than simple inverse exponential decay \addref{?}.
+    Despite their sophistication, these models require assumptions
+    that are difficult to maintain over long experimental observation times.
+    Firstly, equilibrium must be maintained throughout the entire experiment 
+    so that both \kon{} and \koff{} remain constant.
+    This also requires that concentrations of both $F$ and $S$ remain constant.
+    Secondly, distribution of the fluorescently tagged molecule must mimic the endogenous protein.
+    And finally, the binding sites must be part of a large, relatively immobile complex
+    on the time and length scale of the recovery.
+
+  \subsection{FRAP measurements of histones}
+
+    FRAP has been extensively used to obtain qualitative and quantitative
     insight on the kinetic properties of proteins, including histones \citep{KimuraCook}.
     These results show extremely slow recovery rates
-    with histone residency half-lives longer than 8~hours.
-
-    %% FIXME Much more descriptive on Kimura and Cook results
-
-    Continuous development of FRAP has led to increasingly complex models
-    that are both more precise and accurate than simple inverse exponential decay \addref{?}.
-    Despite their sophistication, these models require certain important assumptions
-    that are difficult to maintain for long experimental observation times:
-
-    \begin{itemize}
-      \item equilibrium is maintained throughout the entire experiment in
-            order that both \Kon{} and \Koff{} remain constant,
-            including that concentrations of both $F$ and $S$ remain constant;
-      \item distribution of tagged molecule mimics the endogenous protein;
-      \item the binding sites are part of a large, relatively immobile complex,
-            on the time and length scale of the recovery.
-    \end{itemize}
+    of histones with residency half-lives longer than 8~hours.
+    \todo{Much more detail on Kimura and Cook results}
 
   \subsection{Aims}
 
-    We wished to observe the structure--function relationship of the nucleosome
-    using the histone SIN mutant H4~R45H that exhibited the
-    highest increase in nucleosome mobility \textit{in vitro}.
-    This led us to investigate the technical challenges of measuring subtle kinetic
-    alterations of the nucleosome dynamics over long time periods in live cells.
+    In order to observe the implications for nucleosome structure and function for
+    the histone SIN mutant H4~R45H that exhibited the
+    highest increase in nucleosome mobility \textit{in vitro}
+    we attempted to determine its exchange characteristics by FRAP.
+    To achieve quantitative measurements we addressed the multiple technical challenges 
+    of measuring subtle kinetic alterations of the nucleosome dynamics 
+    over long time periods in live cells. This allowed us to define 
+    the limitations of FRAP in observing molecules with extremely slow exchange rates.
