@@ -1,40 +1,42 @@
 \section{Materials and Methods}
 
-  HeLa cells were transformed by lipofection
-  \Srefp{methods:lipofection}.  For the generation of stable cell
-  lines, cells were split to a low confluence and treated with
-  \SI{3}{\ug\per\ml} Blasticidin-S.  Colonies were screened by
-  fluorescence microscopy, and positive individual colonies were
-  selected for further growth.  High fluorescence cells were sorted by
-  FACS to generate an homogeneous cell line.  For transient expressing
-  cells, transfection was performed 48h before imaging.
+  HeLa cells were transformed by lipofection \Srefp{methods:lipofection}.
+  For the generation of stable cell lines,
+  cells were split to a low confluence and treated
+  with \SI{3}{\ug\per\ml} Blasticidin-S.
+  Colonies were screened by fluorescence microscopy
+  and positive individual colonies were selected for growth
+  and fluorescence activated cell sorting (FACS) to generate
+  homogeneous highly fluorescing cell lines.
+  Transfection was performed 48h before imaging of
+  transient expressing cells.
 
   Confocal microscopy was performed in a Zeiss LSM510 Meta microscope
   using glass bottom LabTek~II chambers.  Wide-field fluorescence
   microscopy was performed with an Applied Precision DeltaVision Core
   system using \SI{35}{\mm} glass bottom MatTek dishes.  In both
   cases, imaging was performed within an acrylic environmental chamber
-  that fully enclosed the stage plate and microscope objectives.  A
-  temperature of \dc{37} and \pcent{5} CO$_2$ levels were maintained
-  via separate units connected to the environmental chamber.
+  at a temperature of \dc{37} and \pcent{5} CO$_2$.
 
   %% See the CropReg.m script for more details.  For example, only the
   %% region surrounding the original position was used for performance
   %% and robustness.
+
   Cell movement between time frames was performed by consecutive
-  template-based registration by normalised cross-correlation.  Nuclei
-  of interest were identified on the first time frame and used as
-  template on the subsequent image.  To correct for rotational
-  movement around the $z$ dimension along the optical axis, registered
-  frames were aligned by rigid body geometric transformation in the
-  ImageJ \citep{imagej1} plugin StackReg \citep{stackreg}.
+  template-based registration by normalised cross-correlation.
+  Nuclei of interest were identified on the first time frame
+  and used as templates on the subsequent images.
+  To correct for rotational movement
+  around the $z$ dimension of the optical axis system,
+  registered frames were aligned by rigid body geometric transformation
+  in the ImageJ \citep{imagej1} plugin StackReg \citep{stackreg}.
 
   Automatic extraction and processing of FRAP recovery curves was
   performed with the GNU Octave programming language \citep{octave}
   and the Octave Forge image package.  Source code written in Matlab
-  for a previously reported circle FRAP model
-  \citep{mcnally-frap-code} was kindly offered by the original authors
-  and ported to Octave.  A new program to perform this analysis steps
-  with several options, \command{frapinator}, was released in a new
-  FRAP Octave package, including all individual functions for images
+  for a previously reported circle FRAP model \citep{mcnally-frap-code}
+  was kindly gifted by the original authors and ported to Octave.
+  A new program to automate analysis with multiple commandline options
+  was written and released in a new FRAP Octave package.
+  \command{frapinator} includes all individual functions for image
   pre-processing and FRAP fitting \Srefp{sec:software:octave-frap}.
