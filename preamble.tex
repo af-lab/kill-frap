@@ -19,13 +19,13 @@
 
 \usepackage{tikz}
 
+\usepackage{rotating} % sideways tables and figures
+
 \usepackage[sectionbib,round,comma]{natbib}
 \bibliographystyle{agu}
 
 \usepackage{siunitx}
 \DeclareSIUnit{\bp}{bp} % base pairs
-\newcommand{\pcent}[1]{\SI{#1}{\percent}}
-\newcommand{\dc}[1]{\SI{#1}{\degreeCelsius}}
 
 \newcommand{\captionIntro}[2]{\caption[#1]{\textbf{#1} #2}}
 
@@ -35,7 +35,6 @@
 \newcommand{\Srefp}[1]{(\Sref{#1})}
 
 \newcommand{\species}[1]{\textit{#1}}
-\newcommand{\command}[1]{\texttt{#1}}
 
 %% NCBI Style Guide, Chapter 5 "Style Points and Conventions", recommends
 %% italic for gene names (except in long list of genes), and roman for
@@ -45,6 +44,5 @@
 
 \newcommand{\Kon}{$K_{on}$}
 \newcommand{\Koff}{$K_{off}$}
-\newcommand{\halflife}[1][]{$t_{1/2}$#1}
 
 \newcommand{\G}[1]{G$_#1$}  % for G0, G1, and G2 phases

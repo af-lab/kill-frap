@@ -1,5 +1,131 @@
 \section{Results}
 
+  \subsection{FRAP analysis in Octave}
+
+    In order to estimate binding constants from FRAP data, we ported
+    \textsc{Matlab} code for circle FRAP \citep{mueller2008evidence} to GNU Octave.
+
+    Functions for nonlinear regression were required for the model
+    fitting and were replaced by \texttt{leasqr}
+    from Octave-Forge's optim package. This function performs the
+    Levenberg--Marquardt nonlinear least squares algorithm which is the
+    same as the documented method for \texttt{nlinfit}.
+    Several sample images were analyzed
+    by the Octave port and the fitted values were found to be equal to
+    the values reported by the authors using the original code (data not shown).
+    Functions for graphical user interaction were mainly required
+    for manual selection of Regions Of Interest (ROIs) and options.
+    Selection of ROIs was replaced by automatic identifications
+    and parameter input was made command-line based for batch processing.
+
+    \subsubsection{ROI selection}
+
+      Bleach spot, nucleus region, and background region ROIs are required
+      for the circle FRAP model. The bleach spot measures intensity recovery
+      and also models the photobleach profile since it takes into account
+      a non-uniform spatial distribution of the bleached spot. The nucleus
+      region defines the finite sized nucleus and takes into account
+      the fluorescence loss during the photobleaching,
+      while a small region outside the nucleus is used for background correction.
+
+      Cells expressing GFP tagged histone proteins have well defined nuclei.
+      The large amount of histone protein and specificity for nuclear chromatin
+      produces a strong and clear signal for the nuclei contrasted on a dark background \frefp{fig:kill-frap:roi}.
+
+      \begin{figure}
+        \centering
+        \subbottom[pre-bleach]{
+          \includegraphics[width=0.45\textwidth]
+          {results/roi-prebleach.png}
+          \label{fig:kill-frap:prebleach}
+        }
+        \hfill
+        \subbottom[post-bleach]{
+          \includegraphics[width=0.45\textwidth]
+          {results/roi-postbleach.png}
+          \label{fig:kill-frap:postbleach}
+        }
+        \subbottom[pre-bleach $-$ post-bleach]{
+          \includegraphics[width=0.45\textwidth]
+          {results/roi-subtracted.png}
+          \label{fig:kill-frap:subtracted}
+        }
+        \hfill
+        \subbottom[Identified ROIs]{
+          \includegraphics[width=0.45\textwidth]
+          {results/roi-selected.png}
+          \label{fig:kill-frap:selected}
+        }
+        \captionIntro{Automatic selection of ROIs for FRAP}
+          {
+            HeLa stable cell line expressing the H4~R45H mutant tagged with YFP,
+            are imaged every \SI{30}{\ms} in a confocal microscope. A circular
+            shape is used for photobleaching after 100~frames.
+            \subcaptionref{fig:kill-frap:prebleach} averaging of 50~pre-bleach
+            images removes most of the noise, allowing for a better refined
+            ROI;
+            \subcaptionref{fig:kill-frap:postbleach} average of
+            5 post-bleach images;
+            \subcaptionref{fig:kill-frap:subtracted} subtraction of the
+            post-bleach to the pre-bleach image, gives a clear indication
+            of the bleach spot, as well as faint signal for the nuclear
+            region due to unintentional photobleaching;
+            \subcaptionref{fig:kill-frap:prebleach} perimeter of the
+            automatically identified ROIs superimposed on the pre-bleach
+            image: cell nuclei, bleach spot, and background region.
+          }
+        \label{fig:kill-frap:roi}
+      \end{figure}
+
+      Subtraction of the post-bleach \frefp{fig:kill-frap:postbleach} from
+      the pre-bleach \frefp{fig:kill-frap:prebleach} images displays
+      a clear circular shape corresponding to the bleach spot \frefp{fig:kill-frap:subtracted}.
+      The centre for this spot was identified by finding the maximum of the convolution matrix
+      between the subtracted image and a disk kernel.
+      To reduce signal-to-noise ratios, multiple pre and post-bleach images of the cell
+      were averaged before image operations.
+      While the bleach spot is the most visible feature, there is a faint nuclear region signal
+      caused by background photobleaching during image collection.
+
+      An approximate border for cell nuclei could be readily defined using Otsu's method for image threshold.
+      As with the identification of bleach spots, multiple pre-bleach images
+      were averaged before threshold definition for a more accurate cell border \frefp{fig:kill-frap:selected}.
+      Since multiple nuclei often appeared in a single image, the coordinates for the bleach spot
+      were used as reference to select the correct nucleus.
+      The background region was identified by finding the minimum of the convolution matrix
+      between the averaged pre-bleach images and a small square of black intensity values.
+
+    \subsubsection{Batch processing}
+
+      \begin{sidewaysfigure}
+        \includegraphics[width=\textwidth]{results/frapinator.png}
+        \captionIntro{Frapinator visual log files for batch processing}
+          {
+            Each FRAP experiment generates a log file with 6 different plots
+            displaying the analysed values and the fitting to different models.
+            In conjunction with the images in \fref{fig:kill-frap:roi} this
+            provides a quick overview of the entire analysis process.
+            The top left plot displays the raw intensity
+            for the background, bleach spot, and nucleus intensity over the
+            duration of the FRAP experiment. This is followed by the normalized
+            intensity for the bleach spot which is actually used for the
+            fitting. The top right displays the intensity
+            profile for the bleach spot, and its fit to a radial profile
+            model. The three bottom panels display the data fitted to three
+            different models: pure diffusion which has no terms for binding
+            constants; full model with a fixed diffusion rate; and full model
+            with all the 3 terms.
+          }
+        \label{fig:kill-frap:frapinator}
+      \end{sidewaysfigure}
+
+      The automated identification of ROIs was turned into a stand-alone program, frapinator.
+      This has the advanatge that the user can set command-line options without scripting.
+      Representative images are saved with results and all intermediate analysis is logged for post-processing analysis.
+      These include the automatically identified ROIs and
+      plots of measured intensities, bleach spot profile, and fitting to different models \frefp{fig:kill-frap:frapinator}.
+      Frapinator is available for public download under the GPL \footnote{\url{https://github.com/github/octave-frap}}.
+
   \subsection{Tracking of cell nuclei}
 
     %% We could show this but it would only be to "encher chouricos"
@@ -113,6 +239,21 @@
       in order to transform images into a common frame using
       consecutive image cropping and image registration.
       This approach was implemented as a program named CropReg.
+
+      Nuclei of interest were tracked by template-based matching using normalized cross-correlation.
+      Briefly, the nucleus to track was identified on the first frame and
+      used as template against the image on the subsequent frame.
+      For increased performance and robustness only the region surrounding the original position is used.
+      %% Should you state approximately how large this region was?
+      Sequentially applying this method created a stack of smaller images centred on the nuclei of interest.
+
+      Achieving this functionality required implementing a ``coeff'' option
+      for scaling in the \texttt{xcorr2} function in GNU Octave.
+      This was contributed and released in version 1.2.0 of the Octave Forge signal package.
+      %% TODO since there's more than one way to actually do the normalization,
+      %% it might be a good idea to write down the actual math formula
+      To correct for rotational movement around the $z$ axis,
+      frames were aligned using rigid body geometric transformation using ImageJ plugin StackReg \citep{stackreg}.
 
       \begin{figure}
         \centering

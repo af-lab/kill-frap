@@ -77,6 +77,12 @@ def path4result(fname=""):
 
 figures = [
   env.OctaveScript(
+    script = path4script("roi.m"),
+    source = path4data("Location8Cell1.lsm"),
+    target = [path4result(f) for f in ["roi-prebleach.png", "roi-postbleach.png",
+                                       "roi-subtracted.png", "roi-selected.png"]],
+  ),
+  env.OctaveScript(
     script = path4script("confluent.m"),
     source = path4data("H4 R45H_L3_Sum.lsm"),
     target = path4result("confluent-hela.png"),
@@ -91,6 +97,13 @@ figures = [
     source = path4data("HeLa_H2B-PAGFP_01_12_R3D_D3D.dv"),
     target = [path4result(f) for f in ['ifrap-pre.png', 'ifrap-post.png',
                                        'ifrap.png']],
+  ),
+  env.Command(
+    source = [path4script("frapinator.sh"), path4data("frapinator-options.txt"),
+              path4data("Image114.lsm")],
+    target = [path4result('frapinator.png'),
+              path4result('frapinator-data.txt')],
+    action = '$SOURCES $TARGETS',
   ),
   env.OctaveWithImageJ(
     script = path4script("cropreg.m"),
