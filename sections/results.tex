@@ -1,111 +1,94 @@
 \section{Results}
 
-  \subsection{Tracking of cell nuclei}
+    To investigate the challenges of performing FRAP in mammalian cells over several hours,
+    we transfected HeLa cells with a H2B-EGFP under the control of a CMV promoter
+    and observed recovery in cells over 8 hours \frefp{fig:kill-frap:cell-movement}.
+    
+    \begin{figure}
+      \centering
+      \missingfigure{FRAP of HeLa cells expressing H2B--EGFP}
+      \captionIntro{FRAP of HeLa cells expressing H2B--EGFP.}
+                   {HeLa cells were transfected with pBOS--H2B-EGFP
+                   with circle FRAP performed in a widefield microscope over 8~hours.
+                   Pre-bleach image at top left followed by image sequence at 20~min intervals.}
+      \label{fig:kill-frap:cell-movement}
+    \end{figure}
 
-    %% We could show this but it would only be to "encher chouricos"
-%    \begin{figure}
-%      \centering
-%      \missingfigure{Our first FRAP experiment}
-%      \captionIntro{Long time series of HeLa cells expressing H2B--EGFP.}
-%                   {Cells were transfected with pBOS--H2B-EGFP and imaged for 8
-%                    hours, with intervals of 20 minutes.}
-%      \label{fig:kill-frap:cell-movement}
-%    \end{figure}
+    The images taken at 20 min intervals revealed considerable changes
+    in position of the nucleus, arrangement of features within the nucleus, 
+    and the shape of the bleach spot \frefp{fig:kill-frap:cell-movement}.
+    Initial attempts to quantiatively analyse the images
+    did not yield meaningful estimates of H2B exchange kinetics (data not shown).
 
-    Histone proteins exhibit extremely slow kinetics of exchange
-    requiring FRAP to be performed over several hours during which cell movement is
-    a particular issue. % \frefp{fig:kill-frap:cell-movement}.
+    The central requirement of FRAP is to accurately identify and 
+    quantitate the signal in the photobleached spot over time.
+    This led us to pursue both cell biological approaches to minimise movement 
+    and computational approaches to track imaged regions.
 
-    %% This needs some sentences describing the nature of effects of the movement,
-    %% and a semi-emirical statement of the scale of the movement
-    %% since this problem is the nub of the entire chapter.
-    %% Need to justify the need for going to the trouble
-    %% and define threshold for success (that couldn't be achieved!)
+    %% Could we show panel 1B as a plot of 
+    %% the aspect ratio of the bleach spot and cell over time 
+    %% as an illustration of the changes.
 
-    The central requirement to accurately identify and quantitate the signal
-    in the photobleached spot led us to pursue both cell biological approaches to
-    minimise cell movement and and computational approaches to track imaged regions.
+  \subsection{Inhibition of cell motility}
 
-    \subsubsection{Contact inhibition at high cell density}
-
-      Mammalian cells display contact inhibition,
-      a cellular growth mechanism by which cells enter senescence and reduce motion
-      when surrounded by other cells with no free space for movement.
-      Although transformed cell lines lose this property,
-      reduced space does place a restriction in the movement.
-      %% Can you provide a semi-quantitative estimate of the cell density you mean?
-      We attempted to use this effect to limit movement of cells
-      by performing FRAP measurements with cells at higher confluence levels.
-      We observed some decrease of movement for HeLa cells but not a complete immobilization.
-      %% Can you provide a semi-quantitative estimate of the degree of reduction in movement?
+    We first attempted to reduce motility by restricting the space available
+    using cells at higher confluency for FRAP experiments.
+    This was performed using a HeLa cell line stably expressing 
+    the H4~R45H SIN mutant to ensure even H4 fluorescence in all cells.
+    It resulted in some decrease in movement of cells
+    but did not achieve not a complete immobilisation \frefp{fig:kill-frap:confluent-hela}.
+    In fact, nuclei frequently underwent considerable reshaping as cells 
+    apparently squeezed between their neighbours.
 
       \begin{figure}
-        %% We are only showing one cell rather than the whole field of
-        %% of view because otherwise it's hard to notice the movement of
-        %% individual cells. If we do display everything, we cell many
-        %% nuclei that seem like their movement is smaller. If we do
-        %% show it, we comment that we are unsure whether the movement
-        %% is cellular or only nuclear.
         \centering
         \includegraphics[width=\textwidth]{results/confluent-hela.png}
-        \captionIntro{Movement of confluent HeLa cells during FRAP experiment}
+        \captionIntro{Movement of confluent HeLa cells during a FRAP experiment}
           {
-            Cells reached confluence before the start of the
-            experiment in an attempt to reduce motion. Instead, this caused
-            cell nuclei to undergo heavy reshape as the cell apparently
-            squeezes in between its neighbours. Half-nuclear FRAP performed in
-            a confocal microscope over an interval of 8~hours. Top left panel
-            is the pre-bleach image, while the others have a time-interval of
-            21~minutes. Cells are a stable line derived from HeLa, expressing
-            the H4~R45H mutant tagged with YFP.
+            HeLa-derived stable cell line expressing H4~R45H-YFP
+            with half-nuclear FRAP performed in a confocal microscope over 8~hours.
+            Pre-bleach image at top left followed by image sequence at 21~min intervals.
           }
         \label{fig:kill-frap:confluent-hela}
       \end{figure}
 
-      Tracking of the ROIs over time was still required \frefp{fig:kill-frap:confluent-hela}.
-      %% Isn't this out of order since CropReg section is below.
-      %% Even if you did it in a different order, why not put the horse cells first.
+    %% Could we show panel 2B as a plot of 
+    %% the deviation of the cell or nuclear centroid in X and Y 
+    %% relative to the first frame as a representative example
+    %% for the HeLa cells in the first and second figures.
+    %% This needs to be in absolute micron units independent of the magnification.
+    %% We could even show the distribution of aspect ratio deviations 
+    %% for a sample of individual cells as a box plot as panel 2C
 
-    \subsubsection{Primary cell lines}
+    Many mammalian primary cells display the property of contact inhibition.
+    In this cellular growth response, cells enter senescence and reduce motion
+    when surrounded by neighbours \citep{?}.
 
-      Since HeLa cells have lost the ability to activate contact inhibition,
-      we obtained an immortalised primary horse fibroblast cell line
-      that displayed contact inhibition. Using this cell line we could
-      maintain a layer of healthy cells covering a Petri dish for several days???
-      after reaching confluence (data not shown).
-      %% Cell growth was halted instead of becoming over-confluent ???what do you mean???
-      %% Although obvious, it would be good to have some sort of image to justify the statement?
+\todo{Should we be saying horse fibroblasts or horse cells?}
+    Since HeLa cells have lost the ability to activate contact inhibition \citep{?},
+    we obtained an immortalised primary horse fibroblast cell line known to display this property.
+    Because primary cell line transfections typically have much lower efficiency
+    and confluent cells have lower expression with each cell division,
+    we transfected cells at \SI{70}{\percent} confluence and performed FRAP after 3 days.
 
-      However, primary cell line transfections have typically much lower efficiency rate and
-      confluent cells have lower expression with each cell division.
-      To balance transfection efficiency and expression we transfected cells at
-      \SI{70}{\percent} confluence and imaged them after 3 days.
+    Despite reaching confluence where contact inhibition was expected, 
+    we continued to observe movement of the transfected horse cells \frefp{fig:kill-frap:confluent-horse}.
+    The characteristics of cell movement also differ dramatically between primary horse and HeLa cells,
+    The horse cell nuclei exhibit a helical motion about the vector of their movement 
+    in $x$ and $y$ axes \frefp{fig:kill-frap:confluent-horse}
+    whereas HeLa nucelar motion was mostly restricted to the $z$ axis relative to the dish \frefp{fig:kill-frap:cell-movement}.
 
-      Even after reaching confluence, we observed movement of transfected horse cells \frefp{fig:kill-frap:confluent-horse}.
-      %% Is there some sort of relative statement about the degree of reduction or residual movement?
-      In addition, the observed movement was dramatically different in primary horse than in HeLa cells.
-      Transfected horse cells displayed a helical motion about the vector of their movement
-      whereas rotation of HeLa nuclei was mostly restricted to the $z$ axis.
-      %% You need to define the coordinate system to talk about z axis!
-      %% Do you mean vertical relative to the cell dish layer?
-
-      \begin{figure}
-        \centering
-        \includegraphics[width=\textwidth]{results/confluent-horse.png}
-        \captionIntro{Movement of confluent primary cells during FRAP experiment}
-          {
-            Primary horse fibrolasts display contact inhibition and halt growth
-            once they reach confluence. However, this does not stop cell
-            motion which can still be seen moving. In addition, when compared
-            to the cancer cell line HeLa \frefp{fig:kill-frap:confluent-hela},
-            the horse fibroblasts frequently rotated around the $x$ and $y$
-            axis. Circle FRAP was performed in a widefield microscope.
-            Top left panel is the pre-bleach image, while the others have a
-            time-interval of 15~minutes. Cells were transiently transfected
-            and are expressing H2B type1-J tagged with EGFP.
-          }
-        \label{fig:kill-frap:confluent-horse}
-      \end{figure}
+    \begin{figure}
+      \centering
+      \includegraphics[width=\textwidth]{results/confluent-horse.png}
+      \captionIntro{Movement of confluent primary horse cells during a FRAP experiment}
+        {
+          Immortalised horse cells were transfected with pBOS--H2B-EGFP
+          with circle FRAP performed in a widefield microscope over 8~hours.
+          Pre-bleach image at top left followed by image sequence at 15~min intervals.
+        }
+      \label{fig:kill-frap:confluent-horse}
+    \end{figure}
 
     \subsubsection{Tracking of cell movement}
 
