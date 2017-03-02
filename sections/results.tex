@@ -6,16 +6,15 @@
     
     \begin{figure}
       \centering
-      \missingfigure{FRAP of HeLa cells expressing H2B--EGFP}
       \captionIntro{FRAP of HeLa cells expressing H2B--EGFP.}
-                   {HeLa cells were transfected with pBOS--H2B-EGFP
-                   with circle FRAP performed in a widefield microscope over 8~hours.
-                   Pre-bleach image at top left followed by image sequence at 20~min intervals.}
+         {HeLa cells transfected with pBOS--H2B-EGFP
+         with circle FRAP performed in a widefield microscope over 8~hours.
+         Pre-bleach image at top left followed by image sequence at 20~min intervals.}
       \label{fig:kill-frap:cell-movement}
     \end{figure}
 
     The images taken at 20 min intervals revealed considerable changes
-    in position of the nucleus, arrangement of features within the nucleus, 
+    in position of the nuclei and arrangement of features within each nucleus, 
     and the shape of the bleach spot \frefp{fig:kill-frap:cell-movement}.
     Initial attempts to quantiatively analyse the images
     did not yield meaningful estimates of H2B exchange kinetics (data not shown).
@@ -40,17 +39,17 @@
     In fact, nuclei frequently underwent considerable reshaping as cells 
     apparently squeezed between their neighbours.
 
-      \begin{figure}
-        \centering
-        \includegraphics[width=\textwidth]{results/confluent-hela.png}
-        \captionIntro{Movement of confluent HeLa cells during a FRAP experiment}
-          {
-            HeLa-derived stable cell line expressing H4~R45H-YFP
-            with half-nuclear FRAP performed in a confocal microscope over 8~hours.
-            Pre-bleach image at top left followed by image sequence at 21~min intervals.
-          }
-        \label{fig:kill-frap:confluent-hela}
-      \end{figure}
+    \begin{figure}
+      \centering
+      \includegraphics[width=\textwidth]{results/confluent-hela.png}
+      \captionIntro{Movement of confluent HeLa cells during a FRAP experiment}
+        {
+          HeLa-derived stable cell line expressing H4~R45H--YFP
+          with half-nuclear FRAP performed in a confocal microscope over 8~hours.
+          Pre-bleach image at top left followed by image sequence at 21~min intervals.
+        }
+      \label{fig:kill-frap:confluent-hela}
+    \end{figure}
 
     %% Could we show panel 2B as a plot of 
     %% the deviation of the cell or nuclear centroid in X and Y 
@@ -64,7 +63,6 @@
     In this cellular growth response, cells enter senescence and reduce motion
     when surrounded by neighbours \citep{?}.
 
-\todo{Should we be saying horse fibroblasts or horse cells?}
     Since HeLa cells have lost the ability to activate contact inhibition \citep{?},
     we obtained an immortalised primary horse fibroblast cell line known to display this property.
     Because primary cell line transfections typically have much lower efficiency
@@ -90,64 +88,84 @@
       \label{fig:kill-frap:confluent-horse}
     \end{figure}
 
-    \subsubsection{Tracking of cell movement}
+    \subsection{Image-based tracking of cell movement}
 
-      As an alternative strategy, we implemented cell tracking
-      in order to transform images into a common frame using
-      consecutive image cropping and image registration.
-      This approach was implemented as a program named CropReg.
+    As an alternative strategy to address movement of the cell nucleus, 
+    we implemented a programme to automate cell tracking of time series sequences
+    that transformed images into a uniform frame using 
+    consecutive image cropping and template-based registration.
 
-      \begin{figure}
-        \centering
-        \includegraphics[width=\textwidth]{results/cropreg.png}
-        %% imaging was done every 10 minutes, but we are skipping
-        %% every other panel
-        \captionIntro{Automatic tracking and alignment of moving cells}
-          {
-            Using CropReg, we successfully tracked individual cells during
-            a time-series microscope experiment. The top left corner of each
-            panel displays the tracked and aligned cell. Imaging was performed
-            in a widefield microscope. Time interval between panels 20~minutes.
-            Cells are a stable line derived from HeLa, expressing H3 tagged
-            with YFP.
-          }
-        \label{fig:kill-frap:cropreg}
-      \end{figure}
+    Using this image processing approach we were able to track individual cell nuclei
+    throughout an entire sequence of FRAP experiments 
+    provided that nuclei did not overlap \frefp{fig:kill-frap:cropreg}.
+    Although only a minority of cell image sequences satisfied this requirement
+    throughout the full 8~hour duration of observations,
+    it was possible to collect a sufficient number of cell observations for FRAP calculations.
 
-      Using this image processing approach we were able to track individual cell nuclei
-      throughout an entire sequence of FRAP experiments \frefp{fig:kill-frap:cropreg} provided
-      that nuclei did not overlap.
-      Although only a small minority of image sequences satisfied this requirement,
-      it was possible to collect sufficient observations for FRAP calcultions.
+    \begin{figure}
+      \centering
+      \includegraphics[width=\textwidth]{results/cropreg.png}
+      \captionIntro{Automatic tracking and alignment of moving cells}
+        {
+         HeLa-derived stable cell line expressing H3--YFP
+         with circle FRAP performed in a widefield microscope over 8~hours.
+         Pre-bleach image at top left followed by image sequence at 20~min intervals.
+         The top left of each image displays the cell tracked and transformed
+         by automated cropping and registration.
+        }
+      \label{fig:kill-frap:cropreg}
+    \end{figure}
 
-  \subsection{Chromatin movement}
+  \subsection{Chromatin movement within nuclei}
 
-    While performing the FRAP experiments, we observed some movement
-    within the cell nuclei. These could not be accounted for simple rotational
-    movement around the $x$ or $y$ axis, and resembled more the movement
-    of individual bodies within the nuclei.
+    While performing the FRAP experiments, we observed some movement of fluorescent chromatin features
+    within cell nuclei that was supplementary to the overall motion of the cell itself \frefp{fig:kill-frap:frap-spot-movement}.
+    This could not be accounted for by simple rotational movement of nuclei
+    as rigid bodies around the $x$ or $y$ axis, 
+    and instead appeared to involve movement of individual regions within nuclei .
+    Bleach spots also frequently showed elliptical or more complex distortions
+    indicative of structural movements in the chromatin \frefp{fig:kill-frap:frap-spot-movement}.
 
-    \subsubsection{Selection of \G1{} cells}
-      %% There's no chemical equilibrium in S phase
+   \begin{figure}
+     \centering
+     \captionIntro{Movement of nuclear features and bleach spot distortion}
+       {HeLa cells transfected with pBOS--H2B-EGFP with circle FRAP performed 
+       in a widefield microscope over 6~hours, presented as an image sequence 
+       at 20~min intervals after bleaching.}
+     \label{fig:kill-frap:frap-spot-movement}
+   \end{figure}
 
-      A possible cause of this chromatin movement comes from changes in
-      the cell cycle phase. During the S~phase, the DNA is replicated,
-      doubling the content of the chromatin.
-      More importantly, this breaks
-      a core assumption of FRAP, that the system remains in equilibrium
-      during the entire experiment. This does not hold if the DNA, the
-      binding sites for our model, duplicate in number.
+    \subsection{Selection of \G1{} cells}
 
-      If the FRAP experiments can't be performed during S~phase and
-      mitosis, we are limited to \G1{} and \G2{}. Considering
-      the length of the HeLa cell cycle and the requirements to image
-      for a time period of 8~hours, we are further limited to \G1{}.
-      In addition, the FRAP experiment must be performed early in
-      \G1{}~phase to avoid crossing over to the S~phase.
+    DNA is replicated and chromatin is repackaged during S~phase,
+    suggesting a possible cause for changes in chromatin features that we observed. 
+    Furthermore, the doubling of histone content as a result of S~phase breaks
+    a core assumption of FRAP that the system remains in equilibrium
+    throughout the duration of the experiment.
+    This requirement to measure the very slow exchange of core histones
+    for a time period of 8~hours limits observations to \G1{}.
 
-      %% The only reason this was required was because the LSM 510
-      %% that we were using could not make Z stack and time lapse
-      %% at the same time.
+    Cells in mitosis were selected and tracked for 4~hours to identify daughter cells
+    which had sufficient time to complete post-mitotic chromatin unpacking
+    and could be confidently assigned to early \G1{}.
+
+    This selection was challenging because HeLa mitotic cells round up
+    as spheres with only a weak connection to the growth surface
+    causing them to exit the field of vision.
+    Consequently, our screening required a larger number of initial selected cells. 
+    Low laser power and an optimised observation interval 
+    was used in manual tracking to minimise damage to fluorophores.
+    Since our system did not permit simultaneous Z-stack and time lapse imaging, 
+    and because cells in mitosis are in a separate focal plane,
+    imaging was performed with a maximal pinhole sized focused 
+    between the growing and mitotic cell planes.
+    The resulting blurred images were sufficient to visualize cells during
+    the entire period required for selection.
+
+    Even after carefully selecting cells early \G1{},
+    structural movements within the bleach spot could still be observed (data not shown).
+\todo{Is there an image sequence showing this bleach spot movement after section?}
+
 %      \begin{figure}
 %        \centering
 %        \missingfigure{Hela cells splitting}
@@ -162,84 +180,59 @@
 %        \label{fig:kill-frap:picking-early-g1}
 %      \end{figure}
 
-      To do this, cells in mitosis were selected and tracked during 4~hours.
-      After this time period, we used the daughter cells which we could be
-      confident of being in early \G1{}.
-      %% we also waited some 2 hours after mitosis since that's when cells
-      %% unpack their chromosomes.
 
-      During mitosis, HeLa cells form a sphere slightly above the plane of
-      other cells, and keep a weak connection to the growth surface.
-      Because of this, they easily detach, which is the basis for the
-      mitotic shake-off method, and float away from the field of vision
-      which requires a larger number
-      of initial selected cells. In addition, to minimize any effect that
-      may arise from imaging, it was done at minimal laser power and every
-      30~minutes, just enough to allow manual tracking.
-      Finally, since our system did not permit simultaneous Z-stack and time
-      lapse imaging, and cells in mitosis are in a separate focal plane,
-      imaging was performed with the pinhole sized to the max and focused
-      in between the two planes. While this
-      created very blurred images, it allowed to visualize all cells during
-      the entire procedure.
+    \subsection{Chromatin movement observed by inverse FRAP}
 
-      However, even after selecting cells in this cell cycle, movement within
-      the bleach spot could still be observed.
+    Although we had surmounted the technical challenges of collecting 
+    stable images of nuclei over long time periods 
+    in \G1{} cells containing stably expressing core histones tagged with fluorescent reporters,
+    we were concerned about the non-homogeneity of chromatin behaviour.
 
-    \subsubsection{Inverse FRAP}
+    To assess the total extent of the observed movement, we performed inverse FRAP
+    to track the movement of the photomodified region alone.
+    For this purpose, we fused H2B to photoactivatable GFP (H2B--PAGFP), 
+    a GFP derivative that requires activation by a specific wavelength to become fluorescent.
+    Since PAGFP cannot be easily detected before photoactivation, 
+    cells were co-transfected with mCherry--\textalpha--tubulin 
+    which localises exclusively to the cytoplasm 
+    and provides an outline of the nuclear region \frefp{fig:kill-frap:ifrap}.
 
-      Due to the non-homogeneous nature of the chromatin, it was difficult
-      to assess the total extent of the observed movement. To
-      better visualize this, we performed inverse FRAP which allows us
-      to track the movement of the bleach spot only.
+    Considerable non-homogenous movement of chromatin was clearly evident 
+    after activating and following PAGFP in \G1{} cells \frefp{fig:kill-frap:ifrap}.
+    Instead of homogeneous difussion of fluorescence,
+    activated spots uncurled over time with individual channels of
+    localized PAGFP appearing in the nuclei \frefp{fig:kill-frap:ifrap}.
 
-      For this purpose, we replaced the EGFP tag in our H2B plasmid
-      with photoactivatable GFP (PAGFP), a GFP derivative that requires
-      activation by a specific wavelength to become fluorescent. This
-      allows us to activate a specific spot of the nucleus and visualize
-      its movement.
+    This finding suggests that quantitative FRAP will not be tractable using 
+    a simple model based on homogenous non-directional diffusion.
 
-      Since PAGFP cannot be easily detected before photoactivation, cells
-      were co-transfected with mCherry--\textalpha--tubulin which localises
-      exclusively to the cytoplasm, giving an outline of the nuclear region
-      \frefp{fig:kill-frap:ifrap}.
-
-      \begin{figure}
-        \centering
-        \subbottom[pre-activation]{
-          \includegraphics[width=0.45\textwidth]
-          {results/ifrap-pre.png}
-          \label{fig:kill-frap:ifrap-pre}
+    \begin{figure}
+      \centering
+      \subbottom[pre-activation]{
+        \includegraphics[width=0.45\textwidth]
+        {results/ifrap-pre.png}
+        \label{fig:kill-frap:ifrap-pre}
+      }
+      \hfill
+      \subbottom[post-activation]{
+        \includegraphics[width=0.45\textwidth]
+        {results/ifrap-post.png}
+        \label{fig:kill-frap:ifrap-post}
+      }
+      \subbottom[activated spot over time]{
+        \includegraphics[width=\textwidth]
+        {results/ifrap.png}
+        \label{fig:kill-frap:ifrap-timeframe}
+      }
+      \captionIntro{Inverse FRAP experiment demonstrating complex chromatin movement}
+        {
+          HeLa cells co-transfected with H2B--PAGFP and mCherry--\textalpha--tubulin.
+          \subcaptionref{fig:kill-frap:ifrap-pre} Cell shown before photoactivation of H2B--PAGFP
+          in a widefield microscope, demonstrating mCherry-bounded nuclear region.
+          \subcaptionref{fig:kill-frap:ifrap-post} Same cell shown immediately after photoactivation
+          showning circle photoactivated H2B--PAGFP nuclear spot.
+          \subcaptionref{fig:kill-frap:ifrap-timeframe} Image sequence at 20~min intervals
+          after photoactivation showing complex channeling of H2B--PAGFP diffusion.
         }
-        \hfill
-        \subbottom[post-activation]{
-          \includegraphics[width=0.45\textwidth]
-          {results/ifrap-post.png}
-          \label{fig:kill-frap:ifrap-post}
-        }
-        \subbottom[activated spot over time]{
-          \includegraphics[width=\textwidth]
-          {results/ifrap.png}
-          \label{fig:kill-frap:ifrap-timeframe}
-        }
-        \captionIntro{Inverse FRAP experiment showing chromatin movement}
-          {
-            HeLa cells co-transfected with mCherry--\textalpha--tubulin and
-            H2B type1-J tagged with PAGFP.
-            \subcaptionref{fig:kill-frap:ifrap-pre} The cell nucleus, target
-            for photoactivation, can be easily identified as the ``empty''
-            region via the mCherry channel on which would otherwise be an
-            invisible feature on the GFP channel;
-            \subcaptionref{fig:kill-frap:ifrap-post} spot after activation;
-            \subcaptionref{fig:kill-frap:ifrap-timeframe} detail of the
-            activated spot every 20~minutes. Rather than a gradual loss of
-            fluorescence that maintains the circular shape, the activated spot
-            kind of unfolds itself spreading the region of interest.
-          }
-        \label{fig:kill-frap:ifrap}
-      \end{figure}
-
-      Using this FRAP variant, the movement of chromatin was more noticeable.
-      Rather than an homogeneous loss of fluorescence, the activated
-      spot uncurled itself overtime with individual branches of
-      localized PAGFP appearing in the nuclei \frefp{fig:kill-frap:ifrap}.
+      \label{fig:kill-frap:ifrap}
+    \end{figure}
