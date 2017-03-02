@@ -26,9 +26,10 @@
   %% and robustness.
 
   Cell movement between time frames was calculated by consecutive
-  template-based registration by normalised cross-correlation.
-  Nuclei of interest were identified on the first time frame
-  and used as templates on the subsequent images.
+  template-based registration using normalised cross-correlation.
+  The CropReg script we developed for this purpose is available 
+  as free open source software. Nuclei of interest were identified 
+  on the first time frame and used as templates on the subsequent images.
   To correct for rotational movement
   around the $z$ dimension of the optical axis system,
   registered frames were aligned by rigid body geometric transformation
@@ -38,8 +39,9 @@
   performed with the GNU Octave programming language \citep{octave}
   and the Octave Forge image package.  Source code written in Matlab
   for a previously reported circle FRAP model \citep{mcnally-frap-code}
-  was kindly gifted by the original authors and ported to Octave.
-  A new program to automate analysis with multiple commandline options
-  was written and released in a new FRAP Octave package.
-  \command{frapinator} includes all individual functions for image
+  was kindly gifted by the original authors and ported to GNU Octave.
+  We developed \command{frapinator}, a new program written in GNU Octave 
+  to automate analysis with multiple commandline options
+  and released it in a new FRAP Octave package as free open source software.
+  It includes all individual functions for image
   pre-processing and FRAP fitting \Srefp{sec:software:octave-frap}.
