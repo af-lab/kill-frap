@@ -1,12 +1,12 @@
 \section{Discussion}
 
-    We wished to quantitatively determine the effect on chromatin stability
+    We wished to quantitatively determine the effect on human chromatin stability
     of SIN mutations in core histones H3 and H4 known 
     to be destabilising \textit{in vitro} and to affect cell growth in \textit{S. cerevisiae}.
-    We set out to use a previously reported model for circle FRAP
+    We set out to use a previously reported circle FRAP model
     which accounts for multiple errors in a typical FRAP modelling \addref{?}.
-    However, FRAP experiments with core histones involve highly extended imaging timeframes
-    because recovery is incomplete even after 8~hours \citep{KimuraCook}.
+
+    However, FRAP recovery is incomplete even after 8~hours for core histones \citep{KimuraCook}.
     This led us to address a series of technical challenges in
     collecting valid quantiative recovery data over extended time periods.
 
@@ -14,33 +14,32 @@
 
     The first problem faced was cell movement.
     This is an expected property of actively dividing cells, 
-    and those that are unable to move are likely to be dead.
-    Moderate amounts of simple translational and rotational movement 
-    around the $z$ axis can still be tracked in a single focal plane.
+    so those that are unable to move are likely to be dead.
 
     We attempted to reduce motion by taking advantage of 
-    the fact that many primary cells move into the quiescent \G0{}~phase 
-    of the cell cycle when they reach high densities. 
-    This contact inhibition is a natural mechanism that controls their cellular growth in 
-    multicellular organisms, and in tissue culture it results in
-    a stop in proliferation with formation of a monolayer of healthy cells.
+    the fact that many primary cells move into the quiescent \G0{}~phase when they reach high densities. 
+    This contact inhibition is a natural mechanism that controls cellular growth in 
+    multicellular organisms, and results in a stop to proliferation 
+    with formation of a monolayer of healthy cells in tissue culture.
 
-    However, levaraging of contact inhibition increases cell handling and reduces transfection efficiency,
+    However, this approach has disadvantages including 
+    increased cell handling and reduces transfection efficiency,
     and means that stable cell lines based on immortalised cells cannot be used. 
     The potential inability to compare results with published data for 
-    immortalised cell lines such as HeLa is disadvantageous.
+    immortalised cell lines such as HeLa is also disadvantageous.
 
     Despite achieving a monolayer of healthy cells that could be maintained stably over 2 weeks,
     individual transfected primary horse fibroblasts still showed some movement
-    although they otherwise exhibited characteristics of contact inhibition.
+    despite exhibiting overall characteristics of contact inhibition.
     Furthermore, nuclei in these cells displayed a helical motion on the direction of cell movement \frefp{fig:kill-frap:confluent-horse}.
 
-    The possibility of chemically inhibiting cells to reduce motion was also considered.
-    Previous FRAP experiments with core histones were performed using multiple inhibitors of protein synthesis \citep{KimuraCook}, 
-    but these studies revealed inhibitor-dependent variations in kinetics 
-    and the authors qualified their conclusions about the absolute accuracy of exchange parameters measured.
+    The possibility of chemically inhibiting cells to reduce motion was considered
+    since previous FRAP experiments with core histones were performed using multiple inhibitors 
+    of protein synthesis \citep{KimuraCook}. However, these studies revealed 
+    inhibitor-dependent variations in kinetics and the authors qualified 
+    their conclusions about the absolute accuracy of exchange parameters measured.
 
-    To address the problem of cell movement we instead developed a computational approach
+    To better address the problem of cell movement we instead developed a computational approach
     by writing a program for cell tracking by normalised cross-correlation template matching  \addref{?}.
     Using automated analysis enabled us to process the large numbers of cell images 
     required to provide statistically valid quantitative measurements of core histone exchange.
@@ -48,32 +47,30 @@
 % Compositional changes
 
     The second challenge to measuring core histone exchage by FRAP is that
-    the basis of FRAP is a chemical equilibrium between formation of a complex 
-    with freely diffusing proteins and vacant static binding sites.
-    Achieving absolute equilibrium is unlikely in the dynamic cell environment
-    undergoing complex transcriptional and translation responses.
-    In particular, the large chromatin compositional and structural changes during the cell cycle
-    present sepcific challenges to measuring core histone exchange over extended time periods.
-
+    a chemical equilibrium is required between freely diffusing proteins and 
+    formation of a complex. Although absolute equilibrium is unlikely 
+    in the dynamic cell environment undergoing complex transcriptional and translation responses,
     DNA replication involving polymerase passage and repackaging of the duplicated genome
-    in S~phase clearly unbalances the equilibrium.
-    Chromosome compaction in mitosis generates a chromatin environment that is distinct from interphase.
+    in S~phase will clearly unbalance any equilibrium.
+
+    Chromosome compaction in mitosis also generates a chromatin environment
+    that is distinct from interphase.
     This limits FRAP experiment to either \G1{} or \G2{} phases.
     The HeLa cell cycle has a typical \G1{} phase of 11.7~hours and a \G2{} phase of 3~hours \citep{HeLaCellCycle}
-    so the extended time periods for core histone measurements require FRAP experiments
-    to a start in early \G1{} \frefp{fig:kill-frap:cell-cycle}.
+    so the extended time periods needed for FRAP of core histones requires
+    starting FRAP early in \G1{} \frefp{fig:kill-frap:cell-cycle}.
 
-    Post-mitotic chromosomes take some time to migrate within the nucleus 
-    and rebuild the interphase nuclear architecture during early \G1{}.
-    This process that has been estimated to take approximately 2 hours
+    Post-mitotic chromosomes take approximately 2 hours to migrate within the nucleus 
+    and rebuild the interphase nuclear architecture during early \G1{}
     \citep{visualizationG1chromosomes,earlyg1position,RelativeChromosomePosition}.
-    This defines the window for extended FRAP experiments from approximately 3 to 11 hours after anaphase
+    This defines the window for extended FRAP experiments from approximately 3 to 11 hours after mitosis
     in HeLa cells, although cells lines with even longer \G1{} phase are known \citep{PancreaticCells}.
 
     We wished to avoid the use of drugs for cell cycle arrest since this has been
-    shown to influence FRAP results. 
-    We also considered serum starvation to move cells into the
-    quiescent \G0{} phase since this could affect the relevance of measurong core histone exchange \citep{SerumStarvation} \addref{?}.
+    shown to influence FRAP results \addref{}. 
+    We also discounted serum starvation to move cells into the
+    quiescent \G0{} phase since this could affect 
+    the relevance of measurinng core histone exchange \citep{SerumStarvation} \addref{?}.
 
       \begin{figure}
         \centering
@@ -115,12 +112,9 @@
         \end{tikzpicture}
         \captionIntro{HeLa cell cycle phases and timing}
           {
-            Under optimal growth conditions, the HeLa cell has a median
-            doubling time of approximately 24.5~hours, with \G1~and
-            S~phases alone having a length of 11.7 and 8.8 hours each \citep{HeLaCellCycle}.
-            Since the FRAP experiment must avoid the S phase and last for
-            at least 8~hours, the only possibility while using cells in normal
-            growth conditions is to start the experiment in the early \G1~phase.
+            Under optimal growth conditions the HeLa cell has a median
+            doubling time of 24~hours, with \G1~and
+            S~phases of 11.7 and 8.8 hours respectively \citep{HeLaCellCycle}.
           }
         \label{fig:kill-frap:cell-cycle}
       \end{figure}
@@ -129,22 +123,22 @@
     where visual identification of the cell cycle is possible. 
     This allowed us to minimise interventions and effects on the cell normal growth
     while identifying individual cells exactly 3 hours after start of \G1{}.
-    This has the added advantage of allowing time for maturation of GFP 
+    It has the added advantage of allowing time for maturation of GFP 
     expressed during the establishment of interphase.
-    The time interval between images was increased and 
-    both resolution and laser intensity reduced
-    to minimise any phototoxicity or bleaching arising from the extra imaging required.
+    The time interval between images during manual selection was increased and 
+    both resolution and laser intensity reduced to minimise phototoxicity or bleaching.
     This resulted in a set of selected early \G1{} cells suitable for FRAP experiments.
 
     The fluorescently tagged histone proteins are constitutively expressed 
     under the control of an EF-1\textalpha{} promoter, 
-    and lack the 3' regulatory features of the native H2B gene transcripts.
+    so they lack the 3' regulatory features of the native histone genes.
     This regulation does not follow the normal expression program of a histone gene 
     and hence could alter the distribution of the histone in chromatin.
     Constant expression of tagged histones by a strong constitutive promoter
     will enrich them in the \G1{} and early S~phase pools
     making subsequent incorporation in euchromatin more likely,
-    relative to mid-late S~phase where heterochromatic sequences are repliacted and packaged \citep{DNA-replication-timing}.
+    relative to mid-late S~phase where heterochromatic sequences 
+    are replicated and packaged \citep{DNA-replication-timing}.
 
     A more realistic tagged histone expression profile can be achieved using 
     flanking regulatory regions from native histone genes,
@@ -154,7 +148,7 @@
     that identifying the most appropriate isoform to target could introduce complexities.
 
     Protein synthesis inhibitors were used by \cite{KimuraCook} to address this issue,
-    but this has the disadvantage of also potentially affecting many other processes as discussed above.
+    but this has the disadvantage of potentially affecting many other processes as discussed above.
 
       %% TODO: would be cool to create this figure
 %      \begin{figure}
@@ -182,10 +176,10 @@
     This assumption is required to interpret recovery
     as the rate of movement of freely diffusing unbleached molecules into the
     bleached area which allows the kinetic rates \Kon{} and \Koff{} to be estimated.
-    If the chromatin binding sites move then the recovery curve becomes a 
+    If chromatin binding sites also move then the recovery curve becomes a 
     much more complex function of both binding site movement and free diffusion.
 
-    The chromatin movement is recognisable both 
+    Chromatin movement is recognisable both 
     by changes in the intra-nuclear features of the fluorescent chromatin 
     and by changes in the circular bleach spot.
     Although some of these effects are subtle when observed by photobleaching,
@@ -195,13 +189,13 @@
     for H4--PAGFP in strip photoactivation \cite{H4PAGFP-chromatin-movement}.
 
     The movements we observed were in the range of \todo{what sort of dimensions} 
-    and exhibited complicated shapes consistent with channelling.
+    and exhibited complicated shapes reminiscent of channelling.
     This is consistent with chromosome distribution in nuclei that is 
-    territorial on the scale of 5 \textmu m \addref{PMID:10866946}, 
-    with interchromosomal channels of 10-100 nm \addref{PMID:16317046}
+    territorial on the scale of 5 \textmu m \addref{PMID:10866946} 
+    separated by interchromosomal channels of 10-100 nm \addref{PMID:16317046}
     
     The clarity of H2B--GFP imaging in inverse FRAP suggests the opportunity to analyse the 
-    properties of pathways taken by diffusing core histones. 
+    paths taken by diffusing core histones. 
     For example, simultaneous use of combined photoactivation and photobleaching 
     of complementary dimer and tetramer histones could 
     enable relative diffusion rates and paths to be determined.
@@ -210,23 +204,24 @@
     the original location at the same time as tracking the histone diffusion
     and enable quantitative FRAP.
     Nevertheless, it is important to recognise that such experiments would test the 
-    resolution and sensitivity limits of microscopes.
+    resolution and sensitivity of microscopes.
 
 \section{Conclusion}
 
-    FRAP has been continuously improving with increased capabilities of light microscopy
+    Since its inception over 30 years ago, FRAP has been continuously improved
+    so teh improved capabilities of light microscopy
     and subtle kinetic models now able to take into account
     an increasing number of biophysical features such as container size, 
     non-homogeneous distribution of fluorescence and profile of bleach spot.
 
-    Despite these advances, the ability to perform FRAP experiments 
+    Despite these advances, the ability to perform FRAP
     over extended time periods of several hours for highly stable complexes
-    such as chromatin is limited by the dynamic nature of the cell.
+    such as core histones is limited by the dynamic nature of the cell.
 
     We overcame the challenges of cell mobility and selection of cells in \G1{} phase,
     but were unable to develop a method to adjust for changes in chromatin structure within the cell nucleus.
     While a photobleached spot appears stable and can be tracked over several hours, 
-    small natural disturbances impact on the recovery and estimation of kinetic parameters.
+    small natural disturbances impact on photorecovery and estimation of kinetic parameters.
     We find that FRAP is suitable for semi-quantitative estimates of slowly diffusing molecules
     but not for the precise quantitative comparisons required to compare core histone mutations.
 
