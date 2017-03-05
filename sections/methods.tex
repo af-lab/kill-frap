@@ -1,12 +1,12 @@
 \section{Materials and Methods}
 
   Cells were transformed by lipofection \Srefp{methods:lipofection}.
-  For the generation of stable cell lines,
+  For the generation of stable lines,
   cells were split to a low confluence and treated
-  with \SI{3}{\ug\per\ml} Blasticidin-S.
+  with \SI{3}{\ug\per\ml} \mbox{Blasticidin-S}.
   Colonies were screened by fluorescence microscopy
   and positive individual colonies were selected for growth
-  and fluorescence activated cell sorting (FACS) to generate
+  and Fluorescence Activated Cell Sorting (FACS) to generate
   homogeneous highly fluorescing cell lines.
   Transfection was performed 48h before imaging of
   transient expressing cells.
@@ -27,8 +27,8 @@
 
   Cell movement between time frames was calculated by consecutive
   template-based registration using normalised cross-correlation.
-  The CropReg script we developed for this purpose is available 
-  as free open source software. Nuclei of interest were identified 
+  The CropReg script we developed for this purpose is available
+  as free open source software. Nuclei of interest were identified
   on the first time frame and used as templates on the subsequent images.
   To correct for rotational movement
   around the $z$ dimension of the optical axis system,
@@ -37,10 +37,10 @@
 
   Automatic extraction and processing of FRAP recovery curves was
   performed with the GNU Octave programming language \citep{octave}
-  and the Octave Forge image package.  Source code written in Matlab
+  and the Octave Forge Image package.  Source code written in Matlab
   for a previously reported circle FRAP model \citep{mcnally-frap-code}
   was kindly gifted by the original authors and ported to GNU Octave.
-  We developed \command{frapinator}, a new program written in GNU Octave 
+  We developed \command{frapinator}, a new program written in GNU Octave
   to automate analysis with multiple commandline options
   and released it in a new FRAP Octave package as free open source software.
   It includes all individual functions for image
