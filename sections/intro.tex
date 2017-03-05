@@ -10,7 +10,8 @@
 
     The building block of eukaryotic chromatin structure is the
     nucleosome, comprising \SI{147}{\bp} of DNA wrapped around an
-    octamer of two copies each of core histones H2A, H2B, H3 and H4 \citep{luger1997crystal}. 
+    octamer of two copies each of core histones
+    H2A, H2B, H3, and H4 \citep{luger1997crystal}.
     Two H2A/H2B dimers flank a central H3/H4 tetramer.
     Nucleosome core particles are arranged
     in a linear chain separated by DNA linkers, and can be further
@@ -26,11 +27,12 @@
     \citep{TalbertHenikoff2010}.
 
     A large amount of evidence has been accumulated about the static
-    structure of the nucleosome at atomic resolution \addref{?}, and
-    about the arrangement of polymeric chromatin \addref{?}.
-    However, the mechanisms for dynamic rearrangement of chromatin are
-    much less well understood or integrated between the molecular and
-    polymer levels \addref{?}.
+    structure of the nucleosome at atomic resolution
+    \citep{mcginty2014histone}, and about the arrangement of polymeric
+    chromatin \citep{kuznetsova2016chromatin}.  However, the
+    mechanisms for dynamic rearrangement of chromatin are much less
+    well understood or integrated between the molecular and polymer
+    levels \citep{andrews2011nucleosome}.
 
   \subsection{Nucleosome dynamics and histone SIN mutants}
 
@@ -38,7 +40,7 @@
     the SWI/SNF complex, which was identified in screens for mating
     type SWItching \citep{SWI-mutants} and Sucrose Non Fermentation
     \citep{SNF-mutants-original-discovery, SNF-mutants2} in
-    \textit{Saccharomyces cerevisiae}.
+    \species{Saccharomyces cerevisiae}.
 
     Mutations were subsequently identified to compensate for the
     loss of the SWI/SNF complex that are collectively known as SIN
@@ -47,35 +49,39 @@
     amino-acid changes in core histones H3 and H4, providing a direct
     link between SWI/SNF and chromatin.  This also suggests the
     mutated residues in the histone proteins influence the same
-    pathways for nucleosome dynamics leveraged by the remodelling enzyme and that
+    pathways for nucleosome dynamics leveraged
+    by the remodelling enzyme and that
     these residues are significant for nucleosome stability.
 
     The prediction that the stability of SIN mutant containing
     nucleosomes would be affected in chromatin has been tested \textit{in vitro}
-    where it was observed that SIN mutant nucleosomes display higher 
+    where it was observed that SIN mutant nucleosomes display higher
     thermally driven nucleosome sliding mobility \citep{flaus2004sin}
     and that the mutated residues affect histone-DNA contacts in
     crystal structures \citep{muthurajan2004crystal}.
 
     However, the effect of histone protein SIN mutants
-    in the more complex \textit{in vivo} chromatin environment 
-    of mammailian cells has not been demonstrated.
+    in the more complex \textit{in vivo} chromatin environment
+    of mammalian cells has not been demonstrated.
     Validating the functional significance of these residues
-    is important for explaining the high conservation of 
+    is important for explaining the high conservation of
     histone protein sequences in eukaryotes.
 
   \subsection{Fluorescence Recovery After Photobleaching}
 
     Fluorescence Recovery After Photobleaching (FRAP) is an optical technique
-    that reports the dynamics of fluorescently tagged molecules within live cells.
+    that can be used to report the dynamics of fluorescently
+    tagged molecules within live cells.
     Tagged molecules inside a small region are irreversibly photobleached by
     a high power focused laser beam and the recovery rate of fluorescence
-    in the bleached area is measured. The recovery rate is interpreted 
-    as unbleached fluorescing molecules from outside the region 
+    in the bleached area is measured. The recovery rate is interpreted
+    as unbleached fluorescing molecules from outside the region
     at the time of photobleaching diffuse into the bleached area.
-    It is assumed that this fluorescence recovery reflects natural protein movement.
+    It is assumed that this fluorescence recovery
+    reflects natural protein movement.
 
-    FRAP can be described by a simple chemical equilibrium:
+    A simple chemical equilibrium underlies the model for FRAP for a
+    molecule with a single binding reaction:
 
     \begin{displaymath}
       F + S \overset{k_{on}}{\underset{k_{off}}{\rightleftharpoons}} FS
@@ -83,21 +89,30 @@
 
     where $F$ represents freely diffusing proteins,
     $S$ represents immobile vacant binding sites,
-    and $FS$ is the complex between the two when the proteins are bound to the sites. 
+    and $FS$ is the complex between the two when the
+    proteins are bound to the sites.
     The value of \Kon{} and \Koff{},
-    are estimated from the rate at which photobleached $F$ is replaced in the $FS$ complex.
+    are estimated from the rate at which photobleached $F$
+    is replaced in the $FS$ complex.
+    However, to such simple reaction is added complexity once
+    diffusion and space is considered.
 
     Ongoing development of FRAP has led to increasingly complex models
     that are both more precise and accurate than simple
     inverse exponential decay \citep{mcnally-frap-2010}.
-    Despite their sophistication, these models require assumptions
+    Despite their sophistication, FRAP require assumptions
     that are difficult to maintain over long experimental observation times.
-    Firstly, equilibrium must be maintained throughout the entire experiment 
+    Firstly, equilibrium must be maintained throughout the entire experiment
     so that both \Kon{} and \Koff{} remain constant.
     This also requires that concentrations of both $F$ and $S$ remain constant.
-    Secondly, distribution of the fluorescently tagged molecules must mimic the endogenous protein.
-    And finally, the binding sites must be part of a large, relatively immobile complex
+    Secondly, distribution of the fluorescently tagged molecules
+    must mimic the endogenous protein.
+    And finally, the binding sites must be part of a large,
+    relatively immobile complex
     on the time and length scale of the recovery.
+    In addition, different FRAP models will have additional constraints
+    based on the multiple assumptions involved on the design of a
+    model \citep{mcnally-frap-2010}.
 
   \subsection{FRAP measurements of histones}
 
@@ -110,14 +125,17 @@
     on the scale of seconds to minutes.
     H2B--GFP \citep{KevinH2BGFP} has become
     the standard reference for immobile fraction in these
-    FRAP experiments \citep{dey2000bromodomain}.
+    FRAP experiments \citep{dey2000bromodomain, kuipers2011highly,
+    jullien2016chromatibody}.
 
-    However, the dynamics of the core histones themselves was measured by FRAP in a seminal
+    However, the dynamics of the core histones themselves
+    was measured by FRAP in a seminal
     and widely cited study by \citet{KimuraCook}. Multiple H2B
     populations were delineated with distinctive exchange rates.  Some
     \pcent{3} of H2B had a rapid recovery within minutes, \pcent{40}
     had slow recovery with a \halflife[] of \SI{130}{\minute},
-    and over \pcent{50} of H2B molecules had a very slow recovery with \halflife[] of
+    and over \pcent{50} of H2B molecules had a
+    very slow recovery with \halflife[] of
     over 8 hours that was considered to be effectively immobile.
 
     In contrast to H2B which is a histone dimer component, the tetramer
@@ -127,8 +145,8 @@
     identified.
 
     In combination with additional heterokaryon data, Kimura and Cook
-    interpreted the rapid, slow and very slow exchanging H2B
-    populations as correlating with transcription units, euchromatin
+    interpreted the rapid, slow, and very slow exchanging H2B
+    populations as correlating with transcription units, euchromatin,
     and heterochromatin respectively.  They assigned over \pcent{80}
     of H3 and H4 as immobile, whereas the remaining
     \SI{\approx 20}{\percent} was suggested to be mobilised by
@@ -137,16 +155,19 @@
     provides an opportunity to observe the dynamics of
     tetramer histones such as SIN point mutants in live mammalian cells.
 
-    %% This mobile fraction is odd.  They claim it is freely moving
-    %% histone but then claim that it was the recovery before the
-    %% first post-bleach image could be acquired.  To me that sounds
-    %% like a non-bleached fraction.
+    %% Their mobile fraction was odd.  The claim is that it represents
+    %% the freely moving histones, but the text says that it was the
+    %% recovery before the first post-bleach image could be acquired.
+    %% This sounds like they assumed complete photobleaching.
+    %% However, it can be that this is actually the unbleached
+    %% fraction or some other background.
 
   \subsection{Aims and objectives}
 
     In order to test the implications for nucleosome structure and function
     of metazoan H4~R45H that exhibited the highest increase
-    in nucleosome mobility \textit{in vitro} amongst the histone SIN mutants,
+    in nucleosome mobility \textit{in vitro} amongst
+    the histone SIN mutants \citep{flaus2004sin},
     we set out to determine its exchange characteristics by FRAP.
 
     In attempting to achieve quantitative measurements
