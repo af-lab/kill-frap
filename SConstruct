@@ -77,6 +77,12 @@ def path4result(fname=""):
 
 figures = [
   env.OctaveScript(
+    script = path4script("first-frap.m"),
+    source = path4data("test8_R3D.dv"),
+    target = [path4result("first-frap-%d.png") %(i) \
+              for i in [20, 21, 55, 65, 75, 85]],
+  ),
+  env.OctaveScript(
     script = path4script("confluent.m"),
     source = path4data("H4 R45H_L3_Sum.lsm"),
     target = path4result("confluent-hela.png"),
