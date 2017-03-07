@@ -99,11 +99,13 @@
 
     We first attempted to reduce motility by restricting the space available
     using cells at higher confluency for FRAP experiments.
-    This was performed using a HeLa cell line stably expressing 
-    the H4~R45H SIN mutant to ensure even tagged histone fluorescence in all cells.
+    This was performed using a HeLa cell line stably expressing
+    the H4~R45H SIN mutant to ensure even
+    tagged histone fluorescence in all cells.
     It resulted in some decrease in movement of cells
-    but did not achieve complete immobilisation \frefp{fig:kill-frap:confluent-hela}.
-    In fact, nuclei frequently underwent considerable reshaping as cells 
+    but did not achieve complete immobilisation
+    \frefp{fig:kill-frap:confluent-hela}.
+    In fact, nuclei frequently underwent considerable reshaping as cells
     apparently squeezed between their neighbours.
 
     \begin{figure}
@@ -112,18 +114,21 @@
       \captionIntro{Movement of confluent HeLa cells during a FRAP experiment}
         {
           HeLa-derived stable cell line expressing H4~R45H--YFP
-          with half-nuclear FRAP performed in a confocal microscope over 8~hours.
-          Pre-bleach image at top left followed by image sequence at 21~min intervals.
+          with half-nuclear FRAP performed in a confocal
+          microscope over 8~hours.
+          Pre-bleach image at top left followed by image
+          sequence at 21~min intervals.
         }
       \label{fig:kill-frap:confluent-hela}
     \end{figure}
 
-    %% Could we show panel 2B as a plot of 
-    %% the deviation of the cell or nuclear centroid in X and Y 
+    %% Could we show panel B as a plot of
+    %% the deviation of the cell or nuclear centroid in X and Y
     %% relative to the first frame as a representative example
     %% for the HeLa cells in the first and second figures.
-    %% This needs to be in absolute micron units independent of the magnification.
-    %% We could even show the distribution of aspect ratio deviations 
+    %% This needs to be in absolute micron units
+    %% independent of the magnification.
+    %% We could even show the distribution of aspect ratio deviations
     %% for a sample of individual cells as a box plot as panel 2C
 
     Many mammalian primary cells display the property of contact inhibition.
@@ -132,40 +137,52 @@
     Since HeLa cells have
     lost the ability to activate contact inhibition
     \citep{stephenson1982locomotory},
-    we obtained an immortalised primary horse fibroblast cell line known to display this property.
+    we obtained an immortalised primary horse fibroblast
+    cell line known to display this property.
     Because primary cell line transfections typically have much lower efficiency
     and confluent cells have lower expression with each cell division,
-    we transfected cells at \SI{70}{\percent} confluence and performed FRAP after 3 days.
+    we transfected cells at \SI{70}{\percent} confluence
+    and performed FRAP after 3 days.
 
-    Despite reaching confluence where contact inhibition of the horse fibroblasts was expected, 
-    we continued to observe movement of the transfected horse cells \frefp{fig:kill-frap:confluent-horse}.
-    The characteristics of cell movement also differed dramatically from HeLa cells,
-    The horse cell nuclei exhibit a helical motion about the vector of their movement 
+    Despite reaching confluence where contact inhibition
+    of the horse fibroblasts was expected,
+    we continued to observe movement of the transfected
+    horse cells \frefp{fig:kill-frap:confluent-horse}.
+    The characteristics of cell movement also
+    differed dramatically from HeLa cells,
+    The horse cell nuclei exhibit a helical motion
+    about the vector of their movement
     in $x$ and $y$ axes \frefp{fig:kill-frap:confluent-horse}
-    whereas HeLa nucelar motion was mostly restricted to the $z$ axis relative to the dish \frefp{fig:kill-frap:cell-movement}.
+    whereas HeLa nucelar motion was mostly
+    restricted to the $z$ axis relative to
+    the dish \frefp{fig:kill-frap:cell-movement}.
 
     \begin{figure}
       \centering
       \includegraphics[width=\textwidth]{results/confluent-horse.png}
-      \captionIntro{Movement of confluent primary horse cells during a FRAP experiment}
+      \captionIntro{Movement of confluent primary horse
+                    cells during a FRAP experiment}
         {
           Immortalised horse cells were transfected with pBOS--H2B-EGFP
           with circle FRAP performed in a widefield microscope over 8~hours.
-          Pre-bleach image at top left followed by image sequence at 15~min intervals.
+          Pre-bleach image at top left followed by
+          image sequence at 15~min intervals.
         }
       \label{fig:kill-frap:confluent-horse}
     \end{figure}
 
     \subsection{Image-based tracking of cell movement}
 
-    As an alternative strategy we then implemented CropReg, a script 
+    As an alternative strategy we then implemented CropReg, a script
     to automate cell tracking of time series sequences.
-    Using this image processing approach we were able to track individual cell nuclei
+    Using this image processing approach we were
+    able to track individual cell nuclei
     throughout an entire sequence of FRAP images
     provided that nuclei did not overlap \frefp{fig:kill-frap:cropreg}.
     Although only a minority of cell image sequences satisfied this requirement
     throughout the full 8~hour duration of observations,
-    it was possible to collect a sufficient number of cell observations for FRAP calculations.
+    it was possible to collect a sufficient number of
+    cell observations for FRAP calculations.
 
     \begin{figure}
       \centering
@@ -174,7 +191,8 @@
         {
          HeLa-derived stable cell line expressing H3--YFP
          with circle FRAP performed in a widefield microscope over 8~hours.
-         Pre-bleach image at top left followed by image sequence at 20~min intervals.
+         Pre-bleach image at top left followed by
+         image sequence at 20~min intervals.
          The top left of each image displays the cell tracked and transformed
          by automated cropping and registration.
         }
@@ -183,20 +201,24 @@
 
   \subsection{Chromatin movement within nuclei}
 
-    While performing the FRAP experiments, we observed some movement of fluorescent chromatin features
-    within cell nuclei that was supplementary to the overall motion of the cell itself \frefp{fig:kill-frap:frap-spot-movement}.
+    While performing the FRAP experiments, we observed movement
+    of fluorescent chromatin features
+    within cell nuclei that was supplementary to the overall
+    motion of the cell itself \frefp{fig:kill-frap:frap-spot-movement}.
     This could not be accounted for by simple rotational movement of nuclei
-    as rigid bodies around the $x$ or $y$ axis, 
-    and instead appeared to involve movement of individual regions within nuclei.
+    as rigid bodies around the $x$ or $y$ axis,
+    and instead appeared to involve movement of
+    individual regions within nuclei.
     Bleach spots also frequently showed elliptical or more complex distortions
-    indicative of structural movements in the chromatin \frefp{fig:kill-frap:frap-spot-movement}.
+    indicative of structural movements in the chromatin
+    \frefp{fig:kill-frap:frap-spot-movement}.
 
     \begin{figure}
       \centering
       \missingfigure{Movement of nuclear features and bleach spot distortion.}
       \captionIntro{Movement of nuclear features and bleach spot distortion.}
-        {HeLa cells transfected with pBOS--H2B-EGFP with circle FRAP performed 
-        in a widefield microscope over 6~hours, presented as an image sequence 
+        {HeLa cells transfected with pBOS--H2B-EGFP with circle FRAP performed
+        in a widefield microscope over 6~hours, presented as an image sequence
         at 20~min intervals after bleaching.}
       \label{fig:kill-frap:frap-spot-movement}
     \end{figure}
@@ -204,31 +226,35 @@
     \subsection{Selection of \G1{} cells}
 
     One possible cause for changes in chromatin features that we observed
-    is DNA replication and chromatin repackaging during S~phase. 
+    is DNA replication and chromatin repackaging during S~phase.
     Furthermore, the doubling of histone content as a result of S~phase breaks
     a core assumption of FRAP that the system remains in equilibrium
     throughout the duration of the experiment.
-    Therefore, the requirement to measure for a time period of 8~hours 
+    Therefore, the requirement to measure for a time period of 8~hours
     within a single cell cycle phase limits observations to \G1{}.
 
     To identify daughter cells that could be confidently assigned to early \G1{}
-    becaise they had sufficient time to complete post-mitotic chromatin unpacking,
+    because they had sufficient time to complete
+    post-mitotic chromatin unpacking,
     cell in mitosis were selected and manually tracked for 4~hours.
     This selection was challenging because HeLa mitotic cells round up
     as spheres with only a weak connection to the growth surface
     causing them to exit the field of vision.
-    Low laser power and an optimised observation interval 
+    Low laser power and an optimised observation interval
     was used to minimise fluorophore damage.
-    Since our system did not permit simultaneous Z-stack and time lapse imaging, 
+    Since our system did not permit simultaneous
+    Z-stack and time lapse imaging,
     and because cells in mitosis are in a separate focal plane,
-    imaging was performed with a maximal pinhole sized focused 
+    imaging was performed with a maximal pinhole sized focused
     between the growing and mitotic cell planes.
-    The resulting blurred images were sufficient to visualize cells during
+    The resulting blurred images were sufficient to visualise cells during
     the entire period required for selection.
 
     Even after carefully selecting cells early \G1{},
-    structural movements within the bleach spot could still be observed (data not shown).
-\todo{Is there an image sequence showing this bleach spot movement after section?}
+    structural movements within the bleach spot could
+    still be observed (data not shown).
+    \todo{Is there an image sequence showing this bleach spot movement
+      after section?}
 
 %      \begin{figure}
 %        \centering
@@ -247,25 +273,28 @@
 
     \subsection{Chromatin movement observed by inverse FRAP}
 
-    Although we had surmounted the technical challenges of collecting 
-    overlaid images of nuclei for long time periods 
-    in \G1{} cells containing stably expressing core histones tagged with fluorescent reporters,
+    Although we had surmounted the technical challenges of collecting
+    overlaid images of nuclei for long time periods
+    in \G1{} cells containing stably expressing
+    core histones tagged with fluorescent reporters,
     we were concerned about the non-homogeneity of chromatin behaviour.
 
-    To assess the total extent of the observed movement, we performed inverse FRAP
-    to track the movement of the photomodified region alone.
+    To assess the total extent of the observed movement,
+    we performed inverse FRAP
+    to track the movement of the photoactivated region alone.
     For this purpose, we fused H2B to photoactivatable GFP as H2B--PAGFP.
-    Since PAGFP cannot be easily detected before photoactivation, 
-    cells were co-transfected with mCherry--\textalpha--tubulin 
-    which localises exclusively to the cytoplasm 
+    Since PAGFP cannot be easily detected before photoactivation,
+    cells were co-transfected with mCherry--\textalpha--tubulin
+    which localises exclusively to the cytoplasm
     and provides an outline of the nuclear region \frefp{fig:kill-frap:ifrap}.
 
-    Considerable non-homogenous movement of chromatin was clearly evident 
-    after activating and following H2B--PAGFP in \G1{} cells \frefp{fig:kill-frap:ifrap}.
+    Considerable non-homogenous movement of chromatin was clearly evident
+    after activating and following H2B--PAGFP in
+    \G1{} cells \frefp{fig:kill-frap:ifrap}.
     Instead of homogeneous diffusion of fluorescence,
     activated spots uncurled over time with individual channels of
-    localized PAGFP appearing in the nuclei \frefp{fig:kill-frap:ifrap}.
-    This finding suggests that quantitative FRAP is not tractable using 
+    localised PAGFP appearing in the nuclei \frefp{fig:kill-frap:ifrap}.
+    This finding suggests that quantitative FRAP is not tractable using
     a simple FRAP model based on homogenous non-directional diffusion.
 
     \begin{figure}
@@ -286,16 +315,26 @@
         {results/ifrap.png}
         \label{fig:kill-frap:ifrap-timeframe}
       }
-      \captionIntro{Inverse FRAP experiment demonstrating complex chromatin movement}
+      \captionIntro{Inverse FRAP experiment demonstrating
+                    complex chromatin movement}
         {
-          HeLa cells co-transfected with H2B--PAGFP and mCherry--\textalpha--tubulin.
-          \subcaptionref{fig:kill-frap:ifrap-pre} Cell shown before photoactivation of H2B--PAGFP
-          in a widefield microscope, demonstrating mCherry-bounded nuclear region.
-          \subcaptionref{fig:kill-frap:ifrap-post} Same cell shown immediately after photoactivation
+          HeLa cells co-transfected with H2B--PAGFP and
+          mCherry--\textalpha--tubulin.
+          \subcaptionref{fig:kill-frap:ifrap-pre}
+          Cell shown before photoactivation of H2B--PAGFP
+          in a widefield microscope, demonstrating
+          mCherry-bounded nuclear region.
+          \subcaptionref{fig:kill-frap:ifrap-post}
+          Same cell shown immediately after photoactivation
           showning circle photoactivated H2B--PAGFP nuclear spot.
-          \subcaptionref{fig:kill-frap:ifrap-timeframe} Image sequence at 20~min intervals
-          after photoactivation showing complex channeling of H2B--PAGFP diffusion.
+          \subcaptionref{fig:kill-frap:ifrap-timeframe}
+          Image sequence at 20~min intervals
+          after photoactivation showing complex
+          channelling of H2B--PAGFP diffusion.
         }
       \label{fig:kill-frap:ifrap}
     \end{figure}
-\todo{Can you add an additional section in ifrap figure with 3-4 still images of different very stark non-homogenous diffusion examples}
+
+    \todo{Can you add an additional section in ifrap figure with 3-4
+      still images of different very stark non-homogenous diffusion
+      examples}
