@@ -117,7 +117,7 @@
           with half-nuclear FRAP performed in a confocal
           microscope over 8~hours.
           Pre-bleach image at top left followed by image
-          sequence at 21~min intervals.
+          sequence at \SI{21}{\min} intervals.
         }
       \label{fig:kill-frap:confluent-hela}
     \end{figure}
@@ -131,18 +131,24 @@
     %% We could even show the distribution of aspect ratio deviations
     %% for a sample of individual cells as a box plot as panel 2C
 
-    Many mammalian primary cells display the property of contact inhibition.
-    In this cellular growth response, cells enter senescence and reduce motion
-    when surrounded by neighbours \citep{abercrombie1970contact}.
-    Since HeLa cells have
+    Fibrolast and epithelial cells display the property of contact
+    inhibition of locomotion \citep{abercrombie1970contact}.
+    In this cellular growth response, cells attempt to move in an
+    opposite direction after contact with another.  As the number of
+    cells increases and they become surrounded by neighbours, the
+    available directions are reduced.
+    As is the case with most cancerous cell lines, HeLa cells have
     lost the ability to activate contact inhibition
     \citep{stephenson1982locomotory},
-    we obtained an immortalised primary horse fibroblast
-    cell line known to display this property.
-    Because primary cell line transfections typically have much lower efficiency
-    and confluent cells have lower expression with each cell division,
-    we transfected cells at \SI{70}{\percent} confluence
-    and performed FRAP after 3 days.
+    we obtained a primary horse fibroblast cell line.
+    Because primary cell line transfections typically have much lower
+    efficiency than cancerous cell lines, we transfected cells at
+    \pcent{70} confluence and performed FRAP after 3 days since these
+    were transient transfections.
+    The timing enabled us to perform the transformation while cells
+    were actively dividing, which increases the transfection
+    efficiency, and the imaging once they reached confluence for the
+    reduced motility.
 
     Despite reaching confluence where contact inhibition
     of the horse fibroblasts was expected,
@@ -153,7 +159,7 @@
     The horse cell nuclei exhibit a helical motion
     about the vector of their movement
     in $x$ and $y$ axes \frefp{fig:kill-frap:confluent-horse}
-    whereas HeLa nucelar motion was mostly
+    whereas HeLa nuclear motion was mostly
     restricted to the $z$ axis relative to
     the dish \frefp{fig:kill-frap:cell-movement}.
 
@@ -166,7 +172,7 @@
           Immortalised horse cells were transfected with pBOS--H2B-EGFP
           with circle FRAP performed in a widefield microscope over 8~hours.
           Pre-bleach image at top left followed by
-          image sequence at 15~min intervals.
+          image sequence at \SI{15}{\min} intervals.
         }
       \label{fig:kill-frap:confluent-horse}
     \end{figure}
@@ -216,10 +222,10 @@
     \begin{figure}
       \centering
       \missingfigure{Movement of nuclear features and bleach spot distortion.}
-      \captionIntro{Movement of nuclear features and bleach spot distortion.}
+      \captionIntro{Movement of nuclear features and bleach spot distortion}
         {HeLa cells transfected with pBOS--H2B-EGFP with circle FRAP performed
         in a widefield microscope over 6~hours, presented as an image sequence
-        at 20~min intervals after bleaching.}
+        at \SI{20}{\min} intervals after bleaching.}
       \label{fig:kill-frap:frap-spot-movement}
     \end{figure}
 
@@ -240,7 +246,7 @@
     This selection was challenging because HeLa mitotic cells round up
     as spheres with only a weak connection to the growth surface
     causing them to exit the field of vision.
-    Low laser power and an optimised observation interval
+    Low laser power and a \SI{30}{\min} observation interval
     was used to minimise fluorophore damage.
     Since our system did not permit simultaneous
     Z-stack and time lapse imaging,
@@ -251,10 +257,8 @@
     the entire period required for selection.
 
     Even after carefully selecting cells early \G1{},
-    structural movements within the bleach spot could
-    still be observed (data not shown).
-    \todo{Is there an image sequence showing this bleach spot movement
-      after section?}
+    structural movements within the bleached region could
+    still be observed.
 
 %      \begin{figure}
 %        \centering
@@ -286,7 +290,8 @@
     Since PAGFP cannot be easily detected before photoactivation,
     cells were co-transfected with mCherry--\textalpha--tubulin
     which localises exclusively to the cytoplasm
-    and provides an outline of the nuclear region \frefp{fig:kill-frap:ifrap}.
+    and provides an outline of the nuclear region
+    \frefp{fig:kill-frap:ifrap-pre}.
 
     Considerable non-homogenous movement of chromatin was clearly evident
     after activating and following H2B--PAGFP in
