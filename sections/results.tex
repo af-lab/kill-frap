@@ -221,11 +221,20 @@
 
     \begin{figure}
       \centering
-      \missingfigure{Movement of nuclear features and bleach spot distortion.}
+      \begin{tikzpicture}[inner sep=0pt]
+        \node at (0,0) {\includegraphics[width=\linewidth]%
+                       {results/spot-distortion.png}};
+        \node[text=white] at (-5.4,3.9) {\SI{5}{\um}};
+      \end{tikzpicture}
       \captionIntro{Movement of nuclear features and bleach spot distortion}
-        {HeLa cells transfected with pBOS--H2B-EGFP with circle FRAP performed
-        in a widefield microscope over 6~hours, presented as an image sequence
-        at \SI{20}{\min} intervals after bleaching.}
+        {
+          FRAP experiment performed in a confocal microscope with HeLa
+          stable cell line expressing H4--YFP.  Circle FRAP was
+          performed after 15 pre-bleach images and images acquired
+          with \SI{60}{\sec} interval for a total of 4~hours.  Top two
+          frames show the bleaching event, followed by the initial 3
+          hours of recovery with \SI{20}{\min} interval.
+        }
       \label{fig:kill-frap:frap-spot-movement}
     \end{figure}
 

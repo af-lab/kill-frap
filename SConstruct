@@ -83,6 +83,11 @@ figures = [
               for i in [20, 21, 55, 65, 75, 85]],
   ),
   env.OctaveScript(
+    script = path4script("spot-distortion.m"),
+    source = path4data("New_L1_Sum.lsm"),
+    target = path4result("spot-distortion.png"),
+  ),
+  env.OctaveScript(
     script = path4script("confluent.m"),
     source = path4data("H4 R45H_L3_Sum.lsm"),
     target = path4result("confluent-hela.png"),
