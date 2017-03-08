@@ -305,20 +305,26 @@
     \begin{figure}
       \centering
       \subbottom[pre-activation]{
-        \includegraphics[width=0.45\textwidth]
-        {results/ifrap-pre.png}
         \label{fig:kill-frap:ifrap-pre}
+        \begin{tikzpicture}[inner sep=0pt]
+          \node at (0,0) {\includegraphics[width=0.45\linewidth]%
+                          {results/ifrap-pre.png}};
+          \node[text=white] at (1.6,-1.6) {\SI{10}{\um}};
+        \end{tikzpicture}
       }
       \hfill
       \subbottom[post-activation]{
+        \label{fig:kill-frap:ifrap-post}
         \includegraphics[width=0.45\textwidth]
         {results/ifrap-post.png}
-        \label{fig:kill-frap:ifrap-post}
       }
       \subbottom[activated spot over time]{
-        \includegraphics[width=\textwidth]
-        {results/ifrap.png}
         \label{fig:kill-frap:ifrap-timeframe}
+        \begin{tikzpicture}[inner sep=0pt]
+          \node at (0,0) {\includegraphics[width=\linewidth]%
+                          {results/ifrap.png}};
+          \node[text=white] at (-5.4,3.1) {\SI{2}{\um}};
+        \end{tikzpicture}
       }
       \captionIntro{Inverse FRAP experiment demonstrating
                     complex chromatin movement}

@@ -21,6 +21,10 @@
 
 pkg load image;
 
+yx_pixelsize = [0.06644]; # micron
+yx_scalebar = [1 10]; # height and width in microns
+yx_scalebar_spot = [0.2 2]; # height and width in microns
+
 montage_size = [5 4];
 
 if (numel (argv ()) != 4)
@@ -52,15 +56,25 @@ prepost = rgb(300:end,250:end,:,1:2);
 pre_lims = stretchlim (prepost(:,:,:,2), 0);
 prepost = imadjust (prepost, repmat (pre_lims, [1 1 2]));
 
+## Add a scalebar only the pre bleach frame, bottom right corner.
+bar_length = round (yx_scalebar ./ yx_pixelsize); # in pixels
+bar_color = getrangefromclass (prepost)(2);
+prepost(600-bar_length(1):600, 650-bar_length(2):650, :, 1) = bar_color;
+
 imwrite (prepost(:,:,:,1), out_pre);
 imwrite (prepost(:,:,:,2), out_post);
-
 
 ## An even smaller crop of the bleach spot only
 spot = imcrop (rgb, [275 420 250 150]);
 spot_lims = stretchlim (spot(:,:,:,2), 0);
 spot_lims(2,1,:) /= 0.3;
 spot = imadjust (spot, repmat (spot_lims, [1 1 size(spot, 4)]));
+
+## Add a smaller scalebar again on the recovery frames since they
+## appear amplified in the manuscript, bottom left corner.
+bar_length = round ((yx_scalebar_spot) ./ yx_pixelsize); # in pixels
+bar_color = getrangefromclass (prepost)(2);
+spot(145-bar_length(1):145, 25:25+bar_length(2), :, 1:2) = bar_color;
 
 mont_img = montage_cdata (spot,
   "Size", montage_size,
