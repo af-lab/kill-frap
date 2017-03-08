@@ -6,7 +6,8 @@
     to be destabilising \textit{in vitro} and to affect
     cell growth in \species{S. cerevisiae}.
     We set out to use a previously reported circle FRAP model
-    which accounts for multiple errors in a typical FRAP modelling \addref{?}.
+    which accounts for multiple factors in a typical
+    FRAP modelling \citep{mcnally-frap-code}.
 
     However, FRAP recovery is incomplete even
     after 8~hours for core histones \citep{KimuraCook}.
@@ -16,12 +17,11 @@
 % Cell movement
 
     The first problem faced was cell movement.
-    This is an expected property of actively dividing cells,
-    so those that are unable to move are likely to be dead.
+    This is an expected property of actively dividing cells.
 
     We attempted to reduce motion by taking advantage of
-    the fact that many primary cells move into the
-    quiescent \G0{}~phase when they reach high densities.
+    the fact that many primary cells display contact inhibition of
+    locomotion and proliferation when they reach high densities.
     This contact inhibition is a natural mechanism
     that controls cellular growth in
     multicellular organisms, and results in a stop to proliferation
@@ -53,7 +53,7 @@
     To better address the problem of cell movement we
     instead developed a computational approach
     by writing a program for cell tracking by normalised
-    cross-correlation template matching  \addref{?}.
+    cross-correlation template matching.
     Using automated analysis enabled us to process
     the large numbers of cell images
     required to provide statistically valid
@@ -78,7 +78,7 @@
     so the extended time periods needed for FRAP of core histones requires
     starting FRAP early in \G1{} \frefp{fig:kill-frap:cell-cycle}.
 
-    Post-mitotic chromosomes take approximately 2 hours
+    Post-mitotic chromosomes take approximately 2~hours
     to migrate within the nucleus
     and rebuild the interphase nuclear architecture during early \G1{}
     \citep{visualizationG1chromosomes,earlyg1position,RelativeChromosomePosition}.
@@ -89,11 +89,11 @@
 
     We wished to avoid the use of drugs for cell
     cycle arrest since this has been
-    shown to influence FRAP results \addref{}.
+    shown to influence FRAP results \citep{KimuraCook}.
     We also discounted serum starvation to move cells into the
     quiescent \G0{} phase since this could affect
     the relevance of measuring core histone
-    exchange \citep{SerumStarvation} \addref{?}.
+    exchange \citep{SerumStarvation}.
 
       \begin{figure}
         \centering
@@ -172,7 +172,7 @@
     as demonstrated for H3 and CENP--A \citep{pMH3-plasmid,Kevin-pCA-TAG}.
     Another potential solution is to insert GFP
     in-frame into the native gene locus by genome engineering,
-    although the redundancy between 18 canonical H2B genes means
+    although the redundancy between the multiple canonical histone genes means
     that identifying the most appropriate isoform to target
     could introduce complexities.
 
@@ -222,11 +222,12 @@
     for H4--PAGFP in strip photoactivation \cite{H4PAGFP-chromatin-movement}.
 
     The movements we observed were in the
-    range of \todo{what sort of dimensions}
+    range of \SI{4}{\um}, which is double the size of the bleach spot,
     and exhibited complicated shapes reminiscent of channelling.
     This is consistent with chromosome distribution in nuclei that is
-    territorial on the scale of 5 \textmu m \addref{PMID:10866946}
-    separated by interchromosomal channels of 10-100 nm \addref{PMID:16317046}
+    territorial on the scale of \SI{5}{\um} \citep{sun2000size}
+    separated by interchromosomal channels of
+    \SIrange{10}{100}{\nm} \citep{gorisch2005histone}.
 
     The clarity of H2B--GFP imaging in inverse FRAP
     suggests the opportunity to analyse the
