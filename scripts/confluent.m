@@ -19,6 +19,9 @@ pkg load image;
 pkg load bioformats;
 javaMethod ('enableLogging', 'loci.common.DebugTools', 'ERROR');
 
+yx_pixelsize = [0.1074080]; # micron
+yx_scalebar = [1 10]; # height and width in microns
+
 if (numel (argv ()) != 2)
   error ("Requires exactly 2 arguments")
 endif
@@ -26,7 +29,7 @@ endif
 fpath = argv (){1};
 f_out = argv (){2};
 
-montage_size = [6 4]; # total of 24 panels (6 rows by 4 columns)
+montage_size = [2 4]; # total of 8 panels (2 rows by 4 columns)
 
 ## The image file 512MB, and even though the images are uint8,
 ## Magick++ will read it as uint16 or uint32, it it was build with
@@ -53,7 +56,7 @@ n_planes = reader.getImageCount ();
 if (n_planes != 466)
   error ("we were expecting an image with 466 time points");
 endif
-planes_idx = [15 16:14:n_planes](1:24);
+planes_idx = [15:50:365];
 
 img = bfGetPlane (reader, planes_idx(1), pixel_region{:});
 img = postpad (img, numel (planes_idx), 0, 4);
@@ -61,9 +64,29 @@ for idx = 2:numel(planes_idx)
   img(:,:,:,idx) = bfGetPlane (reader, planes_idx(idx), pixel_region{:});
 endfor
 
-img = imadjust (img, stretchlim (img(:,:,:,1), 0), [0; 1]);
+## We only want to show the nuclei moving so we will show their nuclei
+## only.  Showing the grayscale image adds too much and the message,
+## that cells move even when confluent, is lost.  It would require
+## that we explain what half nuclear FRAP is and why we tried to do
+## it.
+##
+## So smooth the image with gaussian, then threshold.
 
-mont_img = montage_cdata (img,
+for i=1:size(img, 4)
+  img(:,:,:,i) = imfilter (img(:,:,:,i), fspecial ("gaussian"));
+endfor
+bw = im2bw (img, graythresh (img, "intermodes"));
+bw = imfill (bw, ones (3), "holes");
+bw = bwareaopen (bw, 100, ones (3));
+bw = imclose (bw, strel ("disk", 1, 0));
+bw = imfill (bw, ones (3), "holes");
+
+## Add a scalebar only to the pre bleach frames, top left corner.
+bar_length = round (yx_scalebar ./ yx_pixelsize); # in pixels
+bar_color = getrangefromclass (img)(1);
+bw(10:10+bar_length(1), 30:30+bar_length(2), :, 1) = bar_color;
+
+mont_img = montage_cdata (bw,
   "Size", montage_size,
   "MarginWidth", 10
 );

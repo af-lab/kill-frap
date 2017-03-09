@@ -132,14 +132,24 @@
 
     \begin{figure}
       \centering
-      \includegraphics[width=\textwidth]{results/confluent-hela.png}
+      \begin{tikzpicture}[inner sep=0pt]
+        \node at (0,0) {\includegraphics[width=\linewidth]%
+                        {"results/confluent-hela"}};
+        %% See http://tex.stackexchange.com/a/64458/24374
+        %% for the countouring of text (only works for pdf)
+        \node at (-5.41,2.90) {\pgfsetstrokecolor{black}
+                             \pgfsetfillcolor{white}
+                             \pdfliteral{2 Tr}
+                             \SI{10}{\um}};
+      \end{tikzpicture}%
+      %% We show only the outline of the nuclei so to not distract
+      %% from the message which is how the nuclei kept moving.
       \captionIntro{Movement of confluent HeLa cells during a FRAP experiment}
         {
           HeLa-derived stable cell line expressing H4~R45H--YFP
-          with half-nuclear FRAP performed in a confocal
-          microscope over 8~hours.
-          Pre-bleach image at top left followed by image
-          sequence at \SI{21}{\min} intervals.
+          were observed in a confocal microscope over 8~hours with
+          \SI{1}{\min} interval.  Figure shows only the nuclei outline
+          in intervals of \SI{50}{\min}.
         }
       \label{fig:kill-frap:confluent-hela}
     \end{figure}
