@@ -1,10 +1,10 @@
 \section{Results}
 
     To investigate the challenges of performing FRAP in mammalian cells
-    over several hours required to measure histone mobility,
-    we transfected HeLa cells with a H2B-EGFP under
+    over the several hours required to measure histone mobility,
+    we transfected HeLa cells with H2B-EGFP under
     the control of an EF-1\textalpha{} promoter
-    and observed recovery in cells over 3.5 hours
+    and observed recovery in cells for 3.5 hours
     \frefp{fig:kill-frap:cell-movement}.
 
     \begin{figure}
@@ -114,7 +114,7 @@
     and shape of the bleach spot \frefp{fig:kill-frap:cell-movement}.
     The central requirement of FRAP is to accurately identify and
     quantitate the signal in the photobleached spot over time.
-    This led us to pursue both cell biological approaches to minimise movement
+    This led us to pursue both cell biological approaches to minimise motility
     and computational approaches to track imaged regions.
 
   \subsection{Inhibition of cell motility}
@@ -122,9 +122,9 @@
     We first attempted to reduce motility by restricting the space available
     using cells at higher confluency for FRAP experiments.
     This was performed using a HeLa cell line stably expressing
-    the H4~R45H SIN mutant to ensure even
-    tagged histone fluorescence in all cells.
-    It resulted in some decrease in movement of cells
+    H4~R45H to ensure even
+    tagging of histone fluorescence in all cells.
+    This resulted in some decrease in movement of cells
     but did not achieve complete immobilisation
     \frefp{fig:kill-frap:confluent-hela}.
     In fact, nuclei frequently underwent considerable reshaping as cells
@@ -163,34 +163,33 @@
     %% We could even show the distribution of aspect ratio deviations
     %% for a sample of individual cells as a box plot as panel 2C
 
-    Fibrolast and epithelial cells display the property of contact
+    Fibroblast and epithelial cells display the property of contact
     inhibition of locomotion \citep{abercrombie1970contact}.
     In this cellular growth response, cells attempt to move in an
     opposite direction after contact with another.  As the number of
     cells increases and they become surrounded by neighbours, the
     available directions are reduced.
-    As is the case with most cancerous cell lines, HeLa cells have
+    Like most cancer cell lines, HeLa cells have
     lost the ability to activate contact inhibition
     \citep{stephenson1982locomotory},
     so we obtained a primary horse fibroblast cell line.
     Because primary cell line transfections typically have much lower
-    efficiency than cancerous cell lines, we transfected cells at
-    \pcent{70} confluence and performed FRAP after 3 days since these
-    were transient transfections.
-    The timing enabled us to perform the transformation while cells
-    were actively dividing, which increases the transfection
-    efficiency, and perform the imaging once they reached confluence for the
+    efficiency than cancer cell lines, we transfected cells at
+    \pcent{70} confluence and performed FRAP after 3 days.
+    This timing enabled us to perform the transfection while cells
+    were actively dividing, which increases the
+    efficiency, and to perform the imaging once they reached confluence for
     reduced motility.
 
     Despite reaching confluence where contact inhibition
-    of the horse fibroblasts was expected,
+    of the fibroblasts was expected,
     we continued to observe movement of the transfected
     horse cells \frefp{fig:kill-frap:confluent-horse}.
     The characteristics of cell movement also
-    differed dramatically from HeLa cells,
+    differed dramatically from HeLa cells.
     The horse cell nuclei exhibit a helical motion
     about the vector of their movement
-    in $x$ and $y$ axes \frefp{fig:kill-frap:confluent-horse}
+    in $x$ and $y$ axes \frefp{fig:kill-frap:confluent-horse},
     whereas HeLa nuclear motion was mostly
     restricted to the $z$ axis relative to
     the dish \frefp{fig:kill-frap:cell-movement}.
@@ -211,10 +210,10 @@
 
     \subsection{Image-based tracking of cell movement}
 
-    As an alternative strategy we then implemented CropReg, a script
+    As an alternative strategy we implemented CropReg, a script
     to automate cell tracking of time series sequences.
     Using this image processing approach we were
-    able to track individual cell nuclei
+    able to track individual HeLa cell nuclei
     throughout an entire sequence of FRAP images
     provided that nuclei did not overlap \frefp{fig:kill-frap:cropreg}.
     Although only a minority of cell image sequences satisfied this requirement
@@ -288,7 +287,7 @@
     To identify daughter cells that could be confidently assigned to early \G1{}
     because they had sufficient time to complete
     post-mitotic chromatin unpacking,
-    cell in mitosis were selected and manually tracked for 4~hours.
+    cells in mitosis were selected and manually tracked for 4~hours.
     This selection was challenging because HeLa mitotic cells round up
     as spheres with only a weak connection to the growth surface
     causing them to exit the field of vision.
@@ -301,10 +300,9 @@
     between the growing and mitotic cell planes.
     The resulting blurred images were sufficient to visualise cells during
     the entire period required for selection.
-
-    Even after carefully selecting cells early \G1{},
+    However, even after carefully selecting cells early \G1{},
     structural movements within the bleached region could
-    still be observed.
+    still be observed (data not shown).
 
 %      \begin{figure}
 %        \centering
@@ -329,10 +327,10 @@
     core histones tagged with fluorescent reporters,
     we were concerned about the non-homogeneity of chromatin behaviour.
 
-    To assess the total extent of the observed movement,
+    To assess the extent of the chromatin motion,
     we performed inverse FRAP
     to track the movement of the photoactivated region alone.
-    For this purpose, we fused H2B to photoactivatable GFP as H2B--PAGFP.
+    For this purpose we fused H2B to photoactivatable GFP as H2B--PAGFP.
     Since PAGFP cannot be easily detected before photoactivation,
     cells were co-transfected with mCherry--\textalpha--tubulin
     which localises exclusively to the cytoplasm

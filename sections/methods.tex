@@ -7,7 +7,7 @@
   with \SI{3}{\ug\per\ml} \mbox{Blasticidin-S} for one week.
   Colonies were screened by fluorescence microscopy
   and positive individual colonies were selected for growth
-  and Fluorescence Activated Cell Sorting (FACS) to generate
+  and by Fluorescence Activated Cell Sorting (FACS) to generate
   homogeneous highly fluorescing cell lines.
   Transiently expressing cell lines were transformed by lipofection in
   the same manner, and imaging performed 48~hours later.
@@ -21,8 +21,7 @@
   system using \SI{35}{\mm} glass bottom MatTek dishes.  In both
   cases, imaging was performed within an acrylic environmental chamber
   at a temperature of \dc{37} and \pcent{5} CO$_2$.
-  Images acquired on the DeltaVision system were deconvolved by
-  SoftWoRx, the same used for the image acquisition.
+  Images were acquired and deconvolved on the DeltaVision system.
 
   %% See the CropReg.m script for more details.  For example, only the
   %% region surrounding the original position was used for performance
@@ -30,13 +29,13 @@
 
   Cell movement between time frames was calculated by consecutive
   template-based registration using normalised cross-correlation.
-  The CropReg script we developed for this purpose is available
-  as free open source software. Nuclei of interest were identified
-  on the first time frame and used as templates on the subsequent images.
+  The CropReg script developed for this purpose is available
+  as free open source software\todo{where?}. Nuclei of interest were identified
+  on the first frame and used as templates on subsequent images.
   To correct for rotational movement
   around the $z$ dimension of the optical axis system,
   registered frames were aligned by rigid body geometric transformation
-  in the ImageJ \citep{imagej1} plugin StackReg \citep{stackreg}.
+  using the ImageJ \citep{imagej1} plugin StackReg \citep{stackreg}.
 
   Automatic extraction and processing of FRAP recovery curves was
   performed with the GNU Octave programming language \citep{octave}
@@ -44,7 +43,7 @@
   for a previously reported circle FRAP model \citep{mcnally-frap-code}
   was kindly gifted by the original authors and ported to GNU Octave.
   We developed \command{frapinator}, a new program written in GNU Octave
-  to automate analysis with multiple commandline options
-  and released it in a new FRAP Octave package as free open source software.
-  It includes all individual functions for image
+  to automate analysis with multiple command line options
+  and released it in the FRAP Octave package as free open source software.
+  \command{frapinator} includes all individual functions for image
   pre-processing and FRAP fitting \Srefp{sec:software:octave-frap}.

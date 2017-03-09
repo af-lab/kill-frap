@@ -1,24 +1,22 @@
 \section{Introduction}
 
-  \subsection{Histones contribute to nucleosome dynamics}
-
-    The chromatin packaging of eukaryote genomes performs the
-    functions of compacting very large lengths of DNA into the
-    microscopic cell nucleus, facilitating chromosomal movements
-    during cell division, and providing a substrate for molecular
+    The chromatin packaging of eukaryote genomes
+    compacts very large lengths of DNA into the
+    microscopic cell nucleus, facilitates chromosomal movements
+    during cell division, and provides a substrate for molecular
     mechanisms acting on the genome.
 
-    The building block of eukaryotic chromatin structure is the
-    nucleosome, comprising \SI{147}{\bp} of DNA wrapped around an
+    The building block of eukaryotic chromatin is the
+    nucleosome structure, comprising \SI{147}{\bp} of DNA wrapped around an
     octamer of two copies each of core histones
     H2A, H2B, H3, and H4 \citep{luger1997crystal}.
-    Two H2A/H2B dimers flank a central H3/H4 tetramer.
+    In this structure, two H2A/H2B dimers flank a central H3/H4 tetramer.
     Nucleosome core particles are arranged
     in a linear chain separated by DNA linkers, and can be further
     compacted into higher order chromatin structures.
 
-    Chromatin functions at both the molecular and cellular levels
-    require the capability for dynamic rearrangement.  Chromatin
+    Chromatin functionality at the molecular and cellular levels
+    requires the capability for dynamic rearrangement.  Chromatin
     structure can be modulated through nucleosomes by changing the
     arrangement of histones and DNA in a process known as remodelling
     \citep{flaus2011mechanisms}, or by altering histone chemical
@@ -26,7 +24,7 @@
     \citep{bannister2011ptm-review}, or exchange of histone variants
     \citep{TalbertHenikoff2010}.
 
-    A large amount of evidence has been accumulated about the static
+    A large amount of information has been accumulated about the static
     structure of the nucleosome at atomic resolution
     \citep{mcginty2014histone}, and about the arrangement of polymeric
     chromatin \citep{kuznetsova2016chromatin}.  However, the
@@ -42,19 +40,19 @@
     \citep{SNF-mutants-original-discovery, SNF-mutants2} in
     \species{Saccharomyces cerevisiae}.
 
-    Mutations were subsequently identified to compensate for the
-    loss of the SWI/SNF complex that are collectively known as SIN
+    Mutations were subsequently identified that compensate for the
+    loss of the SWI/SNF complex and these are collectively known as SIN
     mutations because they provide SWI/SNF INdependence
     \citep{kruger1995amino}.  A subset of SIN mutants are single
     amino-acid changes in core histones H3 and H4, providing a direct
     link between SWI/SNF and chromatin.  This also suggests the
     mutated residues in the histone proteins influence the same
-    pathways for nucleosome dynamics leveraged
-    by the remodelling enzyme and that
+    pathways for nucleosome dynamics that are leveraged
+    by the remodelling enzyme, and that
     these residues are significant for nucleosome stability.
 
     The prediction that the stability of SIN mutant containing
-    nucleosomes would be affected in chromatin has been tested \textit{in vitro}
+    nucleosomes is affected in chromatin has been tested \textit{in vitro},
     where it was observed that SIN mutant nucleosomes display higher
     thermally driven nucleosome sliding mobility \citep{flaus2004sin}
     and that the mutated residues affect histone-DNA contacts in
@@ -91,28 +89,27 @@
     $S$ represents immobile vacant binding sites,
     and $FS$ is the complex between the two when the
     proteins are bound to the sites.
-    The value of \Kon{} and \Koff{},
+    The value of \kon{} and \koff{},
     are estimated from the rate at which photobleached $F$
     is replaced in the $FS$ complex.
-    However, to such simple reaction is added complexity once
-    diffusion and space is considered.
+    However, complexity is added to this simple model if
+    diffusion and space are considered.
 
     Ongoing development of FRAP has led to increasingly complex models
-    that are both more precise and accurate than simple
+    that are both more precise and more accurate than simple
     inverse exponential decay \citep{mcnally-frap-2010}.
-    Despite their sophistication, FRAP require assumptions
+    Despite the sophistication of current models, FRAP requires assumptions
     that are difficult to maintain over long experimental observation times.
     Firstly, equilibrium must be maintained throughout the entire experiment
-    so that both \Kon{} and \Koff{} remain constant.
+    so that both \kon{} and \koff{} remain constant.
     This also requires that concentrations of both $F$ and $S$ remain constant.
     Secondly, distribution of the fluorescently tagged molecules
     must mimic the endogenous protein.
     And finally, the binding sites must be part of a large,
     relatively immobile complex
     on the time and length scale of the recovery.
-    In addition, different FRAP models will have additional constraints
-    based on the multiple assumptions involved on the design of a
-    model \citep{mcnally-frap-2010}.
+    In addition, different FRAP models will have further constraints
+    based on the assumptions involved in its design \citep{mcnally-frap-2010}.
 
   \subsection{FRAP measurements of histones}
 
@@ -121,10 +118,10 @@
     proteins \citep{phair2000high, essers2005nuclear, agresti2005gr}.
     These rely on the established assumption that chromatin is
     relatively immobile in the interphase nucleus
-    \citep{abney1997chromatin} since the factors show recovery
+    \citep{abney1997chromatin} since most proteins show recovery
     on the scale of seconds to minutes.
     H2B--GFP \citep{KevinH2BGFP} has become
-    the standard reference for immobile fraction in these
+    the standard reference for the immobile fraction in these
     FRAP experiments \citep{dey2000bromodomain, kuipers2011highly,
     jullien2016chromatibody}.
 
@@ -133,7 +130,7 @@
     and widely cited study by \citet{KimuraCook}. Multiple H2B
     populations were delineated with distinctive exchange rates.  Some
     \pcent{3} of H2B had a rapid recovery within minutes, \pcent{40}
-    had slow recovery with a \halflife[] of \SI{130}{\minute},
+    had slow recovery with \halflife[] of \SI{130}{\minute},
     and over \pcent{50} of H2B molecules had a
     very slow recovery with \halflife[] of
     over 8 hours that was considered to be effectively immobile.
@@ -142,10 +139,10 @@
     histones H3 and H4 were found to have even slower mobility.  There
     were no rapid populations, with only slow and very slow populations
     of \SIrange{16}{22}{\percent} and \SIrange{62}{68}{\percent} being
-    identified.
+    identified respectively.
 
     In combination with additional heterokaryon data, Kimura and Cook
-    interpreted the rapid, slow, and very slow exchanging H2B
+    interpreted the rapid, slow, and very slow by exchanging H2B
     populations as correlating with transcription units, euchromatin,
     and heterochromatin respectively.  They assigned over \pcent{80}
     of H3 and H4 as immobile, whereas the remaining
@@ -165,14 +162,14 @@
   \subsection{Aims and objectives}
 
     In order to test the implications for nucleosome structure and function
-    of metazoan H4~R45H that exhibited the highest increase
+    of H4 mutant R45H that exhibited the highest increase
     in nucleosome mobility \textit{in vitro} amongst
     the histone SIN mutants \citep{flaus2004sin},
     we set out to determine its exchange characteristics by FRAP.
 
     In attempting to achieve quantitative measurements
     we addressed multiple technical challenges associated with
-    measuring subtle kinetic alterations of nucleosome dynamics
+    measuring subtle kinetic alterations in nucleosome dynamics
     over long time periods in live cells.
     This allowed us to define the limitations of FRAP for observing molecules
     such as core histones with extremely slow exchange rates.
