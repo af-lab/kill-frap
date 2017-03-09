@@ -10,19 +10,26 @@
     \begin{figure}
       \centering
       \subbottom[Pre-bleach]{%
-        \label{fig:kill-frap:first-frap-pre}
+        \label{fig:kill-frap:first-frap-pre}%
         \begin{tikzpicture}[inner sep=0pt]
           \node at (0,0) {\includegraphics[width=0.45\linewidth]%
                           {"results/first-frap-20"}};
           \node[text=white] at (-2,2) {\SI{10}{\um}};
-        \end{tikzpicture}
+          \draw[red] (1.75,0.50) circle (5pt);
+          \draw[red] (1.05,-0.70) circle (5pt);
+          \draw[red] (-0.05,-1.10) circle (5pt);
+          \draw[red] (-0.70,-2.10) circle (5pt);
+          \draw[red] (-1.40,0.30) circle (5pt);
+          \draw[red] (-2.35,1.75) circle (5pt);
+        \end{tikzpicture}%
       }
       \subbottom[Post-bleach]{%
-        \label{fig:kill-frap:first-frap-post}
-        \includegraphics[width=0.45\textwidth]%
-        {"results/first-frap-21"}
+        \label{fig:kill-frap:first-frap-post}%
+        \begin{tikzpicture}[inner sep=0pt]
+          \node at (0,0) {\includegraphics[width=0.45\linewidth]%
+                          {"results/first-frap-21"}};
+        \end{tikzpicture}%
       }
-
       %% The time interval between frames was not always equal.  This
       %% was probably to "catch" the slow and fast exchanging
       %% components.  See the dv.log associated with the image.:
@@ -44,27 +51,40 @@
       %% Image 85.
       %%      Time:       Mon Dec 14 20:51:11 2009
       %%      Time Point: 7656.748 secs
-
+      \\[-1ex] % negative vertical space
       \subbottom[\SI{52}{\min}]{% (3156.7-36.715) / 60
-        \includegraphics[width=0.45\textwidth]%
-        {"results/first-frap-55"}
-        \label{fig:kill-frap:first-frap:52-min}
+        \label{fig:kill-frap:first-frap:52-min}%
+        \begin{tikzpicture}[inner sep=0pt]
+          \node at (0,0) {\includegraphics[width=0.45\linewidth]%
+                         {"results/first-frap-55"}};
+          \draw[->,red,thick] (1.4,1.2) -- (1.8, 1.2);
+          \draw[->,red,thick] (0.3,-0.4) -- (0.7, -0.4);
+          \draw[->,red,thick] (-0.9,0.5) -- (-0.5, 0.5);
+          \draw[->,red,thick] (-1.9,0.6) -- (-1.5, 0.6);
+          \draw[->,red,thick] (-2.6,2.0) -- (-2.2, 2.0);
+          \draw[->,red,thick] (-1.2,-1.8) -- (-0.8, -1.8);
+        \end{tikzpicture}%
       }
       \subbottom[\SI{77}{\min}]{% (4656.7-36.715)/60
-        \includegraphics[width=0.45\textwidth]%
-        {"results/first-frap-65"}
+        \begin{tikzpicture}[inner sep=0pt]
+          \node at (0,0) {\includegraphics[width=0.45\linewidth]%
+                          {"results/first-frap-65"}};
+        \end{tikzpicture}%
       }
-
+      \\[-1ex] % negative vertical space
       \subbottom[\SI{102}{\min}]{% (6156.7-36.715)/60
-        \includegraphics[width=0.45\textwidth]%
-        {"results/first-frap-75"}
+        \begin{tikzpicture}[inner sep=0pt]
+          \node at (0,0) {\includegraphics[width=0.45\linewidth]%
+                          {"results/first-frap-75"}};
+        \end{tikzpicture}%
       }
       \subbottom[\SI{127}{\min}]{% (7656.7-36.715)/60
-        \includegraphics[width=0.45\textwidth]%
-        {"results/first-frap-85"}
-        \label{fig:kill-frap:first-frap:85-min}
-      }
-
+        \label{fig:kill-frap:first-frap:127-min}%
+        \begin{tikzpicture}[inner sep=0pt]
+          \node at (0,0) {\includegraphics[width=0.45\linewidth]%
+                          {"results/first-frap-85"}};
+        \end{tikzpicture}%
+      }%
       \captionIntro{Circle FRAP of H2B--EGFP in HeLa}%
         {
           FRAP experiment performed in a widefield microscope with
@@ -72,12 +92,14 @@
           \subcaptionref{fig:kill-frap:first-frap-pre}
           Last of the acquired images before the bleach event.  A
           total of 20 images with a time interval of \SI{1.7}{\sec}
-          were acquired before bleaching.
+          were acquired before bleaching. Circles show the location
+          for the bleaching events.
           \subcaptionref{fig:kill-frap:first-frap-post}
           First image post the bleach event.
           \subcaptionref{fig:kill-frap:first-frap:52-min}%
-          --\subcaptionref{fig:kill-frap:first-frap:85-min}
-          Selected frames from FRAP experiment.  Total time of FRAP
+          --\subcaptionref{fig:kill-frap:first-frap:127-min}
+          Selected frames from FRAP experiment.  Arrows show location
+          of the bleach spot.  Total time of FRAP
           experiment was \SI{3.5}{\hour} with variable time interval.
           Initially with \SI{15}{\sec} and \SI{2.5}{\min} at the end.
         }
